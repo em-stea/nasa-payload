@@ -6,9 +6,51 @@ comentarios del blog de noticias de la NASA. La única entidad de negocio es
 
 ## Stack
 
-- Payload 3.88 sobre Next.js 16 (App Router)
+- Next.js 16 (App Router) — una sola app: el CMS corre adentro
+- Payload 3.88, montado en el route group `(payload)`
+- Tailwind CSS v4 + shadcn/ui (estilo `new-york`, base `neutral`) para el front
 - MongoDB (via `docker compose`)
 - pnpm
+
+## Estructura
+
+```
+src/
+  app/
+    (payload)/      <- Payload: admin en /admin, REST en /api, GraphQL
+      admin/[[...segments]]/
+      api/[...slug]/
+      layout.tsx    <- root layout de Payload (@payloadcms/next/css)
+    (frontend)/     <- la app Next
+      globals.css   <- Tailwind + tokens de shadcn
+      layout.tsx    <- root layout del front
+      page.tsx
+  components/ui/    <- componentes de shadcn
+  lib/utils.ts      <- cn()
+  collections/      <- Comments, Users + hooks
+  access/           <- helpers de access control
+  payload.config.ts
+```
+
+Cada route group tiene su **propio root layout**, así que los estilos no se
+mezclan: Tailwind se importa sólo en `(frontend)/layout.tsx` y el admin sigue
+usando el CSS de Payload. Verificado: en `/admin` no entra ninguna regla de
+Tailwind, con lo cual el preflight no pisa los estilos del panel.
+
+El grupo se llama `(payload)` porque Payload busca ahí el import map
+(`app/(payload)/admin/importMap.js`). Si lo renombrás, hay que declarar la ruta
+a mano en `admin.importMap.importMapFile` dentro de `src/payload.config.ts`.
+
+## UI
+
+shadcn ya está inicializado (`components.json`). Para sumar componentes:
+
+```bash
+npx shadcn@latest add dialog table dropdown-menu
+```
+
+Se generan en `src/components/ui/`. La utilidad `cn` viene del paquete oficial
+`cn`; `@/lib/utils` la reexporta para que el alias siga funcionando.
 
 ## Puesta en marcha
 
@@ -23,11 +65,12 @@ Entrá a http://localhost:3000/admin y creá el primer usuario.
 
 Variables de entorno:
 
-| Variable         | Para qué                                                                |
-| ---------------- | ----------------------------------------------------------------------- |
-| `DATABASE_URL`   | Conexión a Mongo                                                        |
-| `PAYLOAD_SECRET` | Firma los tokens de sesión (`openssl rand -hex 32`)                     |
-| `CORS_ORIGINS`   | Orígenes del blog habilitados para pegarle a la API, separados por coma |
+| Variable         | Para qué                                                                                                                   |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`   | Conexión a Mongo                                                                                                           |
+| `PAYLOAD_SECRET` | Firma los tokens de sesión (`openssl rand -hex 32`)                                                                        |
+| `CORS_ORIGINS`   | Orígenes del blog habilitados para pegarle a la API, separados por coma                                                    |
+| `CSRF_ORIGINS`   | Orígenes que pueden usar la cookie de sesión (incluí el del admin)                                                         |
 | `CSRF_ORIGINS`   | Orígenes que pueden usar la cookie de sesión (admin + blog). Si falta el admin, drawers/respuestas fallan con Unauthorized |
 
 ## Colecciones

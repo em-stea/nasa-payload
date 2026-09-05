@@ -90,7 +90,6 @@ export const Comments: CollectionConfig = {
       hasMany: false,
       index: true,
       filterOptions: ({ data, id }): Where => {
-        // Sólo se puede responder a comentarios del mismo artículo, y nunca a sí mismo.
         const and: Where[] = [{ articleId: { equals: data?.articleId } }]
 
         if (id) and.push({ id: { not_equals: id } })
@@ -126,7 +125,6 @@ export const Comments: CollectionConfig = {
         { label: 'Spam', value: 'spam' },
       ],
       access: {
-        // Sólo el backoffice decide el estado: lo que llega del blog queda pendiente.
         create: authenticatedField,
         update: authenticatedField,
       },

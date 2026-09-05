@@ -1,85 +1,126 @@
-import config from '@payload-config'
-import { MessageSquare, ShieldAlert, ThumbsUp } from 'lucide-react'
-import Link from 'next/link'
-import { getPayload } from 'payload'
+import { Comic_Neue, Titan_One, VT323 } from 'next/font/google'
 
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+const display = Titan_One({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-display',
+})
 
-export const dynamic = 'force-dynamic'
+const sans = Comic_Neue({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-sans',
+})
 
-const countBy = async (status?: 'approved' | 'pending' | 'rejected' | 'spam') => {
-  const payload = await getPayload({ config })
+const mono = VT323({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-mono',
+})
 
-  const { totalDocs } = await payload.count({
-    collection: 'comments',
-    ...(status ? { where: { status: { equals: status } } } : {}),
-  })
+const SOON = 'PRÓXIMAMENTE'.split('')
 
-  return totalDocs
-}
+const FLOATERS = [
+  { emoji: '🛸', className: 'nasa-floater--a' },
+  { emoji: '👽', className: 'nasa-floater--b' },
+  { emoji: '🪐', className: 'nasa-floater--c' },
+  { emoji: '☄️', className: 'nasa-floater--d' },
+  { emoji: '🌚', className: 'nasa-floater--e' },
+  { emoji: '🛰️', className: 'nasa-floater--f' },
+]
 
-export default async function HomePage() {
-  const [total, pending, approved, spam] = await Promise.all([
-    countBy(),
-    countBy('pending'),
-    countBy('approved'),
-    countBy('spam'),
-  ])
+const TICKER =
+  '🚀 BIENVENIDO A MI PÁGINA ESPACIAL 👨‍🚀 SITIO EN CONSTRUCCIÓN 🚧 NO TOCAR LOS BOTONES 🛸 EL ASTRONAUTA BAILA GRATIS 🪐 '
 
-  const stats = [
-    { icon: MessageSquare, label: 'Comentarios', value: total },
-    { icon: ShieldAlert, label: 'Pendientes', value: pending },
-    { icon: ThumbsUp, label: 'Aprobados', value: approved },
-    { icon: ShieldAlert, label: 'Spam', value: spam },
-  ]
-
+export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col justify-center gap-8 px-6 py-16">
-      <header className="flex flex-col gap-2">
-        <Badge variant="secondary" className="w-fit">
-          Payload + Next
-        </Badge>
-        <h1 className="text-4xl font-semibold tracking-tight">NASA Backoffice</h1>
-        <p className="text-muted-foreground">
-          Moderación de los comentarios del blog de noticias de la NASA.
-        </p>
-      </header>
+    <main
+      className={`${display.variable} ${sans.variable} ${mono.variable} nasa-space relative flex min-h-dvh flex-col overflow-hidden`}
+    >
+      <div className="nasa-stars" aria-hidden />
+      <div className="nasa-stars nasa-stars--far" aria-hidden />
+      <div className="nasa-nebula" aria-hidden />
+      <div className="nasa-shooting" aria-hidden />
 
-      <Separator />
+      <div className="nasa-ticker" aria-hidden>
+        <div className="nasa-ticker__track">
+          <span>{TICKER}</span>
+          <span>{TICKER}</span>
+        </div>
+      </div>
 
-      <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {stats.map(({ icon: Icon, label, value }) => (
-          <Card key={label}>
-            <CardHeader className="gap-1">
-              <CardDescription className="flex items-center gap-1.5">
-                <Icon className="size-3.5" aria-hidden />
-                {label}
-              </CardDescription>
-              <CardTitle className="text-3xl tabular-nums">{value}</CardTitle>
-            </CardHeader>
-          </Card>
+      <div className="nasa-floaters" aria-hidden>
+        {FLOATERS.map(({ emoji, className }) => (
+          <span key={emoji} className={`nasa-floater ${className}`}>
+            {emoji}
+          </span>
         ))}
+      </div>
+
+      <section className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center gap-8 px-5 py-12 text-center">
+        <p className="nasa-blink text-sm tracking-[0.3em] text-[#39ff7d] uppercase">
+          ★ Bienvenido ★
+        </p>
+
+        <h1 className="nasa-title">
+          <span>Blog de la NASA</span>
+        </h1>
+
+        <p className="max-w-lg text-lg leading-snug font-bold text-[#ffe9a8] sm:text-xl">
+          Noticias del espacio, misiones y cosas que giran muy rápido allá arriba.
+        </p>
+
+        <div className="nasa-astro-stage">
+          <div className="nasa-astro" aria-label="Astronauta bailando" role="img">
+            <span className="nasa-astro__arm nasa-astro__arm--l" />
+            <span className="nasa-astro__arm nasa-astro__arm--r" />
+            <span className="nasa-astro__leg nasa-astro__leg--l" />
+            <span className="nasa-astro__leg nasa-astro__leg--r" />
+            <span className="nasa-astro__pack" />
+            <span className="nasa-astro__body">
+              <span className="nasa-astro__patch" />
+            </span>
+            <span className="nasa-astro__head">
+              <span className="nasa-astro__antenna" />
+              <span className="nasa-astro__visor">
+                <span className="nasa-astro__shine" />
+              </span>
+            </span>
+          </div>
+          <div className="nasa-disco" aria-hidden />
+        </div>
+
+        <h2 className="nasa-soon" aria-label="Próximamente">
+          {SOON.map((letter, index) => (
+            <span
+              key={`${letter}-${index}`}
+              aria-hidden
+              style={{ animationDelay: `${index * 0.08}s` }}
+            >
+              {letter}
+            </span>
+          ))}
+        </h2>
+
+        <div className="nasa-badges">
+          <span className="nasa-badge nasa-badge--construction">🚧 EN OBRA 🚧</span>
+          <span className="nasa-badge nasa-badge--best">MEJOR VISTO EN NETSCAPE</span>
+          <span className="nasa-badge nasa-badge--ufo">👽 APROBADO POR MARCIANOS</span>
+        </div>
+
+        <div className="nasa-counter">
+          <span className="nasa-counter__label">Visitantes terrestres:</span>
+          <span className="nasa-counter__digits">
+            {'0042069'.split('').map((digit, index) => (
+              <span key={`${digit}-${index}`}>{digit}</span>
+            ))}
+          </span>
+        </div>
       </section>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Panel de moderación</CardTitle>
-          <CardDescription>
-            Aprobá, rechazá o marcá como spam desde el admin de Payload.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-3">
-          <Button asChild>
-            <Link href="/admin/collections/comments">Ver comentarios</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link href="/admin">Ir al admin</Link>
-          </Button>
-        </CardContent>
-      </Card>
+      <footer className="relative z-10 pb-6 text-center text-sm text-[#8fd0ff]">
+        <span className="nasa-blink">●</span> Transmitiendo desde algún lugar de la Vía Láctea
+      </footer>
     </main>
   )
 }

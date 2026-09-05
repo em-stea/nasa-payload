@@ -119,3 +119,691 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* —— Landing espacial estilo web casera de los 90 —— */
+.nasa-space {
+  --void: #05030f;
+  --ink: #120a2a;
+  --cyan: #39e0ff;
+  --lime: #39ff7d;
+  --hot: #ff3d9a;
+  --amber: #ffb347;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 75%, rgb(120 40 180 / 35%), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 15% 15%, rgb(255 60 150 / 14%), transparent 55%),
+    linear-gradient(170deg, var(--void) 0%, var(--ink) 60%, #060418 100%);
+  color: #f4f7fb;
+}
+
+.nasa-space h1,
+.nasa-soon,
+.nasa-badge {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+.nasa-stars,
+.nasa-stars--far {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.nasa-stars {
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 28% 72%, #cfe9ff, transparent),
+    radial-gradient(1.5px 1.5px at 44% 34%, #fff, transparent),
+    radial-gradient(1px 1px at 61% 12%, #9fd4ff, transparent),
+    radial-gradient(2px 2px at 78% 48%, #fff, transparent),
+    radial-gradient(1px 1px at 86% 81%, #ffe0b0, transparent),
+    radial-gradient(1.5px 1.5px at 8% 55%, #fff, transparent),
+    radial-gradient(1px 1px at 52% 88%, #cfe9ff, transparent),
+    radial-gradient(1px 1px at 33% 8%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 95% 22%, #fff, transparent);
+  animation: nasa-twinkle 2.2s steps(2, end) infinite;
+}
+
+.nasa-stars--far {
+  opacity: 0.45;
+  background-image:
+    radial-gradient(1px 1px at 18% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 28%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 5% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 55% 15%, #fff, transparent);
+  animation: nasa-drift 40s linear infinite;
+}
+
+.nasa-nebula {
+  pointer-events: none;
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 70% 60%, rgb(150 60 220 / 25%), transparent 45%),
+    radial-gradient(circle at 25% 35%, rgb(0 200 255 / 18%), transparent 40%),
+    radial-gradient(circle at 55% 20%, rgb(255 60 150 / 15%), transparent 35%);
+  filter: blur(45px);
+  animation: nasa-nebula 12s ease-in-out infinite alternate;
+}
+
+.nasa-shooting {
+  pointer-events: none;
+  position: absolute;
+  top: 22%;
+  left: -10%;
+  width: 140px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #fff 40%, var(--cyan));
+  opacity: 0;
+  animation: nasa-shoot 5s ease-in-out infinite;
+}
+
+/* Marquee tipo <marquee>, pero sin el tag prohibido */
+.nasa-ticker {
+  position: relative;
+  z-index: 20;
+  overflow: hidden;
+  border-block: 3px double var(--lime);
+  background: linear-gradient(90deg, #1b0a3d, #2b0f52, #1b0a3d);
+  padding-block: 0.4rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  color: var(--lime);
+  text-shadow: 0 0 8px rgb(57 255 125 / 60%);
+}
+
+.nasa-ticker__track {
+  display: flex;
+  width: max-content;
+  animation: nasa-marquee 22s linear infinite;
+}
+
+.nasa-ticker__track > span {
+  padding-inline: 1rem;
+  white-space: nowrap;
+}
+
+/* Emojis flotando por toda la pantalla */
+.nasa-floaters {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+.nasa-floater {
+  position: absolute;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  filter: drop-shadow(0 0 12px rgb(255 255 255 / 35%));
+}
+
+.nasa-floater--a {
+  top: 18%;
+  left: 6%;
+  animation: nasa-ufo 9s ease-in-out infinite;
+}
+
+.nasa-floater--b {
+  top: 62%;
+  left: 4%;
+  animation: nasa-boing 2.4s ease-in-out infinite;
+}
+
+.nasa-floater--c {
+  top: 24%;
+  right: 7%;
+  animation: nasa-spin 14s linear infinite;
+}
+
+.nasa-floater--d {
+  top: 74%;
+  right: 9%;
+  animation: nasa-boing 3.1s ease-in-out infinite 0.4s;
+}
+
+.nasa-floater--e {
+  top: 45%;
+  left: 2%;
+  animation: nasa-wobble 4s ease-in-out infinite;
+}
+
+.nasa-floater--f {
+  top: 12%;
+  right: 26%;
+  animation: nasa-ufo 12s ease-in-out infinite reverse;
+}
+
+/* Título con degradé animado tipo WordArt */
+.nasa-title {
+  font-size: clamp(2.5rem, 9vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  animation: nasa-wobble 3s ease-in-out infinite;
+}
+
+.nasa-title > span {
+  background: linear-gradient(
+    90deg,
+    #ff3d9a,
+    #ffb347,
+    #39ff7d,
+    #39e0ff,
+    #b06bff,
+    #ff3d9a
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px rgb(255 255 255 / 25%);
+  animation: nasa-rainbow 4s linear infinite;
+}
+
+/* Astronauta bailarín */
+.nasa-astro-stage {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  width: 240px;
+  height: 260px;
+}
+
+.nasa-disco {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(255 61 154 / 55%), transparent 70%);
+  animation: nasa-disco 1.6s steps(3, end) infinite;
+}
+
+.nasa-astro {
+  position: relative;
+  width: 150px;
+  height: 230px;
+  transform-origin: 50% 90%;
+  animation: nasa-dance 0.72s ease-in-out infinite alternate;
+}
+
+.nasa-astro__head,
+.nasa-astro__body,
+.nasa-astro__pack,
+.nasa-astro__arm,
+.nasa-astro__leg {
+  position: absolute;
+  background: linear-gradient(160deg, #ffffff, #cfd8e6 55%, #97a3b8);
+  border: 3px solid #2b3243;
+  border-radius: 999px;
+}
+
+.nasa-astro__head {
+  top: 0;
+  left: 50%;
+  width: 88px;
+  height: 82px;
+  translate: -50% 0;
+  border-radius: 46% 46% 44% 44%;
+  box-shadow: inset -8px -6px 14px rgb(0 0 0 / 15%);
+}
+
+.nasa-astro__visor {
+  position: absolute;
+  inset: 14px 12px 16px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #6ff2ff, #1b6fd6 55%, #10204a);
+  border: 3px solid #2b3243;
+  overflow: hidden;
+}
+
+.nasa-astro__shine {
+  position: absolute;
+  top: 12%;
+  left: 14%;
+  width: 34%;
+  height: 26%;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 80%);
+  rotate: -18deg;
+  animation: nasa-shine 2.8s ease-in-out infinite;
+}
+
+.nasa-astro__antenna {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 5px;
+  height: 18px;
+  translate: -50% 0;
+  background: #2b3243;
+  border-radius: 999px;
+}
+
+.nasa-astro__antenna::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: var(--hot);
+  box-shadow: 0 0 12px var(--hot);
+  animation: nasa-blink-dot 0.9s steps(2, end) infinite;
+}
+
+.nasa-astro__pack {
+  top: 78px;
+  left: 50%;
+  width: 96px;
+  height: 84px;
+  translate: -50% 0;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #8f9bb0, #5b6579);
+}
+
+.nasa-astro__body {
+  top: 76px;
+  left: 50%;
+  width: 88px;
+  height: 90px;
+  translate: -50% 0;
+  border-radius: 40px 40px 34px 34px;
+}
+
+.nasa-astro__patch {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #ff8fbf, var(--hot) 60%, #a3105c);
+  border: 3px solid #2b3243;
+  animation: nasa-patch 1.4s ease-in-out infinite;
+}
+
+.nasa-astro__arm {
+  top: 88px;
+  width: 30px;
+  height: 76px;
+}
+
+.nasa-astro__arm::after,
+.nasa-astro__leg::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  translate: -50% 0;
+  border: 3px solid #2b3243;
+  background: var(--hot);
+}
+
+.nasa-astro__arm::after {
+  width: 30px;
+  height: 26px;
+  border-radius: 999px;
+}
+
+.nasa-astro__leg::after {
+  width: 40px;
+  height: 24px;
+  border-radius: 8px 8px 12px 12px;
+  background: #2b3243;
+}
+
+.nasa-astro__arm--l {
+  left: 6px;
+  transform-origin: 50% 12%;
+  animation: nasa-arm-l 0.72s ease-in-out infinite alternate;
+}
+
+.nasa-astro__arm--r {
+  right: 6px;
+  transform-origin: 50% 12%;
+  animation: nasa-arm-r 0.72s ease-in-out infinite alternate;
+}
+
+.nasa-astro__leg {
+  top: 158px;
+  width: 34px;
+  height: 74px;
+}
+
+.nasa-astro__leg--l {
+  left: 30px;
+  transform-origin: 50% 8%;
+  animation: nasa-leg-l 0.72s ease-in-out infinite alternate;
+}
+
+.nasa-astro__leg--r {
+  right: 30px;
+  transform-origin: 50% 8%;
+  animation: nasa-leg-r 0.72s ease-in-out infinite alternate;
+}
+
+/* PRÓXIMAMENTE saltarín */
+.nasa-soon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1em;
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  filter: drop-shadow(4px 4px 0 rgb(0 0 0 / 55%));
+}
+
+.nasa-soon > span {
+  display: inline-block;
+  color: var(--amber);
+  text-shadow:
+    0 0 10px rgb(255 179 71 / 70%),
+    2px 2px 0 var(--hot);
+  animation: nasa-jump 1.1s ease-in-out infinite;
+}
+
+/* Botoncitos de página casera */
+.nasa-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.nasa-badge {
+  padding: 0.4rem 0.75rem;
+  border: 3px outset #d7d7d7;
+  color: #10203a;
+  background: #ffe9a8;
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 45%);
+}
+
+.nasa-badge--construction {
+  background: repeating-linear-gradient(45deg, #ffd93d 0 10px, #2b3243 10px 20px);
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  animation: nasa-shake 0.5s ease-in-out infinite;
+}
+
+.nasa-badge--best {
+  background: #c8d3e4;
+  animation: nasa-hue 6s linear infinite;
+}
+
+.nasa-badge--ufo {
+  background: var(--lime);
+  animation: nasa-tilt 2.4s ease-in-out infinite;
+}
+
+/* Contador de visitas trucho */
+.nasa-counter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 1.4rem;
+  color: var(--cyan);
+}
+
+.nasa-counter__digits {
+  display: flex;
+  gap: 3px;
+}
+
+.nasa-counter__digits > span {
+  min-width: 1.1em;
+  padding: 0.1em 0.2em;
+  border: 2px inset #4a5a80;
+  background: #04101f;
+  color: var(--lime);
+  text-shadow: 0 0 8px var(--lime);
+}
+
+.nasa-blink {
+  animation: nasa-blink 1s steps(2, end) infinite;
+}
+
+@keyframes nasa-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes nasa-blink-dot {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes nasa-twinkle {
+  50% {
+    opacity: 0.65;
+  }
+}
+
+@keyframes nasa-drift {
+  to {
+    transform: translateY(-40px);
+  }
+}
+
+@keyframes nasa-nebula {
+  to {
+    transform: scale(1.1) translate(-2%, 3%);
+  }
+}
+
+@keyframes nasa-shoot {
+  0%,
+  80% {
+    opacity: 0;
+    transform: translateX(0) rotate(-18deg);
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(115vw) rotate(-18deg);
+  }
+}
+
+@keyframes nasa-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes nasa-rainbow {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+@keyframes nasa-wobble {
+  0%,
+  100% {
+    transform: rotate(-2.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes nasa-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes nasa-boing {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  35% {
+    transform: translateY(-38px) scale(0.9, 1.15);
+  }
+  70% {
+    transform: translateY(0) scale(1.15, 0.85);
+  }
+}
+
+@keyframes nasa-ufo {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-6deg);
+  }
+  25% {
+    transform: translate(28vw, -30px) rotate(6deg);
+  }
+  50% {
+    transform: translate(56vw, 24px) rotate(-8deg);
+  }
+  75% {
+    transform: translate(24vw, -14px) rotate(4deg);
+  }
+}
+
+@keyframes nasa-dance {
+  from {
+    transform: rotate(-7deg) translateY(0);
+  }
+  to {
+    transform: rotate(7deg) translateY(-14px);
+  }
+}
+
+@keyframes nasa-arm-l {
+  from {
+    transform: rotate(28deg);
+  }
+  to {
+    transform: rotate(-115deg);
+  }
+}
+
+@keyframes nasa-arm-r {
+  from {
+    transform: rotate(-115deg);
+  }
+  to {
+    transform: rotate(28deg);
+  }
+}
+
+@keyframes nasa-leg-l {
+  from {
+    transform: rotate(16deg);
+  }
+  to {
+    transform: rotate(-18deg);
+  }
+}
+
+@keyframes nasa-leg-r {
+  from {
+    transform: rotate(-18deg);
+  }
+  to {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes nasa-shine {
+  50% {
+    opacity: 0.35;
+    transform: translateX(8px);
+  }
+}
+
+@keyframes nasa-patch {
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+@keyframes nasa-disco {
+  0% {
+    opacity: 0.9;
+    filter: hue-rotate(0deg);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    filter: hue-rotate(140deg);
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 0.9;
+    filter: hue-rotate(300deg);
+    transform: scale(1);
+  }
+}
+
+@keyframes nasa-jump {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-22px) rotate(-6deg);
+  }
+  45% {
+    transform: translateY(-6px) rotate(4deg);
+  }
+}
+
+@keyframes nasa-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2px, 1px);
+  }
+  50% {
+    transform: translate(2px, -1px);
+  }
+  75% {
+    transform: translate(-1px, -2px);
+  }
+}
+
+@keyframes nasa-hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes nasa-tilt {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nasa-space *,
+  .nasa-space *::after,
+  .nasa-space *::before {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,5 @@
+@theme {
+  /* Font Tokens based on font configurations from fonts.ts */
+  --font-space-grotesk: var(--font-primary), sans-serif;
+  --font-jetbrains-mono: var(--font-secondary), sans-serif;
+}

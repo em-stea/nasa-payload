@@ -1,0 +1,26 @@
+@theme {
+  /* Basic */
+  --color-basic-00: var(--basic-00);
+  --color-basic-300: var(--basic-300);
+  --color-basic-700: var(--basic-700);
+  --color-basic-900: var(--basic-900);
+  --color-basic-950: var(--basic-950);
+  --color-basic-950-60: var(--basic-950-60);
+  --color-basic-960: var(--basic-960);
+  --color-basic-960-90: var(--basic-960-90);
+
+  /* Blue */
+  --color-blue-50: var(--blue-50);
+  --color-blue-200: var(--blue-200);
+  --color-blue-200-30: var(--blue-200-30);
+  --color-blue-700: var(--blue-700);
+  --color-blue-700-20: var(--blue-700-20);
+  --color-blue-900: var(--blue-900);
+
+  /* Red */
+  --color-red-200: var(--red-200);
+  --color-red-300: var(--red-300);
+  --color-red-700: var(--red-700);
+  --color-red-700-20: var(--red-700-20);
+  --color-red-900: var(--red-900);
+}

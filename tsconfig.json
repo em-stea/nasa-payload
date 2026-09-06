@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "ES2022",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -20,9 +20,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@components/*": ["./src/shared/components/*"],
+      "@styles/*": ["./src/shared/styles/*"],
+      "@utils/*": ["./src/shared/utils/*"],
       "@payload-config": ["./src/payload.config.ts"]
-    },
-    "target": "ES2022"
+    }
   },
   "include": [
     "next-env.d.ts",

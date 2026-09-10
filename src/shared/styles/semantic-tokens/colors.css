@@ -1,12 +1,15 @@
 @theme inline {
   /* Palette (valores fijos de foundations) */
   --color-basic-00: var(--basic-00);
+  --color-basic-00-10: var(--basic-00-10);
   --color-basic-300: var(--basic-300);
+  --color-basic-500: var(--basic-500);
   --color-basic-700: var(--basic-700);
   --color-basic-900: var(--basic-900);
   --color-basic-950: var(--basic-950);
   --color-basic-950-60: var(--basic-950-60);
   --color-basic-960: var(--basic-960);
+  --color-basic-960-80: var(--basic-960-80);
   --color-basic-960-90: var(--basic-960-90);
   --color-basic-970: var(--basic-970);
 
@@ -26,6 +29,12 @@
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
   --color-gray-300: var(--gray-300);
+
+  /* Orange */
+  --color-orange-200: var(--orange-200);
+
+  /* Effects */
+  --shadow-card: var(--effect-shadow-card);
 
   /* Semantic (cambian con data-theme) */
   --color-background: var(--background);

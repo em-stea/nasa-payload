@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react'
 
 import { Button } from '@/shared/components/button/button'
+import { Card } from '@/shared/components/card/card'
 import { Heading } from '@/shared/components/heading/heading'
 import { Icons } from '@/shared/components/icons'
 import { Spinner } from '@/shared/components/spinner/spinner'
@@ -19,11 +20,10 @@ const SECTIONS = [
   { id: 'fonts', label: 'Fonts' },
   { id: 'headings', label: 'Headings' },
   { id: 'text', label: 'Text' },
+  { id: 'cards', label: 'Cards' },
   { id: 'buttons', label: 'Buttons' },
   { id: 'icons', label: 'Icons' },
   { id: 'colors', label: 'Colors' },
-  { id: 'scale', label: 'Type scale' },
-  { id: 'pending', label: 'Not migrated' },
 ] as const
 
 const FONTS = [
@@ -84,6 +84,16 @@ const TEXTS: { variant: TextVariant; spec: string; sample: string }[] = [
     spec: 'text-3 · leading-16 · uppercase · tracking-1.2',
     sample: 'APOD // ACTIVE',
   },
+  {
+    variant: 'meta.1',
+    spec: 'text-2_5 · leading-15 · uppercase · tracking-0.5',
+    sample: 'DISCOVERY · T-MINUS 12 HOURS AGO',
+  },
+  {
+    variant: 'card.title',
+    spec: 'font-space-grotesk · text-5 · leading-28',
+    sample: 'James Webb Detects Water Vapor',
+  },
 ]
 
 const BUTTON_VARIANTS: ButtonVariant[] = ['primary']
@@ -94,7 +104,14 @@ const COLOR_GROUPS = [
     name: 'basic',
     tokens: [
       { label: 'bg-basic-00', className: 'bg-basic-00', token: '--basic-00', hex: '#FFFFFF' },
+      {
+        label: 'bg-basic-00-10',
+        className: 'bg-basic-00-10',
+        token: '--basic-00-10',
+        hex: '#FFFFFF 10%',
+      },
       { label: 'bg-basic-300', className: 'bg-basic-300', token: '--basic-300', hex: '#C3C6D7' },
+      { label: 'bg-basic-500', className: 'bg-basic-500', token: '--basic-500', hex: '#8D90A0' },
       { label: 'bg-basic-700', className: 'bg-basic-700', token: '--basic-700', hex: '#32343D' },
       { label: 'bg-basic-900', className: 'bg-basic-900', token: '--basic-900', hex: '#1E1E1E' },
       { label: 'bg-basic-950', className: 'bg-basic-950', token: '--basic-950', hex: '#0A0E14' },
@@ -105,6 +122,12 @@ const COLOR_GROUPS = [
         hex: '#0A0E14 60%',
       },
       { label: 'bg-basic-960', className: 'bg-basic-960', token: '--basic-960', hex: '#0C0E16' },
+      {
+        label: 'bg-basic-960-80',
+        className: 'bg-basic-960-80',
+        token: '--basic-960-80',
+        hex: '#11131B 80%',
+      },
       {
         label: 'bg-basic-960-90',
         className: 'bg-basic-960-90',
@@ -358,6 +381,42 @@ const Page = () => {
               </Text>
             </Specimen>
           ))}
+        </Section>
+
+        <Section
+          id="cards"
+          title="Cards"
+          description="shared/components/card · compound + context · data prop"
+        >
+          <Specimen name="Article card" spec="Figma · Article - Card 1 · <Card data={...}>">
+            <div className="max-w-90 rounded-2xl bg-basic-960 p-6">
+              <Card
+                data={{
+                  tag: 'Discovery',
+                  tone: 'blue',
+                  image: '/images/card-discovery.jpg',
+                  imageAlt: 'Spaceship flying through a nebula',
+                  title: 'James Webb Detects Water Vapor',
+                  description:
+                    'Revolutionary atmospheric analysis of exoplanet K2-18b reveals the presence of carbon-bearing molecules and potential…',
+                  date: 'T-Minus 12 Hours Ago',
+                  dateTime: '2024-01-01',
+                }}
+              >
+                <Card.Header>
+                  <Card.Image />
+                  <Card.Tag />
+                </Card.Header>
+                <Card.Body>
+                  <Card.Title />
+                  <Card.Description />
+                </Card.Body>
+                <Card.Footer>
+                  <Card.Date />
+                </Card.Footer>
+              </Card>
+            </div>
+          </Specimen>
         </Section>
 
         <Section

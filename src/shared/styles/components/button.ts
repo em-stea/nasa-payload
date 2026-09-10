@@ -23,7 +23,6 @@ export const buttonVariants = cva(commonClassnames, {
     size: {
       sm: 'px-0.9 py-0.9',
       md: 'px-6 py-3',
-      // lg: 'px-6 py-3',
       intrinsic: 'w-fit',
       fullWidth: 'w-full',
     },

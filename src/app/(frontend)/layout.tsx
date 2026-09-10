@@ -5,6 +5,7 @@ import { SpaceGrotesk, JetBrainsMono } from '@/shared/styles/foundations/fonts'
 import '@styles/globals.css'
 
 import './nasa-space.css'
+import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = {
   description: 'Blog de noticias espaciales de la NASA. Próximamente.',
@@ -16,7 +17,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html className={fonts} lang="es" suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

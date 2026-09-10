@@ -7,7 +7,6 @@ const commonClassnames = [
   'items-center',
   'justify-center',
   'hover:cursor-pointer',
-  'rounded-lg',
   textVariants({ variant: 'button.1' }),
 ]
 
@@ -17,11 +16,12 @@ export const buttonVariants = cva(commonClassnames, {
       primary: 'bg-blue-700 text-white hover:bg-blue-900 disabled:bg-gray-400 ',
       'text-link':
         'text-blue-200 hover:text-blue-900 disabled:text-gray-400 letter-spacing-[1.6px]',
-      // secondary: 'border border-blue-700 bg-transparent text-blue-700 hover:bg-blue-50',
-      // ghost: 'bg-transparent p-0',
+      secondary:
+        'p-0 flex items-center justify-center size-10 bg-gray-300 border border-gray-200 hover:border-blue-200 focus:border-blue-200 focus-within:border-blue-200 ',
+      ghost: 'bg-transparent p-0 flex items-center justify-center size-10 hover:border-blue-200 ',
     },
     size: {
-      // sm: 'px-2.5 py-1.5',
+      sm: 'px-0.9 py-0.9',
       md: 'px-6 py-3',
       // lg: 'px-6 py-3',
       intrinsic: 'w-fit',

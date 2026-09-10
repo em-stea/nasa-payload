@@ -6,6 +6,8 @@ import { Icons } from '@/shared/components/icons'
 import { Spinner } from '@/shared/components/spinner/spinner'
 import { Text } from '@/shared/components/text/text'
 import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
+import { Pagination } from '@/shared/components/pagination/pagination'
+import { ModeToggle } from '@/shared/components/mode-toggle/mode-toggle'
 
 type HeadingVariant = NonNullable<ComponentProps<typeof Heading>['variant']>
 type HeadingLevel = NonNullable<ComponentProps<typeof Heading>['as']>
@@ -109,6 +111,15 @@ const COLOR_GROUPS = [
         token: '--basic-960-90',
         hex: '#0C0E16 90%',
       },
+      { label: 'bg-basic-970', className: 'bg-basic-970', token: '--basic-970', hex: '#0A0A0A' },
+    ],
+  },
+  {
+    name: 'gray',
+    tokens: [
+      { label: 'bg-gray-100', className: 'bg-gray-100', token: '--gray-100', hex: '#E1E2ED' },
+      { label: 'bg-gray-200', className: 'bg-gray-200', token: '--gray-200', hex: '#262626' },
+      { label: 'bg-gray-300', className: 'bg-gray-300', token: '--gray-300', hex: '#171717' },
     ],
   },
   {
@@ -167,14 +178,14 @@ function Section({
   return (
     <section id={id} className="scroll-mt-16 border-t border-basic-900/15 py-14">
       <div className="mb-8 flex items-baseline gap-4">
-        <Text variant="body.3" className="text-basic-900/40 tabular-nums">
+        <Text variant="body.3" className="text-primary-foreground tabular-nums">
           {sectionNumber(id)}
         </Text>
         <div>
-          <Heading as="h2" variant="title.3" className="font-bold">
+          <Heading as="h2" variant="title.3" className="font-bold text-primary-foreground">
             {title}
           </Heading>
-          <Text variant="body.3" className="mt-1 text-basic-900/50">
+          <Text variant="body.3" className="mt-1 text-primary-foreground">
             {description}
           </Text>
         </div>
@@ -204,9 +215,11 @@ function Specimen({
       }
     >
       <div>
-        <Text variant="body.3">{name}</Text>
+        <Text variant="body.3" className="text-primary-foreground">
+          {name}
+        </Text>
         {spec ? (
-          <Text variant="body.3" className="mt-1  text-basic-900/45">
+          <Text variant="body.3" className="mt-1 text-primary-foreground">
             {spec}
           </Text>
         ) : null}
@@ -240,13 +253,13 @@ function Swatch({
       >
         <div className={`h-full w-full ${className}`} />
       </div>
-      <Text variant="body.3" className="mt-1.5 truncate">
+      <Text variant="body.3" className="mt-1.5 truncate text-primary-foreground">
         {label}
       </Text>
-      <Text variant="body.3" className="truncate text-basic-900/40">
+      <Text variant="body.3" className="truncate text-primary-foreground">
         {token}
       </Text>
-      <Text variant="body.3" className="truncate text-basic-900/40">
+      <Text variant="body.3" className="truncate text-primary-foreground">
         {hex}
       </Text>
     </div>
@@ -255,7 +268,7 @@ function Swatch({
 
 const Page = () => {
   return (
-    <div className="min-h-dvh bg-basic-00 text-basic-900">
+    <div className="min-h-dvh text-primary-foreground">
       <nav className="sticky top-0 z-10 border-b border-basic-900/15 bg-basic-00/90 backdrop-blur">
         <ul className="mx-auto flex max-w-5xl flex-wrap gap-x-5 gap-y-1 px-6 py-3 font-jetbrains-mono text-3 uppercase">
           {SECTIONS.map((section) => (
@@ -273,13 +286,13 @@ const Page = () => {
 
       <main className="mx-auto max-w-5xl px-6 pb-24">
         <header className="py-16">
-          <Text variant="eyebrow" className="text-basic-900/50">
+          <Text variant="eyebrow" className="text-primary-foreground">
             Internal // Design system
           </Text>
           <Heading as="h1" variant="title.2" className="mt-4 font-bold">
             Component &amp; token reference
           </Heading>
-          <Text variant="body.3" className="mt-4 max-w-[60ch] text-basic-900/60">
+          <Text variant="body.3" className="mt-4 max-w-[60ch] text-primary-foreground">
             Every variant exposed by <code>shared/components</code> and <code>shared/styles</code>,
             rendered from the real components. If something looks wrong here, it is wrong in the
             design system.
@@ -296,10 +309,10 @@ const Page = () => {
               <Heading as="h3" variant="title.2" className={font.className}>
                 {font.name}
               </Heading>
-              <Text variant="body.1" className={`${font.className} mt-3 text-basic-900/70`}>
+              <Text variant="body.1" className={`${font.className} mt-3 text-primary-foreground`}>
                 ABCDEFGHIJKLM abcdefghijklm 0123456789
               </Text>
-              <Text variant="body.3" className="mt-2 text-basic-900/45">
+              <Text variant="body.3" className="mt-2 text-primary-foreground">
                 {font.role}
               </Text>
             </Specimen>
@@ -317,7 +330,11 @@ const Page = () => {
               name={`variant="${heading.variant}"`}
               spec={`as="${heading.as}" · ${heading.spec}`}
             >
-              <Heading as={heading.as} variant={heading.variant}>
+              <Heading
+                as={heading.as}
+                variant={heading.variant}
+                className="text-primary-foreground"
+              >
                 {heading.sample}
               </Heading>
             </Specimen>
@@ -327,7 +344,7 @@ const Page = () => {
             name="className override"
             spec="font-bold sobre title.3 — el peso no viene del variant"
           >
-            <Heading as="h4" variant="title.3" className="font-bold">
+            <Heading as="h4" variant="title.3" className="font-bold text-primary-foreground">
               Parker Solar Probe
             </Heading>
           </Specimen>
@@ -336,7 +353,7 @@ const Page = () => {
         <Section id="text" title="Text" description="shared/components/text · variant">
           {TEXTS.map((text) => (
             <Specimen key={text.variant} name={`variant="${text.variant}"`} spec={text.spec}>
-              <Text variant={text.variant} className="max-w-[65ch]">
+              <Text variant={text.variant} className="max-w-[65ch] text-primary-foreground">
                 {text.sample}
               </Text>
             </Specimen>
@@ -372,7 +389,7 @@ const Page = () => {
                 Explore more
               </Button>
             </div>
-            <Text variant="body.3" className="mt-3 text-basic-900/45">
+            <Text variant="body.3" className="mt-3 text-primary-foreground">
               con loading el children se reemplaza por el Spinner
             </Text>
           </Specimen>
@@ -403,6 +420,10 @@ const Page = () => {
           </Specimen>
         </Section>
 
+        <Specimen name="pagination" spec="shared/components/pagination">
+          <Pagination />
+        </Specimen>
+
         <Section
           id="icons"
           title="Icons"
@@ -414,6 +435,10 @@ const Page = () => {
             </div>
           </Specimen>
         </Section>
+
+        <Specimen name="mode-toggle" spec="shared/components/mode-toggle">
+          <ModeToggle />
+        </Specimen>
 
         <Section
           id="colors"

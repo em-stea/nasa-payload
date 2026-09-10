@@ -1,5 +1,5 @@
-@theme {
-  /* Basic */
+@theme inline {
+  /* Palette (valores fijos de foundations) */
   --color-basic-00: var(--basic-00);
   --color-basic-300: var(--basic-300);
   --color-basic-700: var(--basic-700);
@@ -8,8 +8,8 @@
   --color-basic-950-60: var(--basic-950-60);
   --color-basic-960: var(--basic-960);
   --color-basic-960-90: var(--basic-960-90);
+  --color-basic-970: var(--basic-970);
 
-  /* Blue */
   --color-blue-50: var(--blue-50);
   --color-blue-200: var(--blue-200);
   --color-blue-200-30: var(--blue-200-30);
@@ -17,10 +17,34 @@
   --color-blue-700-20: var(--blue-700-20);
   --color-blue-900: var(--blue-900);
 
-  /* Red */
   --color-red-200: var(--red-200);
   --color-red-300: var(--red-300);
   --color-red-700: var(--red-700);
   --color-red-700-20: var(--red-700-20);
   --color-red-900: var(--red-900);
+
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+
+  /* Semantic (cambian con data-theme) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }

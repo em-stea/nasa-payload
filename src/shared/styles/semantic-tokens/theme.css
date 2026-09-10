@@ -1,0 +1,51 @@
+/*
+  Pares light / dark del tema.
+  La paleta raw vive en foundations/colors.css y NO cambia.
+  Acá cada rol semántico apunta a un color distinto según el modo.
+  Los componentes usan bg-background, text-foreground, etc. — sin dark:*.
+*/
+
+:root,
+[data-theme='light'] {
+  --background: var(--basic-00);
+  /* --foreground: var(--blue-900); 
+  --card: var(--basic-00);
+  --card-foreground: var(--blue-900);
+  --popover: var(--basic-00); */
+  /* --popover-foreground: var(--blue-900);
+  --primary: var(--blue-700); */
+  --primary-foreground: var(--basic-950);
+  /* --secondary: var(--gray-100);
+  --secondary-foreground: var(--blue-900);
+  --muted: var(--gray-100);
+  --muted-foreground: var(--basic-700);
+  --accent: var(--blue-700);
+  --accent-foreground: var(--basic-00);
+  --destructive: var(--red-700);
+  --destructive-foreground: var(--basic-00);
+  --border: var(--basic-300);
+  --input: var(--basic-300);
+  --ring: var(--blue-700); */
+}
+
+[data-theme='dark'] {
+  --background: var(--basic-970);
+  /* --foreground: var(--blue-200);
+  --card: var(--basic-960);
+  --card-foreground: var(--blue-200);
+  --popover: var(--basic-960);
+  --popover-foreground: var(--blue-200);
+  --primary: var(--blue-700); */
+  --primary-foreground: var(--basic-00);
+  /* --secondary: var(--gray-300);
+  --secondary-foreground: var(--blue-200);
+  --muted: var(--gray-300);
+  --muted-foreground: var(--basic-300);
+  --accent: var(--blue-200);
+  --accent-foreground: var(--basic-970);
+  --destructive: var(--red-300);
+  --destructive-foreground: var(--basic-970);
+  --border: var(--gray-200);
+  --input: var(--gray-200);
+  --ring: var(--blue-200); */
+}

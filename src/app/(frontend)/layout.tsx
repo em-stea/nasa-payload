@@ -18,7 +18,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html className={fonts} lang="es" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>

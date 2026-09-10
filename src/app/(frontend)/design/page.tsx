@@ -1,3 +1,4 @@
+'use client'
 import type { ComponentProps, ReactNode } from 'react'
 
 import { Button } from '@/shared/components/button/button'

@@ -5,6 +5,7 @@ import { createContext, use } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 
+import { Badge } from '@/shared/components/badge'
 import {
   cardBodyVariants,
   cardDateVariants,
@@ -19,6 +20,7 @@ import {
 import { cn } from '@/shared/utils/className-builder'
 
 type DivProps = Omit<ComponentProps<'div'>, 'children'> & { children?: ReactNode }
+type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children'> & { children?: ReactNode }
 type ImageProps = Omit<ComponentProps<typeof Image>, 'src' | 'alt' | 'fill'>
 type TimeProps = Omit<ComponentProps<'time'>, 'dateTime' | 'children'> & {
   children?: ReactNode
@@ -75,17 +77,17 @@ function CardHeader({ className, children, ...props }: DivProps) {
   )
 }
 
-function CardTag({ className, ...props }: DivProps) {
+function CardTag({ className, ...props }: BadgeProps) {
   const { data } = useCardContext()
 
   return (
-    <div
+    <Badge
       data-slot="card-tag"
       className={cn(cardTagVariants({ tone: data.tone }), className)}
       {...props}
     >
       {data.tag}
-    </div>
+    </Badge>
   )
 }
 

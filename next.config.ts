@@ -1,24 +1,30 @@
+import { FRONT_ENV } from '@/shared/config/front-config'
+import { withTailwindMergeConfig } from '@/shared/utils/tw-merge/helpers/helpers'
 import { withPayload } from '@payloadcms/next/withPayload'
 import type { NextConfig } from 'next'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
-  webpack: (webpackConfig) => {
-    webpackConfig.resolve.extensionAlias = {
-      '.cjs': ['.cts', '.cjs'],
-      '.js': ['.ts', '.tsx', '.js', '.jsx'],
-      '.mjs': ['.mts', '.mjs'],
-    }
-
-    return webpackConfig
+  cacheComponents: true,
+  partialPrefetching: true,
+  images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
-  turbopack: {
-    root: path.resolve(dirname),
-  },
+  ...(FRONT_ENV.NEXT_PUBLIC_ENVIRONMENT === 'local' && {
+    onDemandEntries: {
+      maxInactiveAge: 60 * 1000,
+      pagesBufferLength: 2,
+    },
+  }),
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+export default withTailwindMergeConfig(withPayload(nextConfig, { devBundleServerPackages: false }))

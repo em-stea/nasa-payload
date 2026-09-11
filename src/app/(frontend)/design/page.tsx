@@ -3,13 +3,14 @@ import type { ComponentProps, ReactNode } from 'react'
 
 import { Button } from '@/shared/components/button/button'
 import { Card } from '@/shared/components/card/card'
+import { CarouselFullImage } from '@/shared/components/carousel/carousel-full-image'
 import { Heading } from '@/shared/components/heading/heading'
 import { Icons } from '@/shared/components/icons'
+import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
+import { ModeToggle } from '@/shared/components/mode-toggle/mode-toggle'
+import { Pagination } from '@/shared/components/pagination/pagination'
 import { Spinner } from '@/shared/components/spinner/spinner'
 import { Text } from '@/shared/components/text/text'
-import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
-import { Pagination } from '@/shared/components/pagination/pagination'
-import { ModeToggle } from '@/shared/components/mode-toggle/mode-toggle'
 
 type HeadingVariant = NonNullable<ComponentProps<typeof Heading>['variant']>
 type HeadingLevel = NonNullable<ComponentProps<typeof Heading>['as']>
@@ -22,6 +23,9 @@ const SECTIONS = [
   { id: 'headings', label: 'Headings' },
   { id: 'text', label: 'Text' },
   { id: 'cards', label: 'Cards' },
+  { id: 'carousel', label: 'Carousel' },
+  { id: 'pagination', label: 'Pagination' },
+  { id: 'mode-toggle', label: 'Mode Toggle' },
   { id: 'buttons', label: 'Buttons' },
   { id: 'icons', label: 'Icons' },
   { id: 'colors', label: 'Colors' },
@@ -144,6 +148,7 @@ const COLOR_GROUPS = [
       { label: 'bg-gray-100', className: 'bg-gray-100', token: '--gray-100', hex: '#E1E2ED' },
       { label: 'bg-gray-200', className: 'bg-gray-200', token: '--gray-200', hex: '#262626' },
       { label: 'bg-gray-300', className: 'bg-gray-300', token: '--gray-300', hex: '#171717' },
+      { label: 'bg-gray-400', className: 'bg-gray-400', token: '--gray-400', hex: '#3b3b3b' },
     ],
   },
   {
@@ -420,6 +425,26 @@ const Page = () => {
           </Specimen>
         </Section>
 
+        <Section id="carousel" title="Carousel" description="shared/components/carousel">
+          <Specimen name="carousel" spec="shared/components/carousel">
+            <CarouselFullImage />
+          </Specimen>
+        </Section>
+
+        <Section id="pagination" title="Pagination" description="shared/components/pagination">
+          <Specimen name="pagination" spec="shared/components/pagination">
+            <Pagination />
+          </Specimen>
+        </Section>
+
+        <Section id="mode-toggle" title="Mode Toggle" description="shared/components/mode-toggle">
+          <Specimen name="mode-toggle" spec="shared/components/mode-toggle">
+            <div className="flex items-center gap-10">
+              <ModeToggle />
+            </div>
+          </Specimen>
+        </Section>
+
         <Section
           id="buttons"
           title="Buttons"
@@ -480,10 +505,6 @@ const Page = () => {
           </Specimen>
         </Section>
 
-        <Specimen name="pagination" spec="shared/components/pagination">
-          <Pagination />
-        </Specimen>
-
         <Section
           id="icons"
           title="Icons"
@@ -495,10 +516,6 @@ const Page = () => {
             </div>
           </Specimen>
         </Section>
-
-        <Specimen name="mode-toggle" spec="shared/components/mode-toggle">
-          <ModeToggle />
-        </Specimen>
 
         <Section
           id="colors"

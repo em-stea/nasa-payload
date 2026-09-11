@@ -23,30 +23,30 @@
   --foreground: var(--blue-900);
 
   --card: var(--basic-00);
-  --card-foreground: var(--blue-900);
-
-  --popover: var(--basic-00);
-  --popover-foreground: var(--blue-900);
+  --card-foreground: var(--basic-500);
 
   --primary: var(--blue-700);
   --primary-foreground: var(--basic-950);
 
   --secondary: var(--basic-500);
   --secondary-foreground: var(--basic-900);
-  --btn-secondary: var(--basic-300);
+  --btn-secondary: var(--basic-00);
 
   --muted: var(--gray-100);
   --muted-foreground: var(--basic-700);
 
   --accent: var(--blue-700);
   --accent-foreground: var(--basic-00);
+  --highlight: var(--blue-700);
 
   --destructive: var(--red-700);
   --destructive-foreground: var(--basic-00);
 
   --border: var(--basic-300);
   --input: var(--basic-300);
-  --ring: var(--blue-700);
+  --icon: var(--basic-00);
+
+  --transparency-navbar: var(--basic-950-60);
 }
 
 [data-theme='dark'] {
@@ -54,30 +54,30 @@
   --foreground: var(--blue-200);
 
   --card: var(--basic-960);
-  --card-foreground: var(--blue-200);
-
-  --popover: var(--basic-960);
-  --popover-foreground: var(--blue-200);
+  --card-foreground: var(--basic-950-60);
 
   --primary: var(--blue-200);
   --primary-foreground: var(--basic-00);
 
   --secondary: var(--gray-400);
   --secondary-foreground: var(--basic-500);
-  --btn-secondary: var(--gray-300);
+  --btn-secondary: var(--basic-300);
 
   --muted: var(--gray-300);
   --muted-foreground: var(--basic-300);
 
   --accent: var(--blue-200);
   --accent-foreground: var(--basic-970);
+  --highlight: var(--blue-50);
 
   --destructive: var(--red-300);
   --destructive-foreground: var(--basic-970);
 
   --border: var(--gray-200);
   --input: var(--gray-200);
-  --ring: var(--blue-200);
+  --icon: var(--blue-200);
+
+  --transparency-navbar: var(--basic-960-80);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -132,9 +132,6 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
 
@@ -147,11 +144,15 @@
 
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-highlight: var(--highlight);
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
   --color-border: var(--border);
   --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-icon: var(--icon);
+
+  --color-transparency-navbar: var(--transparency-navbar);
+
 }

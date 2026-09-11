@@ -162,7 +162,11 @@ function NavbarDot({ className, ...props }: NavbarDotProps) {
       aria-hidden="true"
       data-slot="navbar-dot"
       className={cn(navbarDotVariants(), className)}
-    />
+    >
+      <span className="absolute -inset-1.1 rounded-full bg-red-300/60 blur-md" />
+
+      <span className="relative h-full w-full rounded-full bg-red-300 shadow-[0_0_10px_var(--color-red-300)]" />
+    </span>
   )
 }
 

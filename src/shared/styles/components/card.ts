@@ -13,7 +13,7 @@ export const cardVariants = cva(
     'rounded-2xl',
     'border',
     'border-basic-00-10',
-    'bg-basic-950-60',
+    'bg-card-foreground',
     'shadow-card',
     'backdrop-blur-[8px]',
     'transition-[border-color]',
@@ -22,7 +22,7 @@ export const cardVariants = cva(
   {
     variants: {
       tone: {
-        blue: 'hover:border-blue-200',
+        blue: 'hover:border-foreground',
         red: 'hover:border-red-300',
         orange: 'hover:border-orange-200',
       },
@@ -55,7 +55,7 @@ export const cardTitleVariants = cva(
   {
     variants: {
       tone: {
-        blue: 'text-basic-00 group-hover:text-blue-200',
+        blue: 'text-primary-foreground group-hover:text-foreground',
         red: 'text-basic-00 group-hover:text-red-300',
         orange: 'text-basic-00 group-hover:text-orange-200',
       },
@@ -66,7 +66,10 @@ export const cardTitleVariants = cva(
   },
 )
 
-export const cardDescriptionVariants = cva(['text-basic-300', textVariants({ variant: 'body.3' })])
+export const cardDescriptionVariants = cva([
+  'text-btn-secondary',
+  textVariants({ variant: 'body.3' }),
+])
 
 export const cardFooterVariants = cva('flex w-full items-center px-4 pb-[19px] pt-2')
 

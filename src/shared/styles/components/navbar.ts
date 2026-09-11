@@ -9,8 +9,8 @@ export const navbarVariants = cva([
   'items-start',
   'border-b',
   'border-basic-00-10',
-  'bg-basic-960-80',
-  'shadow-navbar',
+  //  'bg-basic-960-80',
+  'bg-transparency-navbar',
   'backdrop-blur-[6px]',
 ])
 
@@ -53,11 +53,11 @@ export const navbarLinkVariants = cva(
     'inline-flex',
     'items-center',
     'gap-1.5',
-    'text-basic-300',
+    'text-btn-secondary',
     'transition-colors',
     'duration-200',
     'hover:text-blue-200',
-    textVariants({ variant: 'nav.link' }),
+    textVariants({ variant: 'body.4' }),
   ],
   {
     variants: {
@@ -72,11 +72,17 @@ export const navbarLinkVariants = cva(
 )
 
 export const navbarDotVariants = cva([
-  'size-2',
   'shrink-0',
   'rounded-full',
   'bg-red-200',
   'shadow-live-dot',
+  'relative',
+  'inline-flex',
+  'size-2',
+  'items-center',
+  'justify-center',
+  'animate-pulse',
+  'mr-0.5',
 ])
 
 export const navbarUserVariants = cva([
@@ -89,7 +95,7 @@ export const navbarUserVariants = cva([
   'px-1.5',
   'pt-1.5',
   'pb-[13px]',
-  'text-blue-200',
+  'text-icon',
   'transition-colors',
   'duration-200',
   'hover:cursor-pointer',

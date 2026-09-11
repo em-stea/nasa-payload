@@ -13,9 +13,10 @@ const commonClassnames = [
 export const buttonVariants = cva(commonClassnames, {
   variants: {
     variant: {
-      primary: 'bg-blue-700 text-white hover:bg-blue-900 disabled:bg-gray-400 ',
+      primary:
+        'bg-blue-700 text-white hover:bg-blue-900 disabled:bg-gray-400 disabled:cursor-not-allowed loading:cursor-wait',
       'text-link':
-        'text-foreground hover:text-blue-900 disabled:text-gray-400 letter-spacing-[1.6px]',
+        'text-foreground hover:text-highlight disabled:text-gray-400 letter-spacing-[1.6px]',
       secondary:
         'p-0 flex items-center justify-center size-10 bg-muted border border-muted-foreground hover:border-blue-200 focus:border-blue-200 focus-within:border-blue-200 ',
       ghost: 'bg-transparent p-0 flex items-center justify-center size-10 hover:border-blue-200 ',

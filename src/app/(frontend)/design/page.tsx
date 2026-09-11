@@ -395,7 +395,7 @@ const Page = () => {
           description="shared/components/card · compound + context · data prop"
         >
           <Specimen name="Article card" spec="Figma · Article - Card 1 · <Card data={...}>">
-            <div className="max-w-90 rounded-2xl bg-basic-960 p-6">
+            <div className="max-w-90 rounded-2xl p-6">
               <Card
                 data={{
                   tag: 'Discovery',

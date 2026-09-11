@@ -17,7 +17,7 @@ export const buttonVariants = cva(commonClassnames, {
       'text-link':
         'text-blue-200 hover:text-blue-900 disabled:text-gray-400 letter-spacing-[1.6px]',
       secondary:
-        'p-0 flex items-center justify-center size-10 bg-btn-secondary border border-gray-200 hover:border-blue-200 focus:border-blue-200 focus-within:border-blue-200 ',
+        'p-0 flex items-center justify-center size-10 bg-muted border border-muted-foreground hover:border-blue-200 focus:border-blue-200 focus-within:border-blue-200 ',
       ghost: 'bg-transparent p-0 flex items-center justify-center size-10 hover:border-blue-200 ',
     },
     size: {

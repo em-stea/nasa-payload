@@ -43,5 +43,6 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-btn-secondary: var(--btn-secondary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 }

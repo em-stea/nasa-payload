@@ -20,13 +20,13 @@ import {
 import { cn } from '@/shared/utils/className-builder'
 
 type DivProps = Omit<ComponentProps<'div'>, 'children'> & { children?: ReactNode }
-type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children'> & { children?: ReactNode }
+type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children' | 'variant'>
 type ImageProps = Omit<ComponentProps<typeof Image>, 'src' | 'alt' | 'fill'>
 type TimeProps = Omit<ComponentProps<'time'>, 'dateTime' | 'children'> & {
   children?: ReactNode
 }
 
-export type CardTone = NonNullable<VariantProps<typeof cardTagVariants>['tone']>
+export type CardTone = NonNullable<VariantProps<typeof cardVariants>['tone']>
 
 export type CardData = {
   tag: string
@@ -83,7 +83,8 @@ function CardTag({ className, ...props }: BadgeProps) {
   return (
     <Badge
       data-slot="card-tag"
-      className={cn(cardTagVariants({ tone: data.tone }), className)}
+      variant={data.tone ?? 'blue'}
+      className={cn(cardTagVariants(), className)}
       {...props}
     >
       {data.tag}

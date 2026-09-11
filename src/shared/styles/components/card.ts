@@ -46,34 +46,7 @@ export const cardImageVariants = cva([
   'group-hover:scale-105',
 ])
 
-export const cardTagVariants = cva(
-  [
-    'absolute',
-    'left-4',
-    'top-4',
-    'rounded-lg',
-    'border',
-    'border-basic-00-10',
-    'bg-basic-960-80',
-    'px-3',
-    'pb-2',
-    'pt-[11px]',
-    'backdrop-blur-[4px]',
-    textVariants({ variant: 'meta.1' }),
-  ],
-  {
-    variants: {
-      tone: {
-        blue: 'text-blue-200',
-        red: 'text-red-300',
-        orange: 'text-orange-200',
-      },
-    },
-    defaultVariants: {
-      tone: 'blue',
-    },
-  },
-)
+export const cardTagVariants = cva('absolute top-4 left-4')
 
 export const cardBodyVariants = cva('flex w-full flex-col gap-2 px-4 pt-4')
 

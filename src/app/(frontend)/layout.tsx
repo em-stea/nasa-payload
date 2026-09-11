@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import React from 'react'
 
+import { SiteNavbar } from '@/shared/components/navbar/site-navbar'
 import { SpaceGrotesk, JetBrainsMono } from '@/shared/styles/foundations/fonts'
 import '@styles/globals.css'
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
+          <SiteNavbar />
           {children}
         </ThemeProvider>
       </body>

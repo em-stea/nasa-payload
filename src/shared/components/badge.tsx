@@ -1,7 +1,20 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from 'cn'
 import { Slot } from 'radix-ui'
+
+import { textVariants } from '@/shared/styles/components/text'
+import { cn } from '@/shared/utils/className-builder'
+
+const tagBase = [
+  'rounded-lg',
+  'border-basic-00-10',
+  'bg-basic-960-80',
+  'px-3',
+  'py-2',
+  'pt-[11px]',
+  'backdrop-blur-[4px]',
+  textVariants({ variant: 'meta.1' }),
+]
 
 const badgeVariants = cva(
   'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3',
@@ -16,6 +29,9 @@ const badgeVariants = cva(
           'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
         ghost: '[a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 [a&]:hover:underline',
+        blue: [tagBase, 'text-blue-200'],
+        red: [tagBase, 'text-red-300'],
+        orange: [tagBase, 'text-orange-200'],
       },
     },
     defaultVariants: {

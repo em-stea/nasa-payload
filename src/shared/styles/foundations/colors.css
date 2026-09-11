@@ -39,4 +39,8 @@
 
   /* Effects */
   --effect-shadow-card: 0px 4px 30px 0px oklch(0 0 0 / 50%);
+  /* blue-700 al 15% */
+  --effect-shadow-navbar: 0px 0px 20px 0px oklch(0.54615 0.215208 262.8809 / 15%);
+  /* red-300 al 60% */
+  --effect-shadow-live-dot: 0px 0px 8px 0px oklch(0.837028 0.089762 24.1959 / 60%);
 }

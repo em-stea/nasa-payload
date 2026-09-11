@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 @import './foundations/colors.css';
-@import './semantic-tokens/theme.css';
 @import './semantic-tokens/font.css';
 @import './semantic-tokens/colors.css';
 @import './semantic-tokens/text.css';

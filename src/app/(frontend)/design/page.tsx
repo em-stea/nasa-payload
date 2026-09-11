@@ -8,6 +8,7 @@ import { Heading } from '@/shared/components/heading/heading'
 import { Icons } from '@/shared/components/icons'
 import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
 import { ModeToggle } from '@/shared/components/mode-toggle/mode-toggle'
+import { Navbar } from '@/shared/components/navbar/navbar'
 import { Pagination } from '@/shared/components/pagination/pagination'
 import { Spinner } from '@/shared/components/spinner/spinner'
 import { Text } from '@/shared/components/text/text'
@@ -22,6 +23,7 @@ const SECTIONS = [
   { id: 'fonts', label: 'Fonts' },
   { id: 'headings', label: 'Headings' },
   { id: 'text', label: 'Text' },
+  { id: 'navbar', label: 'Navbar' },
   { id: 'cards', label: 'Cards' },
   { id: 'carousel', label: 'Carousel' },
   { id: 'pagination', label: 'Pagination' },
@@ -421,6 +423,45 @@ const Page = () => {
                   <Card.Date />
                 </Card.Footer>
               </Card>
+            </div>
+          </Specimen>
+        </Section>
+
+        <Section
+          id="navbar"
+          title="Navbar"
+          description="shared/components/navbar · compound + context · data prop"
+        >
+          <Specimen name="TopNavBar — desktop" spec="Figma · TopNavBar 1:267 · <Navbar data={...}>">
+            <div className="w-full overflow-hidden rounded-2xl">
+              <Navbar
+                data={{
+                  logo: {
+                    src: '/images/dscovr-logo.jpg',
+                    alt: 'DSCOVR',
+                    href: '/',
+                  },
+                  user: { name: 'Franco Rateni' },
+                }}
+              >
+                <Navbar.Group>
+                  <Navbar.Logo />
+                </Navbar.Group>
+
+                <Navbar.Group gap="md">
+                  <Navbar.Link href="/news">News</Navbar.Link>
+                  <Navbar.Link href="/asteroids">Asteroids</Navbar.Link>
+                  <Navbar.Link href="/events">Events</Navbar.Link>
+                  <Navbar.Link href="/live">
+                    <Navbar.Dot />
+                    Live
+                  </Navbar.Link>
+                </Navbar.Group>
+
+                <Navbar.Group>
+                  <Navbar.User />
+                </Navbar.Group>
+              </Navbar>
             </div>
           </Specimen>
         </Section>

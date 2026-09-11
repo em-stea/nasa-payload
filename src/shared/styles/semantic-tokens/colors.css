@@ -122,6 +122,8 @@
 
   /* Effects */
   --shadow-card: var(--effect-shadow-card);
+  --shadow-navbar: var(--effect-shadow-navbar);
+  --shadow-live-dot: var(--effect-shadow-live-dot);
 
   /* Semantic (cambian con data-theme) */
   --color-background: var(--background);

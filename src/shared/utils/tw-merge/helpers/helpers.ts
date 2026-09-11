@@ -60,8 +60,8 @@ function parseCSSTokens(filePath: string): Record<string, string[]> {
  * Genera el archivo de configuración JSON automáticamente
  */
 function generateConfigFile(): void {
-  const cssFilePath = './src/styles/semantic-tokens/font.css';
-  const outputPath = './src/common/utils/tw-merge/helpers/generated-config.json';
+  const cssFilePath = './src/shared/styles/semantic-tokens/font.css';
+  const outputPath = './src/shared/utils/tw-merge/helpers/generated-config.json';
 
   const isFirstLoggingAttemptInThisProcess = !hasLoggedGenerationAttemptInThisProcess;
 

@@ -4,7 +4,6 @@ import React from 'react'
 import { SpaceGrotesk, JetBrainsMono } from '@/shared/styles/foundations/fonts'
 import '@styles/globals.css'
 
-import './nasa-space.css'
 import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = {

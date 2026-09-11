@@ -11,26 +11,26 @@ export const Pagination = () => {
       </Text>
       <div className="flex items-center gap-1">
         <Button variant="secondary" size="sm">
-          <ChevronLeft className="text-gray-100" />
+          <ChevronLeft className="text-muted-foreground" />
         </Button>
         <Button variant="secondary" size="sm">
-          <Text variant="body.2" className="text-blue-200 font-normal">
+          <Text variant="body.2" className="text-muted-foreground font-normal">
             01
           </Text>
         </Button>
         <Button variant="secondary" size="sm">
-          <Text variant="body.2" className="text-blue-200 font-normal">
+          <Text variant="body.2" className="text-muted-foreground font-normal">
             02
           </Text>
         </Button>
         <Button variant="secondary" size="sm" className="gap-1 align-items-end pt-1">
-          <div className="size-0.5 rounded-full bg-blue-200" />
-          <div className="size-0.5 rounded-full bg-blue-200" />
-          <div className="size-0.5 rounded-full bg-blue-200" />
+          <div className="size-0.5 rounded-full bg-muted-foreground" />
+          <div className="size-0.5 rounded-full bg-muted-foreground" />
+          <div className="size-0.5 rounded-full bg-muted-foreground" />
         </Button>
 
         <Button variant="secondary" size="sm">
-          <ChevronRight className="text-gray-100" />
+          <ChevronRight className="text-muted-foreground" />
         </Button>
       </div>
     </div>

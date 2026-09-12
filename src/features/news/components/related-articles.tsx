@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { SectionHeading } from '@/features/news/components/section-heading'
 import type { NewsArticle } from '@/features/news/types/news'
-import { Badge } from '@/shared/components/badge'
+import { Badge } from '@/shared/components/badge/badge'
 import { Heading } from '@/shared/components/heading/heading'
 import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
 import { Text } from '@/shared/components/text/text'

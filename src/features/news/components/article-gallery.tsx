@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import type { ArticleFigure } from '@/features/news/types/news'
-import { Badge } from '@/shared/components/badge'
+import { Badge } from '@/shared/components/badge/badge'
 import { Button } from '@/shared/components/button/button'
 import {
   Carousel,

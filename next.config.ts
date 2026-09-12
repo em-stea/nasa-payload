@@ -17,6 +17,19 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Avatares de los providers de OAuth (Auth.js).
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   ...(FRONT_ENV.NEXT_PUBLIC_ENVIRONMENT === 'local' && {

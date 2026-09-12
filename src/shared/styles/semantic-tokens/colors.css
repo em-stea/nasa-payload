@@ -44,9 +44,14 @@
 
   --border: var(--basic-300);
   --input: var(--basic-300);
-  --icon: var(--basic-00);
+  --icon: var(--basic-700);
 
-  --transparency-navbar: var(--basic-950-60);
+  /* Chrome del sitio: navbar y footer */
+  --transparency-navbar: var(--basic-00-80);
+  --navbar-border: var(--basic-300);
+  --footer-background: var(--gray-100);
+  --footer-border: var(--basic-300);
+  --live-dot: var(--red-700);
 }
 
 [data-theme='dark'] {
@@ -77,7 +82,12 @@
   --input: var(--gray-200);
   --icon: var(--blue-200);
 
+  /* Chrome del sitio: navbar y footer */
   --transparency-navbar: var(--basic-960-80);
+  --navbar-border: var(--basic-00-10);
+  --footer-background: var(--basic-960);
+  --footer-border: var(--basic-00-05);
+  --live-dot: var(--red-200);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -87,10 +97,13 @@
 @theme inline {
   /* Palette (valores fijos de foundations) */
   --color-basic-00: var(--basic-00);
+  --color-basic-00-05: var(--basic-00-05);
   --color-basic-00-10: var(--basic-00-10);
+  --color-basic-00-80: var(--basic-00-80);
   --color-basic-300: var(--basic-300);
   --color-basic-500: var(--basic-500);
   --color-basic-700: var(--basic-700);
+  --color-basic-700-90: var(--basic-700-90);
   --color-basic-900: var(--basic-900);
   --color-basic-950: var(--basic-950);
   --color-basic-950-60: var(--basic-950-60);
@@ -107,6 +120,7 @@
   --color-blue-900: var(--blue-900);
 
   --color-red-200: var(--red-200);
+  --color-red-200-30: var(--red-200-30);
   --color-red-300: var(--red-300);
   --color-red-700: var(--red-700);
   --color-red-700-20: var(--red-700-20);
@@ -124,6 +138,8 @@
   --shadow-card: var(--effect-shadow-card);
   --shadow-navbar: var(--effect-shadow-navbar);
   --shadow-live-dot: var(--effect-shadow-live-dot);
+  --shadow-drawer: var(--effect-shadow-drawer);
+  --shadow-drawer-action: var(--effect-shadow-drawer-action);
 
   /* Semantic (cambian con data-theme) */
   --color-background: var(--background);
@@ -154,5 +170,8 @@
   --color-icon: var(--icon);
 
   --color-transparency-navbar: var(--transparency-navbar);
-
+  --color-navbar-border: var(--navbar-border);
+  --color-footer-background: var(--footer-background);
+  --color-footer-border: var(--footer-border);
+  --color-live-dot: var(--live-dot);
 }

@@ -1,10 +1,13 @@
 :root {
   /* Basic */
   --basic-00: oklch(1 0 0);
+  --basic-00-05: oklch(1 0 0 / 5%);
   --basic-00-10: oklch(1 0 0 / 10%);
+  --basic-00-80: oklch(1 0 0 / 80%);
   --basic-300: oklch(0.829432 0.023885 277.8856);
   --basic-500: oklch(0.656149 0.02391 277.2784);
   --basic-700: oklch(0.3267 0.016132 275.5646);
+  --basic-700-90: oklch(0.3267 0.016132 275.5646 / 90%);
   --basic-900: oklch(0.235031 0 0);
   --basic-950: oklch(0.162462 0.014309 258.3626);
   --basic-950-60: oklch(0.162462 0.014309 258.3626 / 60%);
@@ -23,6 +26,7 @@
 
   /* Red */
   --red-200: oklch(0.838304 0.089085 26.7575);
+  --red-200-30: oklch(0.838304 0.089085 26.7575 / 30%);
   --red-300: oklch(0.837028 0.089762 24.1959);
   --red-700: oklch(0.417061 0.170153 27.3788);
   --red-700-20: oklch(0.417061 0.170153 27.3788 / 20%);
@@ -43,4 +47,7 @@
   --effect-shadow-navbar: 0px 0px 20px 0px oklch(0.54615 0.215208 262.8809 / 15%);
   /* red-300 al 60% */
   --effect-shadow-live-dot: 0px 0px 8px 0px oklch(0.837028 0.089762 24.1959 / 60%);
+  --effect-shadow-drawer: 0px 25px 50px -12px oklch(0 0 0 / 25%);
+  --effect-shadow-drawer-action:
+    0px 10px 15px -3px oklch(0 0 0 / 10%), 0px 4px 6px -4px oklch(0 0 0 / 10%);
 }

@@ -4,10 +4,18 @@ import { Cross } from './feedback/cross'
 import { Logout } from './other/logout'
 import { ChevronLeft } from './directional/chevron-left'
 import { ChevronRight } from './directional/chevron-right'
+import { Github } from './social-media/github'
 import { Google } from './social-media/google'
 import { EyeClosed } from './other/eye-closed'
 import { Eye } from './other/eye'
 import { Login } from './other/login'
+import { Moon } from './other/moon'
+import { Heart } from './other/heart'
+import { Comments } from './other/comments'
+import { Bell } from './other/bell'
+import { Settings } from './other/settings'
+import { Account } from './other/account'
+import { Menu } from './other/menu'
 
 const IconsType = {
   directional: {
@@ -21,12 +29,20 @@ const IconsType = {
     login: Login,
     eyeClosed: EyeClosed,
     eye: Eye,
+    moon: Moon,
+    heart: Heart,
+    comments: Comments,
+    bell: Bell,
+    settings: Settings,
+    account: Account,
+    menu: Menu,
   },
   feedback: {
     cross: Cross,
   },
   socialMedia: {
     google: Google,
+    github: Github,
   },
 }
 

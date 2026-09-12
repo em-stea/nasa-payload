@@ -5,7 +5,7 @@ import { createContext, use } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 
-import { Badge } from '@/shared/components/badge'
+import { Badge } from '@/shared/components/badge/badge'
 import {
   cardAlertDotVariants,
   cardBodyVariants,

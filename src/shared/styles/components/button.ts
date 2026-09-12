@@ -6,6 +6,7 @@ const commonClassnames = [
   'inline-flex',
   'items-center',
   'justify-center',
+  'rounded-lg',
   'hover:cursor-pointer',
   textVariants({ variant: 'button.1' }),
 ]
@@ -14,7 +15,7 @@ export const buttonVariants = cva(commonClassnames, {
   variants: {
     variant: {
       primary:
-        'bg-blue-700 text-white hover:bg-blue-900 disabled:bg-gray-400 disabled:cursor-not-allowed loading:cursor-wait',
+        'bg-blue-700 text-basic-00 hover:bg-blue-900 disabled:bg-gray-400 disabled:cursor-not-allowed loading:cursor-wait',
       'text-link':
         'text-foreground hover:text-highlight disabled:text-gray-400 letter-spacing-[1.6px]',
       secondary:
@@ -23,7 +24,7 @@ export const buttonVariants = cva(commonClassnames, {
     },
     size: {
       sm: 'px-0.9 py-0.9',
-      md: 'px-6 py-3',
+      md: 'px-6 py-3 w-auto max-w-fit',
       intrinsic: 'w-fit',
       fullWidth: 'w-full',
     },

@@ -18,7 +18,7 @@ import { Moon } from '@/shared/components/icons/other/moon'
 import { Settings } from '@/shared/components/icons/other/settings'
 import { User } from '@/shared/components/icons/other/user'
 import type { NavbarLogoData } from '@/shared/components/navbar/navbar'
-import { Switch } from '@/shared/components/switch'
+import { Switch } from '@/shared/components/switch/switch'
 import {
   drawerActionIconVariants,
   drawerAvatarIconVariants,

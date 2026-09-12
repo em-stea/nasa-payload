@@ -452,8 +452,7 @@ const Page = () => {
                   <Navbar.Link href="/news">News</Navbar.Link>
                   <Navbar.Link href="/asteroids">Asteroids</Navbar.Link>
                   <Navbar.Link href="/events">Events</Navbar.Link>
-                  <Navbar.Link href="/live">
-                    <Navbar.Dot />
+                  <Navbar.Link href="/live" showDot>
                     Live
                   </Navbar.Link>
                 </Navbar.Group>

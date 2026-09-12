@@ -7,6 +7,7 @@ import { createContext, use } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 
+import { Menu } from '@/shared/components/icons/other/menu'
 import { User } from '@/shared/components/icons/other/user'
 import {
   navbarContainerVariants,
@@ -15,6 +16,8 @@ import {
   navbarLinkVariants,
   navbarLogoImageVariants,
   navbarLogoVariants,
+  navbarMenuIconVariants,
+  navbarMenuVariants,
   navbarUserIconVariants,
   navbarUserVariants,
   navbarVariants,
@@ -27,6 +30,13 @@ export type NavbarLogoData = {
   src: string
   alt: string
   href?: string
+}
+
+/** Item de navegación; compartido por la barra y por el drawer de mobile. */
+export type NavbarLinkItem = {
+  href: string
+  label: string
+  showDot?: boolean
 }
 
 export type NavbarUserData = {
@@ -93,11 +103,11 @@ function NavbarRoot({ className, data, children, ...props }: NavbarRootProps) {
 
 type NavbarGroupProps = ComponentProps<'div'> & VariantProps<typeof navbarGroupVariants>
 
-function NavbarGroup({ className, gap, children, ...props }: NavbarGroupProps) {
+function NavbarGroup({ className, gap, visibility, children, ...props }: NavbarGroupProps) {
   return (
     <div
       data-slot="navbar-group"
-      className={cn(navbarGroupVariants({ gap }), className)}
+      className={cn(navbarGroupVariants({ gap, visibility }), className)}
       {...props}
     >
       {children}
@@ -131,12 +141,18 @@ function NavbarLogo({ className, ...props }: NavbarLogoProps) {
   )
 }
 
+function NavbarDot() {
+  return <span aria-hidden="true" data-slot="navbar-dot" className={navbarDotVariants()} />
+}
+
 type NavbarLinkProps = LinkProps & {
   /** Fuerza el estado activo en lugar de derivarlo de la ruta. */
   active?: boolean
+  /** Antepone el punto indicador al contenido del link (ej. "Live"). */
+  showDot?: boolean
 }
 
-function NavbarLink({ className, href, active, children, ...props }: NavbarLinkProps) {
+function NavbarLink({ className, href, active, showDot, children, ...props }: NavbarLinkProps) {
   const { isActive } = useNavbarContext()
   const current = active ?? isActive(href)
 
@@ -148,25 +164,9 @@ function NavbarLink({ className, href, active, children, ...props }: NavbarLinkP
       aria-current={current ? 'page' : undefined}
       className={cn(navbarLinkVariants({ active: current }), className)}
     >
+      {showDot && <NavbarDot />}
       {children}
     </Link>
-  )
-}
-
-type NavbarDotProps = Omit<ComponentProps<'span'>, 'children'>
-
-function NavbarDot({ className, ...props }: NavbarDotProps) {
-  return (
-    <span
-      {...props}
-      aria-hidden="true"
-      data-slot="navbar-dot"
-      className={cn(navbarDotVariants(), className)}
-    >
-      <span className="absolute -inset-1.1 rounded-full bg-red-300/60 blur-md" />
-
-      <span className="relative h-full w-full rounded-full bg-red-300 shadow-[0_0_10px_var(--color-red-300)]" />
-    </span>
   )
 }
 
@@ -190,11 +190,28 @@ function NavbarUser({ className, type = 'button', ...props }: NavbarUserProps) {
   )
 }
 
+type NavbarMenuProps = Omit<ComponentProps<'button'>, 'children'>
+
+/** Disparador del menú de navegación en mobile; se oculta a partir de `md`. */
+function NavbarMenu({ className, type = 'button', ...props }: NavbarMenuProps) {
+  return (
+    <button
+      {...props}
+      type={type}
+      data-slot="navbar-menu"
+      aria-label={props['aria-label'] ?? 'Abrir menú de navegación'}
+      className={cn(navbarMenuVariants(), className)}
+    >
+      <Menu className={navbarMenuIconVariants()} />
+    </button>
+  )
+}
+
 export const Navbar = Object.assign(NavbarRoot, {
   Group: NavbarGroup,
   Logo: NavbarLogo,
   Link: NavbarLink,
-  Dot: NavbarDot,
+  Menu: NavbarMenu,
   User: NavbarUser,
 })
 

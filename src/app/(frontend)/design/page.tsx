@@ -3,6 +3,8 @@ import type { ComponentProps, ReactNode } from 'react'
 
 import { Button } from '@/shared/components/button/button'
 import { Card } from '@/shared/components/card/card'
+import { CloseApproachCard } from '@/shared/components/card/close-approach-card'
+import { MissionCard } from '@/shared/components/card/mission-card'
 import { CarouselFullImage } from '@/shared/components/carousel/carousel-full-image'
 import { Heading } from '@/shared/components/heading/heading'
 import { Icons } from '@/shared/components/icons'
@@ -12,6 +14,7 @@ import { Navbar } from '@/shared/components/navbar/navbar'
 import { Pagination } from '@/shared/components/pagination/pagination'
 import { Spinner } from '@/shared/components/spinner/spinner'
 import { Text } from '@/shared/components/text/text'
+import { TitleSection } from '@/shared/components/title-section/title-section'
 
 type HeadingVariant = NonNullable<ComponentProps<typeof Heading>['variant']>
 type HeadingLevel = NonNullable<ComponentProps<typeof Heading>['as']>
@@ -24,6 +27,7 @@ const SECTIONS = [
   { id: 'headings', label: 'Headings' },
   { id: 'text', label: 'Text' },
   { id: 'navbar', label: 'Navbar' },
+  { id: 'title-section', label: 'Title Section' },
   { id: 'cards', label: 'Cards' },
   { id: 'carousel', label: 'Carousel' },
   { id: 'pagination', label: 'Pagination' },
@@ -425,6 +429,45 @@ const Page = () => {
               </Card>
             </div>
           </Specimen>
+
+          <Specimen name="Mission card" spec="Figma · Article 1:60 · <MissionCard data={...}>">
+            <div className="max-w-90 rounded-2xl p-6">
+              <MissionCard
+                data={{
+                  tone: 'blue',
+                  image: '/images/card-parker-solar-probe.jpg',
+                  imageAlt: 'Parker Solar Probe approaching the Sun',
+                  title: 'Parker Solar Probe',
+                  description:
+                    'Touching the Sun. Revolutionizing our understanding of the corona and solar wind.',
+                  stats: [
+                    { label: 'Speed', value: '692,000 km/h' },
+                    { label: 'Distance', value: '0.05 AU' },
+                  ],
+                }}
+              />
+            </div>
+          </Specimen>
+
+          <Specimen
+            name="Close approach card"
+            spec="Figma · Article 1:175 · <CloseApproachCard data={...}>"
+          >
+            <div className="max-w-90 rounded-2xl p-6">
+              <CloseApproachCard
+                data={{
+                  tone: 'red',
+                  title: '2024 AB1',
+                  alert: 'High alert',
+                  stats: [
+                    { label: 'Approach date', value: 'Nov 15, 2024' },
+                    { label: 'Miss distance', value: '0.02 AU', highlight: true },
+                    { label: 'Velocity', value: '12.5 km/s' },
+                  ],
+                }}
+              />
+            </div>
+          </Specimen>
         </Section>
 
         <Section
@@ -462,6 +505,39 @@ const Page = () => {
                 </Navbar.Group>
               </Navbar>
             </div>
+          </Specimen>
+        </Section>
+
+        <Section
+          id="title-section"
+          title="Title Section"
+          description="shared/components/title-section · title + description + action"
+        >
+          <Specimen
+            name="<TitleSection />"
+            spec="Figma · Container 1:124 · title.2 + body.1 + text-link"
+            stack
+          >
+            <TitleSection
+              title="Latest Frontiers"
+              description="Curated telemetry and updates from NASA's ongoing deep space operations."
+              action={{ label: 'View all archives', href: '/archives' }}
+            />
+          </Specimen>
+
+          <Specimen name="sin action" spec="solo title + description" stack>
+            <TitleSection
+              title="Mission Control"
+              description="Seguimiento en vivo de las misiones activas."
+            />
+          </Specimen>
+
+          <Specimen name="action custom" spec="children reemplaza el link por defecto" stack>
+            <TitleSection title="Near Earth Objects" description="Objetos detectados esta semana.">
+              <Button variant="primary" size="md">
+                Suscribirme
+              </Button>
+            </TitleSection>
           </Specimen>
         </Section>
 

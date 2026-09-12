@@ -11,7 +11,7 @@ export const navbarVariants = cva([
   'border-navbar-border',
   //  'bg-basic-960-80',
   'bg-transparency-navbar',
-  'backdrop-blur-[6px]',
+  'backdrop-blur-6',
 ])
 
 export const navbarContainerVariants = cva([
@@ -19,7 +19,7 @@ export const navbarContainerVariants = cva([
   'flex',
   'h-16',
   'w-full',
-  'max-w-[1920px]',
+  'max-w-1920',
   'items-center',
   'justify-between',
   'gap-3',

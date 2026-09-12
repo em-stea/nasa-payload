@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { createContext, use } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'class-variance-authority'
@@ -49,8 +48,15 @@ export type NavbarData = {
   user?: NavbarUserData
   /** Etiqueta accesible del <nav>. */
   label?: string
-  /** Fuerza la ruta activa; por defecto se toma de usePathname(). */
-  activePath?: string
+  /**
+   * Ruta activa, para marcar el link de la sección en la que estamos.
+   *
+   * Llega como dato y no de `usePathname()` a propósito: con `cacheComponents`
+   * ese hook suspende en las rutas con params dinámicos, y la barra vive en el
+   * layout, arriba de todas. Quien la usa decide si la resuelve y bajo qué
+   * `<Suspense>` (ver `SiteNavbar`).
+   */
+  activePath?: string | null
 }
 
 type NavbarContextValue = {
@@ -81,8 +87,7 @@ type NavbarRootProps = Omit<ComponentProps<'header'>, 'children'> & {
 }
 
 function NavbarRoot({ className, data, children, ...props }: NavbarRootProps) {
-  const pathname = usePathname()
-  const activePath = data.activePath ?? pathname
+  const activePath = data.activePath ?? null
 
   const isActive = (href: LinkProps['href']) => {
     if (typeof href !== 'string' || !activePath) return false

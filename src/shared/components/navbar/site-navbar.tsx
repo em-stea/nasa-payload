@@ -1,5 +1,8 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
+import { Suspense } from 'react'
+
 import { NavDrawer } from '@/shared/components/drawer/nav-drawer'
 import { UserDrawer } from '@/shared/components/drawer/user-drawer'
 
@@ -31,9 +34,31 @@ const NAVBAR_LINKS: NavbarLinkItem[] = [
   { href: '/live', label: 'Live', showDot: true },
 ]
 
+/**
+ * La barra entera se pinta sin saber la ruta y el `<Suspense>` la reemplaza por
+ * la versión con el link activo marcado.
+ *
+ * Hace falta porque la barra está en el layout, arriba de todas las rutas, y
+ * `usePathname` suspende en las que tienen params dinámicos —`/news/[id]`, sin
+ * ir más lejos—: sin el boundary, el shell estático de esas rutas no se puede
+ * prerenderizar. Como el fallback es la misma barra, lo único que aparece
+ * después es el resaltado.
+ */
 export function SiteNavbar() {
   return (
-    <Navbar data={NAVBAR_DATA}>
+    <Suspense fallback={<NavbarShell />}>
+      <ActiveNavbar />
+    </Suspense>
+  )
+}
+
+function ActiveNavbar() {
+  return <NavbarShell activePath={usePathname()} />
+}
+
+function NavbarShell({ activePath = null }: { activePath?: string | null }) {
+  return (
+    <Navbar data={{ ...NAVBAR_DATA, activePath }}>
       <Navbar.Group>
         <Navbar.Logo />
       </Navbar.Group>
@@ -51,7 +76,7 @@ export function SiteNavbar() {
           <Navbar.User />
         </UserDrawer>
 
-        <NavDrawer logo={NAVBAR_DATA.logo} links={NAVBAR_LINKS}>
+        <NavDrawer logo={NAVBAR_DATA.logo} links={NAVBAR_LINKS} activePath={activePath}>
           <Navbar.Menu />
         </NavDrawer>
       </Navbar.Group>

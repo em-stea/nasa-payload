@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { Dialog } from 'radix-ui'
 
@@ -34,7 +33,8 @@ export type NavDrawerProps = {
   children: ReactNode
   logo: NavbarLogoData
   links: NavbarLinkItem[]
-  /** Título del drawer; por defecto el alt del logo. */
+  /** Ruta activa; la resuelve `SiteNavbar`, ver el comentario en `Navbar`. */
+  activePath?: string | null
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
@@ -43,11 +43,16 @@ export type NavDrawerProps = {
  * Menú de navegación para mobile: replica los links del TopNavBar dentro del
  * mismo lenguaje visual del drawer de usuario.
  */
-export function NavDrawer({ children, logo, links, open, onOpenChange }: NavDrawerProps) {
-  const pathname = usePathname()
-
+export function NavDrawer({
+  children,
+  logo,
+  links,
+  activePath,
+  open,
+  onOpenChange,
+}: NavDrawerProps) {
   const isActive = (href: string) =>
-    Boolean(pathname) && normalizePath(href) === normalizePath(pathname)
+    !!activePath && normalizePath(href) === normalizePath(activePath)
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>

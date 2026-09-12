@@ -8,6 +8,7 @@ import { useState, type ComponentProps, type ReactNode } from 'react'
 import { Dialog } from 'radix-ui'
 
 import { AUTH_PROVIDERS, type AuthProviderId } from '@/features/auth/providers'
+import { UnreadNotificationsBadge } from '@/features/notifications/components/unread-badge'
 import { Account } from '@/shared/components/icons/other/account'
 import { Bell } from '@/shared/components/icons/other/bell'
 import { Comments } from '@/shared/components/icons/other/comments'
@@ -60,13 +61,15 @@ type PreferenceLink = {
   href: string
   label: string
   icon: IconComponent
+  /** Muestra el contador de avisos sin leer al final de la fila. */
+  showUnread?: boolean
 }
 
 /** Acciones de cuenta: sólo visibles con sesión iniciada. */
 const PREFERENCE_LINKS: PreferenceLink[] = [
-  { href: '/favorites', label: 'APOD Favorites', icon: Heart },
+  { href: '/favorites', label: 'Favorites', icon: Heart },
   { href: '/comments', label: 'My Comments', icon: Comments },
-  { href: '/notifications', label: 'Notifications', icon: Bell },
+  { href: '/notifications', label: 'Notifications', icon: Bell, showUnread: true },
   { href: '/settings', label: 'Settings', icon: Settings },
   { href: '/account', label: 'Account', icon: Account },
 ]
@@ -214,11 +217,12 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
               <section className={drawerSectionVariants()}>
                 <h4 className={drawerSectionTitleVariants()}>Preferences</h4>
                 <nav className={drawerNavVariants()}>
-                  {PREFERENCE_LINKS.map(({ href, label, icon: Icon }) => (
+                  {PREFERENCE_LINKS.map(({ href, label, icon: Icon, showUnread }) => (
                     <Dialog.Close key={href} asChild>
                       <Link href={href} className={cn(drawerNavLinkVariants())}>
                         <Icon className={drawerNavLinkIconVariants()} />
                         {label}
+                        {showUnread && <UnreadNotificationsBadge />}
                       </Link>
                     </Dialog.Close>
                   ))}

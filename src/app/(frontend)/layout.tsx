@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import React from 'react'
 
+import { SiteFooter } from '@/shared/components/footer/site-footer'
 import { SiteNavbar } from '@/shared/components/navbar/site-navbar'
 import { SpaceGrotesk, JetBrainsMono } from '@/shared/styles/foundations/fonts'
 import '@styles/globals.css'
 
+import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = {
@@ -24,8 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          <SiteNavbar />
-          {children}
+          {/* La sesión se resuelve en el cliente contra /api/auth/session: con
+              `cacheComponents` activo, leer la cookie acá arriba obligaría a
+              envolver todo el layout en Suspense y sacrificaría el shell
+              estático de cada ruta. */}
+          <SessionProvider>
+            <SiteNavbar />
+            {children}
+            <SiteFooter />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

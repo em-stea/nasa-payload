@@ -1,6 +1,9 @@
 'use client'
 
-import { Navbar, type NavbarData } from './navbar'
+import { NavDrawer } from '@/shared/components/drawer/nav-drawer'
+import { UserDrawer } from '@/shared/components/drawer/user-drawer'
+
+import { Navbar, type NavbarData, type NavbarLinkItem } from './navbar'
 
 /**
  * Composición del TopNavBar del sitio.
@@ -8,6 +11,9 @@ import { Navbar, type NavbarData } from './navbar'
  * Vive en un Client Component porque las partes compuestas se cuelgan de
  * `Navbar` con Object.assign, y esas propiedades estáticas no cruzan el borde
  * RSC: desde un Server Component `Navbar.Group` llegaría como undefined.
+ *
+ * En mobile los links del centro se esconden y pasan al `NavDrawer`, que se
+ * abre desde la hamburguesa; el logo y el acceso de usuario se mantienen.
  */
 
 const NAVBAR_DATA: NavbarData = {
@@ -18,11 +24,12 @@ const NAVBAR_DATA: NavbarData = {
   },
 }
 
-const NAVBAR_LINKS = [
+const NAVBAR_LINKS: NavbarLinkItem[] = [
   { href: '/news', label: 'News' },
   { href: '/asteroids', label: 'Asteroids' },
   { href: '/events', label: 'Events' },
-] as const
+  { href: '/live', label: 'Live', showDot: true },
+]
 
 export function SiteNavbar() {
   return (
@@ -31,20 +38,22 @@ export function SiteNavbar() {
         <Navbar.Logo />
       </Navbar.Group>
 
-      <Navbar.Group gap="md">
-        {NAVBAR_LINKS.map(({ href, label }) => (
-          <Navbar.Link key={href} href={href}>
+      <Navbar.Group gap="md" visibility="desktop">
+        {NAVBAR_LINKS.map(({ href, label, showDot }) => (
+          <Navbar.Link key={href} href={href} showDot={showDot}>
             {label}
           </Navbar.Link>
         ))}
-        <Navbar.Link href="/live">
-          <Navbar.Dot />
-          Live
-        </Navbar.Link>
       </Navbar.Group>
 
-      <Navbar.Group>
-        <Navbar.User />
+      <Navbar.Group gap="sm">
+        <UserDrawer logo={NAVBAR_DATA.logo}>
+          <Navbar.User />
+        </UserDrawer>
+
+        <NavDrawer logo={NAVBAR_DATA.logo} links={NAVBAR_LINKS}>
+          <Navbar.Menu />
+        </NavDrawer>
       </Navbar.Group>
     </Navbar>
   )

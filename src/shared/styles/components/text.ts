@@ -15,6 +15,7 @@ export const textVariants = cva(commonClassnames, {
       'meta.1': 'text-2_5 lg:text-2_5 leading-3.75 lg:leading-3.75 uppercase tracking-0_5',
       'nav.link': 'text-3 lg:text-3 leading-3 lg:leading-3 tracking-0_6 uppercase',
       'meta.2': 'text-2_5 lg:text-2_5 leading-3.75 lg:leading-3.75 uppercase tracking-1',
+
       /* Dato de telemetría: migas, fechas, filas de la sidebar, epígrafes. */
       'meta.3': 'text-3 lg:text-3 leading-4.2 lg:leading-4.2',
       'drawer.item': 'text-4 lg:text-4 leading-6 lg:leading-6',

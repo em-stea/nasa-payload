@@ -11,20 +11,33 @@ export function GlobeEarth() {
 
     let animationFrameId: number
 
-    // Import dinámico dentro de useEffect: se ejecuta SOLO en el navegador
     import('globe.gl').then((GlobeModule) => {
       const Globe = GlobeModule.default
 
       if (!worldRef.current) return
 
+      const width = worldRef.current.clientWidth
+      const height = worldRef.current.clientHeight
+
       const world = new Globe(worldRef.current, {
         animateIn: false,
+        rendererConfig: { alpha: true, antialias: true },
       })
+        .width(width)
+        .height(height)
         .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg')
         .bumpImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png')
+        .backgroundImageUrl('')
+        .showAtmosphere(true)
+        .atmosphereColor('#3a228a')
+        .atmosphereAltitude(0.15)
 
-      // Transparencia de fondo
-      world.renderer().setClearColor(0x000000, 0)
+      // ⬇️ Aleja la cámara para encuadrar la Tierra completa (aumenta o disminuye la altitud si querés alejarla más)
+      world.pointOfView({ lat: 0, lng: 0, altitude: 1.9 }, 0)
+
+      // Transparencia del canvas de Three.js
+      const renderer = world.renderer()
+      renderer.setClearColor(0x000000, 0)
       world.scene().background = null
 
       // Auto-rotate
@@ -35,7 +48,7 @@ export function GlobeEarth() {
       const CLOUDS_IMG_URL =
         'https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/clouds/clouds.png'
       const CLOUDS_ALT = 0.004
-      const CLOUDS_ROTATION_SPEED = -0.006 // deg/frame
+      const CLOUDS_ROTATION_SPEED = -0.006
 
       new THREE.TextureLoader().load(CLOUDS_IMG_URL, (cloudsTexture) => {
         const clouds = new THREE.Mesh(
@@ -58,5 +71,5 @@ export function GlobeEarth() {
     }
   }, [])
 
-  return <div ref={worldRef} className="h-125 w-full" />
+  return <div ref={worldRef} className="w-full h-full flex items-center justify-center" />
 }

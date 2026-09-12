@@ -8,15 +8,14 @@ const commonClassnames = [
   'shrink-0',
   'items-center',
   'justify-center',
-  'gap-1',
+  'gap-2',
   'overflow-hidden',
-  'rounded-full',
+  'rounded-lg',
   'border',
   'border-transparent',
-  'px-2',
-  'py-0.5',
-  'text-xs',
-  'font-medium',
+  'px-3',
+  'py-1',
+  textVariants({ variant: 'eyebrow' }),
   'whitespace-nowrap',
   'transition-[color,box-shadow]',
   'focus-visible:border-ring',
@@ -32,14 +31,13 @@ const commonClassnames = [
 export const badgeVariants = cva(commonClassnames, {
   variants: {
     variant: {
-      default: 'bg-primary text-primary-foreground [a&]:hover:bg-primary/90',
-      secondary: 'bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
-      destructive:
-        'bg-destructive text-white focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 [a&]:hover:bg-destructive/90',
-      outline:
-        'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-      ghost: '[a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-      link: 'text-primary underline-offset-4 [a&]:hover:underline',
+      default: 'bg-blue-700-20 text-blue-200 border border-blue-200-30',
+      // secondary: 'bg-secondary text-secondary-foreground',
+      destructive: 'bg-destructive text-destructive-foreground',
+      // outline:
+      //   'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+      // ghost: '[a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+      // link: 'text-primary underline-offset-4 [a&]:hover:underline',
       /** Tag que se apoya sobre media; el color lo pone `tone`. */
       media: [
         'rounded-lg',

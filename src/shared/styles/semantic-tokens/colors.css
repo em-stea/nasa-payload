@@ -75,8 +75,8 @@
   --accent-foreground: var(--basic-970);
   --highlight: var(--blue-50);
 
-  --destructive: var(--red-300);
-  --destructive-foreground: var(--basic-970);
+  --destructive: var(--red-200);
+  --destructive-foreground: var(--red-900);
 
   --border: var(--gray-200);
   --input: var(--gray-200);

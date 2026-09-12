@@ -1,7 +1,6 @@
 'use client'
 
 import { Card, type CardData } from '@/shared/components/card/card'
-import { Separator } from '../separator/separator'
 
 type MissionCardProps = {
   data: CardData
@@ -20,10 +19,9 @@ export function MissionCard({ data, className }: MissionCardProps) {
         <Card.Description />
       </Card.Body>
       <Card.Footer variant="stats">
-        {/* {data.stats?.map((stat, index) => (
-          <Card.Stat key={stat.label} index={index} />
-        ))} */}
-        <Separator />
+        {data.stats?.map((stat, index) => (
+          <Card.Stat key={stat.label} index={index} size="sm" />
+        ))}
       </Card.Footer>
     </Card>
   )

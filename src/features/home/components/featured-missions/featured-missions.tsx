@@ -9,7 +9,6 @@ export async function FeaturedMissions() {
   const projectsById = await getTechPortProjectById(projects)
   const projectsMedia = await getProjectMedia(projectsById)
 
-  console.log(projectsMedia, 'projectsMedia')
   return (
     <div>
       <HeaderGroup
@@ -22,9 +21,21 @@ export async function FeaturedMissions() {
             key={project.id}
             data={{
               title: project.title,
-              description: project.description.slice(0, 150),
-              image: project.imageUrl,
+              description: project.description,
+              image: project.image,
               tone: 'blue',
+              stats: [
+                {
+                  label: 'Center',
+                  value: project.center,
+                },
+                {
+                  label: 'Date Created',
+                  value:
+                    project.date_created &&
+                    new Date(project.date_created).toISOString().split('T')[0],
+                },
+              ],
             }}
           />
         ))}

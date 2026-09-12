@@ -10,23 +10,20 @@ export async function getProjectMedia(projectsById: string[]) {
       const response = await http.get<ProjectMediaResponse>(
         `https://images-api.nasa.gov/search?q=${encodeURIComponent(cleanQuery)}&media_type=image&page_size=1`,
       )
-      const data = response.data
-      const item = data.collection?.items?.[0]
+      const newData = response.data
+      const item = newData.collection.items?.[0]
+      const nestedItem = item?.data[0]
 
-      const imageUrl = item?.links?.[2]?.href
+      const imageUrl = item?.links?.[2]?.href || item?.links?.[0]?.href
       if (!imageUrl) return null
 
-      // return {
-      //   id: `mission-${index}`,
-      //   query: title,
-      //   title: item?.data?.[0]?.title || title,
-      //   description: item?.data?.[0]?.description_508 || item?.data?.[0]?.description,
-      //   imageUrl,
-      // }
       return {
-        ...item?.data?.[0],
         id: `mission-${index}`,
-        imageUrl,
+        title: nestedItem.title,
+        description: nestedItem.description_508 || nestedItem.description,
+        image: imageUrl,
+        center: nestedItem.center,
+        date_created: nestedItem.date_created,
       }
     }),
   )

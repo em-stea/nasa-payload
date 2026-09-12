@@ -10,7 +10,6 @@ import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
 export default async function APODHero() {
   const apodImage = await getAPODImage()
 
-  console.log(apodImage, 'apodImage')
   return (
     <div className="w-full h-[calc(100dvh-80px)] overflow-hidden relative">
       <div className="absolute z-10 bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 h-fit border border-basic-00-10 rounded-2xl overflow-hidden">

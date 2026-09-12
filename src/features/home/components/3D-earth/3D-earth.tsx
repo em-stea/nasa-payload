@@ -1,15 +1,11 @@
-import { Badge } from '@/shared/components/badge/badge'
-import { Heading } from '@/shared/components/heading/heading'
-import { Live } from '@/shared/components/icons/other/live'
-import { Text } from '@/shared/components/text/text'
-import { GlobeEarth } from './wrapper-earth'
-import { getEPIC3DImage } from '../../services/get-epic-3d-image'
 import { HeaderGroup } from '@/shared/components/header-group/header-group'
+import { Live } from '@/shared/components/icons/other/live'
+import { getEPIC3DImage } from '../../services/get-epic-3d-image'
+import { GlobeEarth } from './wrapper-earth'
 
 export default async function ThreeDEarth() {
   const epic3dImage = await getEPIC3DImage()
 
-  //para ver las imagenes: https://epic.gsfc.nasa.gov/archive/enhanced/2015/10/31/jpg/epic_RGB_20151031003633.jpg
   console.log(epic3dImage)
 
   return (

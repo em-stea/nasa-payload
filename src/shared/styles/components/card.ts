@@ -109,6 +109,7 @@ export const cardTitleVariants = cva(['transition-colors', 'duration-300'], {
 
 export const cardDescriptionVariants = cva([
   'text-btn-secondary',
+  'line-clamp-3',
   textVariants({ variant: 'body.3' }),
 ])
 
@@ -116,7 +117,7 @@ export const cardFooterVariants = cva('flex w-full px-4', {
   variants: {
     variant: {
       meta: 'items-center pb-4.75 pt-2',
-      stats: 'items-start gap-2 border-t border-basic-00-10 pt-4.25 pb-4',
+      stats: 'items-start gap-2 pt-0 pb-4 flex flex-col',
     },
   },
   defaultVariants: {

@@ -23,6 +23,7 @@ import {
   cardVariants,
 } from '@/shared/styles/components/card'
 import { cn } from '@/shared/utils/className-builder'
+import { Separator } from '@/shared/components/separator/separator'
 
 type DivProps = Omit<ComponentProps<'div'>, 'children'> & { children?: ReactNode }
 type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children' | 'variant' | 'tone'>
@@ -209,7 +210,8 @@ function CardFooter({ className, variant, children, ...props }: CardFooterProps)
       className={cn(cardFooterVariants({ variant }), className)}
       {...props}
     >
-      {children}
+      <Separator />
+      <div className="flex flex-row  w-full pt-1">{children}</div>
     </div>
   )
 }

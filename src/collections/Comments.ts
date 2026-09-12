@@ -1,8 +1,10 @@
 import type { CollectionConfig, Where } from 'payload'
 
 import { authenticated, authenticatedField, authenticatedOrApproved } from '../access'
+import { deleteCommentNotifications } from './hooks/deleteCommentNotifications'
 import { deleteReplies } from './hooks/deleteReplies'
 import { ensureValidParent } from './hooks/ensureValidParent'
+import { notifyReply } from './hooks/notifyReply'
 
 export const Comments: CollectionConfig = {
   slug: 'comments',
@@ -12,7 +14,7 @@ export const Comments: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'authorName',
-    defaultColumns: ['authorName', 'content', 'status', 'articleId', 'createdAt'],
+    defaultColumns: ['authorName', 'content', 'status', 'articleTitle', 'createdAt'],
     listSearchableFields: ['authorName', 'authorEmail', 'content', 'articleId'],
     group: 'Moderación',
   },
@@ -24,7 +26,8 @@ export const Comments: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [ensureValidParent],
-    afterDelete: [deleteReplies],
+    afterChange: [notifyReply],
+    afterDelete: [deleteReplies, deleteCommentNotifications],
   },
   fields: [
     {
@@ -53,6 +56,14 @@ export const Comments: CollectionConfig = {
       ],
     },
     {
+      name: 'articleTitle',
+      type: 'text',
+      label: 'Título del artículo',
+      admin: {
+        description: 'Copia del titular al momento de comentar, para leer la lista sin salir.',
+      },
+    },
+    {
       type: 'row',
       fields: [
         {
@@ -74,6 +85,18 @@ export const Comments: CollectionConfig = {
           admin: { width: '50%' },
         },
       ],
+    },
+    {
+      name: 'author',
+      type: 'relationship',
+      label: 'Lector',
+      relationTo: 'site-users',
+      hasMany: false,
+      index: true,
+      admin: {
+        description: 'Vacío en los comentarios cargados a mano desde el backoffice.',
+        position: 'sidebar',
+      },
     },
     {
       name: 'content',

@@ -5,6 +5,9 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Comments } from './collections/Comments'
+import { Favorites } from './collections/Favorites'
+import { Notifications } from './collections/Notifications'
+import { SiteUsers } from './collections/SiteUsers'
 import { Users } from './collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
@@ -33,7 +36,7 @@ export default buildConfig({
       titleSuffix: '- NASA Backoffice',
     },
   },
-  collections: [Comments, Users],
+  collections: [Comments, SiteUsers, Favorites, Notifications, Users],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

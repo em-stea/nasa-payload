@@ -2,15 +2,10 @@ import type { CollectionBeforeValidateHook } from 'payload'
 import { APIError } from 'payload'
 
 import type { Comment } from '../../payload-types'
+import { toId } from './to-id'
 
 /** Tope de saltos al recorrer la cadena de ancestros, por las dudas. */
 const MAX_ANCESTOR_LOOKUPS = 50
-
-const toId = (value: unknown): string | undefined => {
-  if (!value) return undefined
-  if (typeof value === 'object') return String((value as { id: unknown }).id)
-  return String(value)
-}
 
 /**
  * Mantiene sana la relación padre/hijo entre comentarios:
@@ -43,6 +38,8 @@ export const ensureValidParent: CollectionBeforeValidateHook<Comment> = async ({
 
   // La respuesta siempre pertenece al mismo artículo que el comentario padre.
   data.articleId = parent.articleId
+  data.articleTitle = parent.articleTitle
+  data.articleUrl = parent.articleUrl
 
   if (!selfId) return data
 

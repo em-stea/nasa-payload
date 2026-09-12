@@ -68,6 +68,9 @@ export interface Config {
   blocks: {};
   collections: {
     comments: Comment;
+    'site-users': SiteUser;
+    favorites: Favorite;
+    notifications: Notification;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,6 +84,9 @@ export interface Config {
   };
   collectionsSelect: {
     comments: CommentsSelect<false> | CommentsSelect<true>;
+    'site-users': SiteUsersSelect<false> | SiteUsersSelect<true>;
+    favorites: FavoritesSelect<false> | FavoritesSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -135,8 +141,16 @@ export interface Comment {
    * Opcional, para poder abrir la noticia desde el backoffice.
    */
   articleUrl?: string | null;
+  /**
+   * Copia del titular al momento de comentar, para leer la lista sin salir.
+   */
+  articleTitle?: string | null;
   authorName: string;
   authorEmail: string;
+  /**
+   * Vacío en los comentarios cargados a mano desde el backoffice.
+   */
+  author?: (string | null) | SiteUser;
   content: string;
   /**
    * Dejalo vacío si es un comentario de primer nivel.
@@ -148,6 +162,61 @@ export interface Comment {
     totalDocs?: number;
   };
   status: 'pending' | 'approved' | 'rejected' | 'spam';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Usuarios del blog que comentan. No tienen acceso al backoffice.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-users".
+ */
+export interface SiteUser {
+  id: string;
+  /**
+   * <provider>:<id del provider OAuth>. La escribe el front, no se edita.
+   */
+  authKey: string;
+  name: string;
+  email?: string | null;
+  provider: 'google' | 'github';
+  image?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "favorites".
+ */
+export interface Favorite {
+  id: string;
+  user: string | SiteUser;
+  kind: 'news' | 'apod';
+  itemId: string;
+  title: string;
+  description?: string | null;
+  image?: string | null;
+  href?: string | null;
+  tag?: string | null;
+  tone?: ('blue' | 'red' | 'orange') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: string;
+  user: string | SiteUser;
+  type: 'reply';
+  read?: boolean | null;
+  actorName: string;
+  excerpt?: string | null;
+  articleId: string;
+  articleTitle?: string | null;
+  comment?: (string | null) | Comment;
+  parent?: (string | null) | Comment;
   updatedAt: string;
   createdAt: string;
 }
@@ -206,6 +275,18 @@ export interface PayloadLockedDocument {
         value: string | Comment;
       } | null)
     | ({
+        relationTo: 'site-users';
+        value: string | SiteUser;
+      } | null)
+    | ({
+        relationTo: 'favorites';
+        value: string | Favorite;
+      } | null)
+    | ({
+        relationTo: 'notifications';
+        value: string | Notification;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | User;
       } | null);
@@ -258,12 +339,61 @@ export interface PayloadMigration {
 export interface CommentsSelect<T extends boolean = true> {
   articleId?: T;
   articleUrl?: T;
+  articleTitle?: T;
   authorName?: T;
   authorEmail?: T;
+  author?: T;
   content?: T;
   parent?: T;
   replies?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-users_select".
+ */
+export interface SiteUsersSelect<T extends boolean = true> {
+  authKey?: T;
+  name?: T;
+  email?: T;
+  provider?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "favorites_select".
+ */
+export interface FavoritesSelect<T extends boolean = true> {
+  user?: T;
+  kind?: T;
+  itemId?: T;
+  title?: T;
+  description?: T;
+  image?: T;
+  href?: T;
+  tag?: T;
+  tone?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications_select".
+ */
+export interface NotificationsSelect<T extends boolean = true> {
+  user?: T;
+  type?: T;
+  read?: T;
+  actorName?: T;
+  excerpt?: T;
+  articleId?: T;
+  articleTitle?: T;
+  comment?: T;
+  parent?: T;
   updatedAt?: T;
   createdAt?: T;
 }

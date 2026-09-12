@@ -28,9 +28,11 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      // `**` y no `*`: las imágenes del cuerpo de las notas también salen de
+      // subdominios anidados como assets.science.nasa.gov.
       {
         protocol: 'https',
-        hostname: '*.nasa.gov',
+        hostname: '**.nasa.gov',
         pathname: '/**',
       },
       {

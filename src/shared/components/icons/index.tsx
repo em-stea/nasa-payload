@@ -1,5 +1,6 @@
 import { ArrowRight } from './directional/arrow-right'
 import { User } from './other/user'
+import { CheckCircle } from './feedback/check-circle'
 import { Cross } from './feedback/cross'
 import { Logout } from './other/logout'
 import { ChevronLeft } from './directional/chevron-left'
@@ -16,6 +17,7 @@ import { Bell } from './other/bell'
 import { Settings } from './other/settings'
 import { Account } from './other/account'
 import { Menu } from './other/menu'
+import { Share } from './other/share'
 
 const IconsType = {
   directional: {
@@ -36,9 +38,11 @@ const IconsType = {
     settings: Settings,
     account: Account,
     menu: Menu,
+    share: Share,
   },
   feedback: {
     cross: Cross,
+    checkCircle: CheckCircle,
   },
   socialMedia: {
     google: Google,

@@ -1,0 +1,34 @@
+import { MissionCard } from '@/shared/components/card/mission-card'
+import { HeaderGroup } from '@/shared/components/header-group/header-group'
+import { getProjectMedia } from '../../services/get-project-media'
+import { getTechPortProjectById } from '../../services/get-techport-project-by-id'
+import { getTechPortProjectsIds } from '../../services/get-techport-projects-ids'
+
+export async function FeaturedMissions() {
+  const projects = await getTechPortProjectsIds()
+  const projectsById = await getTechPortProjectById(projects)
+  const projectsMedia = await getProjectMedia(projectsById)
+
+  console.log(projectsMedia, 'projectsMedia')
+  return (
+    <div>
+      <HeaderGroup
+        title="Featured Missions"
+        description="Deep space exploration vanguard pushing the boundaries of our solar system and beyond."
+      />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
+        {projectsMedia.map((project) => (
+          <MissionCard
+            key={project.id}
+            data={{
+              title: project.title,
+              description: project.description.slice(0, 150),
+              image: project.imageUrl,
+              tone: 'blue',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}

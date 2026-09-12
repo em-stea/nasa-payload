@@ -4,6 +4,7 @@ import { Live } from '@/shared/components/icons/other/live'
 import { Text } from '@/shared/components/text/text'
 import { GlobeEarth } from './wrapper-earth'
 import { getEPIC3DImage } from '../../services/get-epic-3d-image'
+import { HeaderGroup } from '@/shared/components/header-group/header-group'
 
 export default async function ThreeDEarth() {
   const epic3dImage = await getEPIC3DImage()
@@ -13,17 +14,14 @@ export default async function ThreeDEarth() {
 
   return (
     <div className="w-full my-8 bg-basic-940 grid grid-cols-2 py-3">
-      <div className="flex flex-col gap-4">
-        <Badge variant="destructive">
-          <Live className="size-5" /> LIVE TELEMETRY
-        </Badge>
-        <Heading variant="title.2">Earth EPIC 3D</Heading>
-
-        <Text variant="body.3" color="basic-300" className="max-w-2xl">
-          Earth Polychromatic Imaging Camera (EPIC). Positioned at the Earth-Sun Lagrange point 1,
-          capturing daily, full-disc imagery of our home planet from deep space.
-        </Text>
-      </div>
+      <HeaderGroup
+        title="Earth EPIC 3D"
+        description="Earth Polychromatic Imaging Camera (EPIC). Positioned at the Earth-Sun Lagrange point 1, capturing daily, full-disc imagery of our home planet from deep space."
+        badge={{
+          text: 'LIVE TELEMETRY',
+          icon: <Live className="size-5" />,
+        }}
+      />
 
       <div className="flex justify-center items-center">
         <div className="relative size-80 sm:size-96 rounded-full p-2.5 border border-red-300/10 bg-neutral-900/60 shadow-[0_0_25px_rgba(255,255,255,0.07)]">

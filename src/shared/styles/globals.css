@@ -3,6 +3,8 @@
 @import './semantic-tokens/font.css';
 @import './semantic-tokens/colors.css';
 @import './semantic-tokens/text.css';
+@import './semantic-tokens/tracking.css';
+@import './semantic-tokens/sizing.css';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));

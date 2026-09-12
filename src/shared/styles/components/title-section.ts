@@ -26,14 +26,14 @@ export const titleSectionHeaderVariants = cva([
 export const titleSectionTitleVariants = cva(['text-primary-foreground'])
 
 /** 576px es el ancho máximo de la bajada en el diseño. */
-export const titleSectionDescriptionVariants = cva(['max-w-[576px]', 'text-muted-foreground'])
+export const titleSectionDescriptionVariants = cva(['max-w-xl', 'text-muted-foreground'])
 
 export const titleSectionActionVariants = cva([
   'shrink-0',
   'gap-2',
   'uppercase',
-  // Pisa (via tw-merge) el tracking-[1.2px] que el Button hereda de button.1.
-  'tracking-[1.6px]',
+  // Pisa (via tw-merge) el tracking-1_2 que el Button hereda de button.1.
+  'tracking-1_6',
   'transition-colors',
   'duration-200',
 ])

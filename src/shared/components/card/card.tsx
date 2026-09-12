@@ -17,6 +17,7 @@ import {
   cardStatLabelVariants,
   cardStatValueVariants,
   cardStatVariants,
+  cardTagDotVariants,
   cardTagVariants,
   cardTitleVariants,
   cardVariants,
@@ -24,7 +25,7 @@ import {
 import { cn } from '@/shared/utils/className-builder'
 
 type DivProps = Omit<ComponentProps<'div'>, 'children'> & { children?: ReactNode }
-type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children' | 'variant'>
+type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children' | 'variant' | 'tone'>
 type ImageProps = Omit<ComponentProps<typeof Image>, 'src' | 'alt' | 'fill'>
 type TimeProps = Omit<ComponentProps<'time'>, 'dateTime' | 'children'> & {
   children?: ReactNode
@@ -100,7 +101,12 @@ function CardHeader({ className, variant, children, ...props }: CardHeaderProps)
   )
 }
 
-function CardTag({ className, ...props }: BadgeProps) {
+type CardTagProps = BadgeProps & {
+  /** Antepone el punto de color del tone, como en las cards de noticias. */
+  dot?: boolean
+}
+
+function CardTag({ className, dot = false, ...props }: CardTagProps) {
   const { data } = useCardContext()
 
   if (!data.tag) {
@@ -110,10 +116,18 @@ function CardTag({ className, ...props }: BadgeProps) {
   return (
     <Badge
       data-slot="card-tag"
-      variant={data.tone ?? 'blue'}
+      variant="media"
+      tone={data.tone ?? 'blue'}
       className={cn(cardTagVariants(), className)}
       {...props}
     >
+      {dot ? (
+        <span
+          aria-hidden="true"
+          data-slot="card-tag-dot"
+          className={cardTagDotVariants({ tone: data.tone })}
+        />
+      ) : null}
       {data.tag}
     </Badge>
   )
@@ -152,7 +166,7 @@ function CardBody({ className, variant, children, ...props }: CardBodyProps) {
 
 type CardTitleProps = DivProps & Omit<VariantProps<typeof cardTitleVariants>, 'tone'>
 
-function CardTitle({ className, size, ...props }: CardTitleProps) {
+function CardTitle({ className, size, children, ...props }: CardTitleProps) {
   const { data } = useCardContext()
 
   return (
@@ -161,7 +175,9 @@ function CardTitle({ className, size, ...props }: CardTitleProps) {
       className={cn(cardTitleVariants({ tone: data.tone, size }), className)}
       {...props}
     >
-      {data.title}
+      {/* Por defecto pinta el título de `data`; se le pueden pasar children
+          para envolverlo (por ejemplo en un link que estira su área de click). */}
+      {children ?? data.title}
     </div>
   )
 }

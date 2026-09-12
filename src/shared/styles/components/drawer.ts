@@ -24,7 +24,7 @@ export const drawerContentVariants = cva([
   // desde `sm` vuelve al ancho fijo del diseño.
   'left-6',
   'sm:left-auto',
-  'sm:w-[450px]',
+  'sm:w-112.5',
   'flex',
   'flex-col',
   'justify-between',
@@ -33,9 +33,9 @@ export const drawerContentVariants = cva([
   'bg-basic-700-90',
   'py-4',
   'pr-4',
-  'pl-[17px]',
+  'pl-4.25',
   'shadow-drawer',
-  'backdrop-blur-[6px]',
+  'backdrop-blur-6',
   'focus:outline-none',
   'data-[state=open]:animate-in',
   'data-[state=closed]:animate-out',
@@ -239,7 +239,7 @@ export const drawerThemeRowVariants = cva([
   'border',
   'border-basic-00-05',
   'bg-basic-00-05',
-  'p-[13px]',
+  'p-3.25',
 ])
 
 export const drawerThemeLabelVariants = cva([
@@ -300,7 +300,7 @@ export const drawerFooterVariants = cva([
   'flex-col',
   'border-t',
   'border-basic-00-10',
-  'pt-[17px]',
+  'pt-4.25',
 ])
 
 export const drawerLogoutVariants = cva([
@@ -314,7 +314,7 @@ export const drawerLogoutVariants = cva([
   'border-red-200-30',
   'bg-red-700-20',
   'px-px',
-  'py-[13px]',
+  'py-3.25',
   'text-red-200',
   'transition-colors',
   'duration-200',

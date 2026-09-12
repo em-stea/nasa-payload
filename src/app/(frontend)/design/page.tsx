@@ -388,7 +388,7 @@ const Page = () => {
         <Section id="text" title="Text" description="shared/components/text · variant">
           {TEXTS.map((text) => (
             <Specimen key={text.variant} name={`variant="${text.variant}"`} spec={text.spec}>
-              <Text variant={text.variant} className="max-w-[65ch] text-primary-foreground">
+              <Text variant={text.variant} className="max-w-prose text-primary-foreground">
                 {text.sample}
               </Text>
             </Specimen>
@@ -549,7 +549,7 @@ const Page = () => {
 
         <Section id="pagination" title="Pagination" description="shared/components/pagination">
           <Specimen name="pagination" spec="shared/components/pagination">
-            <Pagination />
+            <Pagination page={1} totalPages={45} buildHref={(page) => `?page=${page}`} />
           </Specimen>
         </Section>
 

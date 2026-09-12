@@ -15,7 +15,7 @@ export const cardVariants = cva(
     'border-basic-00-10',
     'bg-card-foreground',
     'shadow-card',
-    'backdrop-blur-[8px]',
+    'backdrop-blur-sm',
     'transition-[border-color]',
     'duration-300',
   ],
@@ -63,6 +63,20 @@ export const cardImageVariants = cva([
 
 export const cardTagVariants = cva('absolute top-4 left-4')
 
+/** Punto de color del tag: toma el color del `tone` de la card. */
+export const cardTagDotVariants = cva('size-2 shrink-0 rounded-full', {
+  variants: {
+    tone: {
+      blue: 'bg-blue-200',
+      red: 'bg-red-300',
+      orange: 'bg-orange-200',
+    },
+  },
+  defaultVariants: {
+    tone: 'blue',
+  },
+})
+
 export const cardBodyVariants = cva('flex w-full flex-col', {
   variants: {
     variant: {
@@ -101,8 +115,8 @@ export const cardDescriptionVariants = cva([
 export const cardFooterVariants = cva('flex w-full px-4', {
   variants: {
     variant: {
-      meta: 'items-center pb-[19px] pt-2',
-      stats: 'items-start gap-2 border-t border-basic-00-10 pt-[17px] pb-4',
+      meta: 'items-center pb-4.75 pt-2',
+      stats: 'items-start gap-2 border-t border-basic-00-10 pt-4.25 pb-4',
     },
   },
   defaultVariants: {
@@ -116,7 +130,7 @@ export const cardStatVariants = cva('flex min-w-0 flex-col', {
   variants: {
     layout: {
       inline: 'flex-1 gap-px',
-      stacked: 'w-full gap-[3px] pb-px',
+      stacked: 'w-full gap-0.75 pb-px',
     },
   },
   defaultVariants: {

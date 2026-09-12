@@ -1,0 +1,11 @@
+@theme {
+  --tracking-0_5: 0.03125rem; /* 0.5px */
+  --tracking-0_6: 0.0375rem; /* 0.6px */
+  --tracking-0_8: 0.05rem; /* 0.8px */
+  --tracking-1: 0.0625rem; /* 1px */
+  --tracking-1_2: 0.075rem; /* 1.2px */
+  --tracking-1_6: 0.1rem; /* 1.6px */
+  --tracking-2_4: 0.15rem; /* 2.4px */
+  --tracking-n0_5: -0.03125rem; /* -0.5px */
+  --tracking-n0_96: -0.06rem; /* -0.96px */
+}

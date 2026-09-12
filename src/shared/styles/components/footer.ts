@@ -16,7 +16,7 @@ export const footerContainerVariants = cva([
   'mx-auto',
   'flex',
   'w-full',
-  'max-w-[1920px]',
+  'max-w-1920',
   'flex-col',
   'items-center',
   'justify-between',

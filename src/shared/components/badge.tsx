@@ -16,6 +16,17 @@ const tagBase = [
   textVariants({ variant: 'meta.1' }),
 ]
 
+const alertBase = [
+  'rounded-lg',
+  'border-red-200-30',
+  'bg-red-700-20',
+  'px-2',
+  'py-1',
+  'font-normal',
+  'text-red-200',
+  textVariants({ variant: 'meta.1' }),
+]
+
 const badgeVariants = cva(
   'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3',
   {
@@ -32,6 +43,7 @@ const badgeVariants = cva(
         blue: [tagBase, 'text-blue-200'],
         red: [tagBase, 'text-red-300'],
         orange: [tagBase, 'text-orange-200'],
+        alert: alertBase,
       },
     },
     defaultVariants: {

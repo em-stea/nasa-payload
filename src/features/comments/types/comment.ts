@@ -18,7 +18,16 @@ export type CommentView = {
   content: string
   /** ISO, para el `dateTime` del <time>. */
   createdAt: string
-  /** Lo escribió quien está mirando la página: puede borrarlo. */
-  isOwn: boolean
   replies: CommentView[]
+}
+
+/** Un comentario propio, para la sección "My Comments". */
+export type MyCommentView = {
+  id: string
+  content: string
+  /** ISO, para el `dateTime` del <time>. */
+  createdAt: string
+  articleId: string
+  /** Falta si el comentario es viejo y no guardó copia del titular. */
+  articleTitle: string | null
 }

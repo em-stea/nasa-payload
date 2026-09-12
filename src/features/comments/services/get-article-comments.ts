@@ -1,4 +1,3 @@
-import { getSessionSiteUser } from '@/features/account/services/site-user'
 import type { CommentView } from '@/features/comments/types/comment'
 import { toCommentHandle, toCommentTone } from '@/features/comments/utils/comment-view'
 import type { Comment, SiteUser } from '@/payload-types'
@@ -21,7 +20,7 @@ function toAuthor(comment: Comment): SiteUser | null {
   return typeof comment.author === 'object' && comment.author !== null ? comment.author : null
 }
 
-function toView(comment: Comment, currentUserId?: string): CommentView {
+function toView(comment: Comment): CommentView {
   const author = toAuthor(comment)
   const authorId = author?.id ?? toId(comment.author)
 
@@ -35,7 +34,6 @@ function toView(comment: Comment, currentUserId?: string): CommentView {
     tone: toCommentTone(authorId ?? comment.authorName),
     content: comment.content,
     createdAt: comment.createdAt,
-    isOwn: Boolean(currentUserId && authorId === currentUserId),
     replies: [],
   }
 }
@@ -48,12 +46,12 @@ function toView(comment: Comment, currentUserId?: string): CommentView {
  * fecha: un padre siempre se creó antes que su respuesta, así que ya está en el
  * índice cuando llega la hija.
  */
-function buildThread(comments: Comment[], currentUserId?: string): CommentView[] {
+function buildThread(comments: Comment[]): CommentView[] {
   const byId = new Map<string, CommentView>()
   const roots: CommentView[] = []
 
   for (const comment of comments) {
-    byId.set(comment.id, toView(comment, currentUserId))
+    byId.set(comment.id, toView(comment))
   }
 
   for (const comment of comments) {
@@ -77,7 +75,7 @@ function buildThread(comments: Comment[], currentUserId?: string): CommentView[]
  * marcó como rechazado o spam no sale del backoffice.
  */
 export async function getArticleComments(articleId: string): Promise<CommentView[]> {
-  const [payload, siteUser] = await Promise.all([getPayloadClient(), getSessionSiteUser()])
+  const payload = await getPayloadClient()
 
   const { docs } = await payload.find({
     collection: 'comments',
@@ -91,7 +89,7 @@ export async function getArticleComments(articleId: string): Promise<CommentView
     depth: 1,
   })
 
-  return buildThread(docs, siteUser?.id)
+  return buildThread(docs)
 }
 
 /** Cuántos comentarios tiene el artículo, contando respuestas. */

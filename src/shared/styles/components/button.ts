@@ -24,17 +24,37 @@ export const buttonVariants = cva(commonClassnames, {
     size: {
       sm: 'px-0.9 py-0.9',
       md: 'px-6 py-3 w-auto max-w-fit',
+      xs: 'px-4.25 py-2.25 w-auto max-w-fit',
       intrinsic: 'w-fit',
       fullWidth: 'w-full',
     },
     loading: {
       true: 'cursor-wait',
     },
+    active: {
+      true: '',
+      false: '',
+    },
   },
-  compoundVariants: [],
+  compoundVariants: [
+    {
+      variant: 'secondary',
+      size: 'xs',
+      className:
+        'size-auto shrink-0 whitespace-nowrap border-border bg-background text-3 leading-3 tracking-1_2 font-bold uppercase text-primary-foreground transition-colors duration-200 hover:text-foreground',
+    },
+    {
+      variant: 'secondary',
+      size: 'xs',
+      active: true,
+      className:
+        'border-blue-700 bg-blue-700 text-basic-00 hover:border-blue-700 hover:bg-blue-700 hover:text-basic-00 focus:border-blue-700 focus-within:border-blue-700',
+    },
+  ],
   defaultVariants: {
     variant: 'primary',
     size: 'md',
     loading: false,
+    active: false,
   },
 })

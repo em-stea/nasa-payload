@@ -1,10 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useActionState, useState } from 'react'
+import { useState } from 'react'
 
-import { deleteComment } from '@/features/comments/actions/comments'
-import { INITIAL_COMMENT_STATE, type CommentActionState } from '@/features/comments/actions/state'
 import { CommentForm } from '@/features/comments/components/comment-form'
 import type { CommentTone, CommentView } from '@/features/comments/types/comment'
 import { User } from '@/shared/components/icons/other/user'
@@ -59,48 +57,6 @@ function Avatar({ comment }: { comment: CommentView }) {
   )
 }
 
-/** Borrado en dos pasos: el segundo click confirma. */
-function DeleteButton({ commentId }: { commentId: string }) {
-  const [confirming, setConfirming] = useState(false)
-  const [state, formAction, pending] = useActionState<CommentActionState, FormData>(
-    deleteComment,
-    INITIAL_COMMENT_STATE,
-  )
-
-  return (
-    <form action={formAction} className="flex items-center gap-2">
-      <input type="hidden" name="commentId" value={commentId} />
-
-      <button
-        type={confirming ? 'submit' : 'button'}
-        disabled={pending}
-        onClick={() => {
-          if (!confirming) setConfirming(true)
-        }}
-        className="text-basic-500 uppercase transition-colors duration-200 hover:cursor-pointer hover:text-destructive disabled:cursor-wait"
-      >
-        <Text variant="meta.3">{confirming ? 'Confirm delete' : 'Delete'}</Text>
-      </button>
-
-      {confirming && !pending && (
-        <button
-          type="button"
-          onClick={() => setConfirming(false)}
-          className="text-basic-500 uppercase transition-colors duration-200 hover:cursor-pointer hover:text-foreground"
-        >
-          <Text variant="meta.3">Cancel</Text>
-        </button>
-      )}
-
-      {state.status === 'error' && (
-        <Text variant="meta.3" className="text-destructive">
-          {state.message}
-        </Text>
-      )}
-    </form>
-  )
-}
-
 type CommentCardProps = {
   comment: CommentView
   article: CommentArticleRef
@@ -113,7 +69,7 @@ export function CommentCard({ comment, article, canReply, depth = 0 }: CommentCa
   const [replying, setReplying] = useState(false)
 
   return (
-    <li className="flex w-full flex-col gap-2">
+    <li id={`comment-${comment.id}`} className="flex w-full scroll-mt-24 flex-col gap-2">
       <article className="flex w-full gap-4 border border-border bg-card p-4">
         <Avatar comment={comment} />
 
@@ -135,20 +91,16 @@ export function CommentCard({ comment, article, canReply, depth = 0 }: CommentCa
             {comment.content}
           </Text>
 
-          {(canReply || comment.isOwn) && (
+          {canReply && (
             <div className="flex items-center gap-4 pt-3">
-              {canReply && (
-                <button
-                  type="button"
-                  onClick={() => setReplying((open) => !open)}
-                  aria-expanded={replying}
-                  className="text-basic-500 uppercase transition-colors duration-200 hover:cursor-pointer hover:text-foreground"
-                >
-                  <Text variant="meta.3">{replying ? 'Cancel reply' : 'Reply'}</Text>
-                </button>
-              )}
-
-              {comment.isOwn && <DeleteButton commentId={comment.id} />}
+              <button
+                type="button"
+                onClick={() => setReplying((open) => !open)}
+                aria-expanded={replying}
+                className="text-basic-500 uppercase transition-colors duration-200 hover:cursor-pointer hover:text-foreground"
+              >
+                <Text variant="meta.3">{replying ? 'Cancel reply' : 'Reply'}</Text>
+              </button>
             </div>
           )}
         </div>

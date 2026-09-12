@@ -5,6 +5,7 @@ import { NewsFilterBar } from '@/features/news/components/news-filter-bar'
 import { NewsFilterBarLive } from '@/features/news/components/news-filter-bar-live'
 import { NewsGrid, NewsGridSkeleton } from '@/features/news/components/news-grid'
 import { NewsHero } from '@/features/news/components/news-hero'
+import { NewsResultsBoundary } from '@/features/news/components/news-results-boundary'
 import { isNewsCategorySlug } from '@/features/news/constants/categories'
 
 export const metadata: Metadata = {
@@ -52,7 +53,9 @@ export default function NewsPage({ searchParams }: { searchParams: Promise<NewsS
       </div>
 
       <Suspense fallback={<NewsGridSkeleton />}>
-        <NewsResults searchParams={searchParams} />
+        <NewsResultsBoundary fallback={<NewsGridSkeleton />}>
+          <NewsResults searchParams={searchParams} />
+        </NewsResultsBoundary>
       </Suspense>
     </main>
   )

@@ -20,6 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   size,
   disabled,
   loading,
+  active,
   asChild = false,
   ...props
 }) => {
@@ -28,7 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <Comp
       aria-busy={loading ?? undefined}
-      className={cn(buttonVariants({ variant, size, loading }), className)}
+      className={cn(buttonVariants({ variant, size, loading, active }), className)}
       disabled={disabled}
       {...props}
     >

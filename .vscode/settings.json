@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.experimental.configFile": "src/shared/styles/globals.css",
+  "tailwindCSS.classFunctions": ["cva", "cx", "cn", "clsx", "twMerge"]
+}

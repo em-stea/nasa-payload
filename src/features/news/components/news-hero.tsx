@@ -10,7 +10,7 @@ export function NewsHero() {
         <span className="text-basic-500">ARCHIVE_ACCESS_GRANTED</span>
       </Text>
 
-      <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
+      <Heading as="h1" variant="title.1-bold">
         NASA News
       </Heading>
 

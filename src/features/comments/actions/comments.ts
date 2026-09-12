@@ -96,38 +96,3 @@ export async function createComment(
 
   return { status: 'success', formKey: Date.now() }
 }
-
-/** Borra un comentario propio; el hook de la colección se lleva sus respuestas. */
-export async function deleteComment(
-  _state: CommentActionState,
-  formData: FormData,
-): Promise<CommentActionState> {
-  const id = formData.get('commentId')
-
-  if (typeof id !== 'string' || !id) {
-    return { status: 'error', message: 'Falta el comentario a borrar.' }
-  }
-
-  let siteUser
-
-  try {
-    siteUser = await requireSiteUser()
-  } catch {
-    return { status: 'error', message: 'Necesitás iniciar sesión.' }
-  }
-
-  const payload = await getPayloadClient()
-  const comment = await payload.findByID({ collection: 'comments', id, depth: 0 }).catch(() => null)
-
-  if (!comment) return { status: 'error', message: 'Ese comentario ya no existe.' }
-
-  if (comment.author !== siteUser.id) {
-    return { status: 'error', message: 'Sólo podés borrar tus propios comentarios.' }
-  }
-
-  await payload.delete({ collection: 'comments', id, depth: 0 })
-
-  refresh()
-
-  return { status: 'success' }
-}

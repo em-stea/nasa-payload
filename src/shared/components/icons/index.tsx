@@ -17,6 +17,7 @@ import { Bell } from './other/bell'
 import { Settings } from './other/settings'
 import { Account } from './other/account'
 import { Menu } from './other/menu'
+import { Live } from './other/live'
 import { Share } from './other/share'
 
 const IconsType = {
@@ -39,6 +40,7 @@ const IconsType = {
     account: Account,
     menu: Menu,
     share: Share,
+    live: Live,
   },
   feedback: {
     cross: Cross,

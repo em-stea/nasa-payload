@@ -9,7 +9,7 @@ export default async function APODHero() {
   console.log(apodImage, 'apodImage')
   return (
     <div className=" w-full h-full ">
-      <div className="absolute z-1 bottom-0 left-8 right-8 h-77.75 border border-basic-950 rounded-2xl overflow-hidden">
+      <div className="absolute z-1 bottom-0 left-8 right-8 h-77.75 border border-basic-00-10 rounded-2xl overflow-hidden">
         <div className="p-4 absolute z-2">
           <Heading variant="title.1" color="basic-00" className="w-50%">
             Astronomy Picture of the Day

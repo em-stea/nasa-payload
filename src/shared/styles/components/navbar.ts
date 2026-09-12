@@ -9,7 +9,6 @@ export const navbarVariants = cva([
   'items-start',
   'border-b',
   'border-navbar-border',
-  //  'bg-basic-960-80',
   'bg-transparency-navbar',
   'backdrop-blur-[6px]',
 ])

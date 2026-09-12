@@ -16,6 +16,7 @@ import { Bell } from './other/bell'
 import { Settings } from './other/settings'
 import { Account } from './other/account'
 import { Menu } from './other/menu'
+import { Live } from './other/live'
 
 const IconsType = {
   directional: {
@@ -36,6 +37,7 @@ const IconsType = {
     settings: Settings,
     account: Account,
     menu: Menu,
+    live: Live,
   },
   feedback: {
     cross: Cross,

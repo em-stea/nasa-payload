@@ -1,27 +1,28 @@
-import Link from 'next/link'
-import { Badge } from '../badge/badge'
-import { Button } from '../button/button'
-import { Heading } from '../heading/heading'
-import { Text } from '../text/text'
-import { ArrowRight } from '../icons/directional/arrow-right'
+import Link from "next/link";
+
+import {Badge} from "../badge/badge";
+import {Button} from "../button/button";
+import {Heading} from "../heading/heading";
+import {ArrowRight} from "../icons/directional/arrow-right";
+import {Text} from "../text/text";
 
 interface HeaderGroupProps {
-  title: string
-  description: string
+  title: string;
+  description: string;
   badge?: {
-    text: string
-    icon: React.ReactNode
-  }
+    text: string;
+    icon: React.ReactNode;
+  };
   link?: {
-    text: string
-    href: string
-  }
+    text: string;
+    href: string;
+  };
 }
 
-export function HeaderGroup({ title, description, badge, link }: HeaderGroupProps) {
+export function HeaderGroup({title, description, badge, link}: HeaderGroupProps) {
   return (
-    <div className="flex items-start lg:items-end justify-between pb-6 flex-col lg:flex-row gap-4 lg:gap-0">
-      <div className="flex flex-col gap-2 ">
+    <div className="flex flex-col items-start justify-between gap-4 pb-6 lg:flex-row lg:items-end lg:gap-0">
+      <div className="flex flex-col gap-2">
         {badge && (
           <Badge variant="destructive">
             {badge.icon} {badge.text}
@@ -30,13 +31,13 @@ export function HeaderGroup({ title, description, badge, link }: HeaderGroupProp
 
         <Heading variant="title.2">{title}</Heading>
 
-        <Text variant="body.3" color="basic-300" className="max-w-2xl">
+        <Text className="max-w-2xl" color="basic-300" variant="body.3">
           {description}
         </Text>
       </div>
 
       {link && (
-        <Button asChild variant="text-link" size="intrinsic">
+        <Button asChild size="intrinsic" variant="text-link">
           <Link href={link.href}>
             {link.text}
             <ArrowRight className="size-5" />
@@ -44,5 +45,5 @@ export function HeaderGroup({ title, description, badge, link }: HeaderGroupProp
         </Button>
       )}
     </div>
-  )
+  );
 }

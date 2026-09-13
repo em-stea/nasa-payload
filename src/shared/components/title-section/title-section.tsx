@@ -1,10 +1,11 @@
-import Link from 'next/link'
-import type { ComponentProps, ReactNode } from 'react'
+import type {ComponentProps, ReactNode} from "react";
 
-import { Button } from '@/shared/components/button/button'
-import { Heading } from '@/shared/components/heading/heading'
-import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
-import { Text } from '@/shared/components/text/text'
+import Link from "next/link";
+
+import {Button} from "@/shared/components/button/button";
+import {Heading} from "@/shared/components/heading/heading";
+import {ArrowRight} from "@/shared/components/icons/directional/arrow-right";
+import {Text} from "@/shared/components/text/text";
 import {
   titleSectionActionIconVariants,
   titleSectionActionVariants,
@@ -12,22 +13,22 @@ import {
   titleSectionHeaderVariants,
   titleSectionTitleVariants,
   titleSectionVariants,
-} from '@/shared/styles/components/title-section'
-import { cn } from '@/shared/utils/className-builder'
+} from "@/shared/styles/components/title-section";
+import {cn} from "@/shared/utils/className-builder";
 
 /** Acción por defecto del encabezado: un link con flecha ("VIEW ALL ARCHIVES →"). */
 export type TitleSectionAction = {
-  label: string
-  href: ComponentProps<typeof Link>['href']
-}
+  label: string;
+  href: ComponentProps<typeof Link>["href"];
+};
 
-type TitleSectionProps = Omit<ComponentProps<'div'>, 'title'> & {
-  title: ReactNode
-  description?: ReactNode
-  action?: TitleSectionAction
+type TitleSectionProps = Omit<ComponentProps<"div">, "title"> & {
+  title: ReactNode;
+  description?: ReactNode;
+  action?: TitleSectionAction;
   /** Nivel del encabezado; el estilo siempre es `title.2`. */
-  as?: ComponentProps<typeof Heading>['as']
-}
+  as?: ComponentProps<typeof Heading>["as"];
+};
 
 /**
  * Encabezado de sección.
@@ -39,7 +40,7 @@ export function TitleSection({
   title,
   description,
   action,
-  as = 'h2',
+  as = "h2",
   className,
   children,
   ...props
@@ -47,12 +48,12 @@ export function TitleSection({
   return (
     <div className={cn(titleSectionVariants(), className)} {...props}>
       <div className={titleSectionHeaderVariants()}>
-        <Heading as={as} variant="title.2" className={titleSectionTitleVariants()}>
+        <Heading as={as} className={titleSectionTitleVariants()} variant="title.2">
           {title}
         </Heading>
 
         {description ? (
-          <Text variant="body.1" className={titleSectionDescriptionVariants()}>
+          <Text className={titleSectionDescriptionVariants()} variant="body.1">
             {description}
           </Text>
         ) : null}
@@ -62,9 +63,9 @@ export function TitleSection({
         (action ? (
           <Button
             asChild
-            variant="text-link"
-            size="intrinsic"
             className={titleSectionActionVariants()}
+            size="intrinsic"
+            variant="text-link"
           >
             <Link href={action.href}>
               {action.label}
@@ -73,5 +74,5 @@ export function TitleSection({
           </Button>
         ) : null)}
     </div>
-  )
+  );
 }

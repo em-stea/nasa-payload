@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { Footer, type FooterData, type FooterLinkItem } from './footer'
+import {Footer, type FooterData, type FooterLinkItem} from "./footer";
 
 /**
  * Composición del footer del sitio, espejo de `SiteNavbar`: mismo contenedor
@@ -18,14 +18,14 @@ const FOOTER_DATA: FooterData = {
     alt: 'DSCOVR',
     href: '/',
   },
-}
+};
 
 const FOOTER_LINKS: FooterLinkItem[] = [
-  { href: '/documentation', label: 'Documentation' },
-  { href: 'https://www.nasa.gov', label: 'NASA.gov', external: true },
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/terms-of-service', label: 'Terms of Service' },
-]
+  {href: "/documentation", label: "Documentation"},
+  {href: "https://www.nasa.gov", label: "NASA.gov", external: true},
+  {href: "/privacy-policy", label: "Privacy Policy"},
+  {href: "/terms-of-service", label: "Terms of Service"},
+];
 
 export function SiteFooter() {
   return (
@@ -35,8 +35,8 @@ export function SiteFooter() {
       </Footer.Group>
 
       <Footer.Nav>
-        {FOOTER_LINKS.map(({ href, label, external }) => (
-          <Footer.Link key={href} href={href} external={external}>
+        {FOOTER_LINKS.map(({href, label, external}) => (
+          <Footer.Link external={external} href={href} key={href}>
             {label}
           </Footer.Link>
         ))}
@@ -46,5 +46,5 @@ export function SiteFooter() {
         <Footer.Copyright>© 2024 DSCOVR. Powered by NASA Open APIs.</Footer.Copyright>
       </Footer.Group>
     </Footer>
-  )
+  );
 }

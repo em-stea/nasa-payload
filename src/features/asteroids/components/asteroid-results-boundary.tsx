@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useSearchParams } from 'next/navigation'
-import { Suspense, type ReactNode } from 'react'
+import {useSearchParams} from "next/navigation";
+import {type ReactNode, Suspense} from "react";
 
 /**
  * Envuelve el grid en un `<Suspense>` cuya key cambia con la página.
@@ -19,14 +19,14 @@ export function AsteroidResultsBoundary({
   children,
   fallback,
 }: {
-  children: ReactNode
-  fallback: ReactNode
+  children: ReactNode;
+  fallback: ReactNode;
 }) {
-  const page = useSearchParams().get('page') ?? '1'
+  const page = useSearchParams().get("page") ?? "1";
 
   return (
-    <Suspense key={page} fallback={fallback}>
+    <Suspense fallback={fallback} key={page}>
       {children}
     </Suspense>
-  )
+  );
 }

@@ -1,13 +1,14 @@
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
+import type {Metadata} from "next";
 
-import { ApodBody } from '@/features/apod/components/apod-body'
-import { ApodHero } from '@/features/apod/components/apod-hero'
-import { ApodSidebar } from '@/features/apod/components/apod-sidebar'
-import { getAPODImage } from '@/features/apod/services/get-apod-image'
-import { ArticleBreadcrumbs } from '@/features/news/components/article-breadcrumbs'
-import { ShareButton } from '@/features/news/components/share-button'
-import { Container } from '@/shared/components/container/container'
+import {Suspense} from "react";
+
+import {ApodBody} from "@/features/apod/components/apod-body";
+import {ApodHero} from "@/features/apod/components/apod-hero";
+import {ApodSidebar} from "@/features/apod/components/apod-sidebar";
+import {getAPODImage} from "@/features/apod/services/get-apod-image";
+import {ArticleBreadcrumbs} from "@/features/news/components/article-breadcrumbs";
+import {ShareButton} from "@/features/news/components/share-button";
+import {Container} from "@/shared/components/container/container";
 
 /**
  * Detalle de la Astronomy Picture of the Day.
@@ -16,22 +17,22 @@ import { Container } from '@/shared/components/container/container'
  * `Suspense` para no bloquear el shell de la ruta mientras resuelve.
  */
 
-export const instant = true
+export const instant = true;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const apod = await getAPODImage()
+  const apod = await getAPODImage();
 
   return {
     title: apod.title,
     description: apod.paragraphs[0],
     openGraph: {
-      type: 'article',
+      type: "article",
       title: apod.title,
       description: apod.paragraphs[0],
       publishedTime: apod.date,
-      images: [{ url: apod.image }],
+      images: [{url: apod.image}],
     },
-  }
+  };
 }
 
 export default function ApodPage() {
@@ -43,17 +44,17 @@ export default function ApodPage() {
         </Suspense>
       </Container>
     </main>
-  )
+  );
 }
 
 async function ApodRoute() {
-  const apod = await getAPODImage()
+  const apod = await getAPODImage();
 
   return (
     <>
-      <ArticleBreadcrumbs items={[{ label: 'Archive', href: '/' }, { label: 'APOD' }]} />
+      <ArticleBreadcrumbs items={[{label: "Archive", href: "/"}, {label: "APOD"}]} />
 
-      <ApodHero apod={apod} actions={<ShareButton url="/apod" title={apod.title} withLabel />} />
+      <ApodHero actions={<ShareButton withLabel title={apod.title} url="/apod" />} apod={apod} />
 
       <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-8">
@@ -65,13 +66,13 @@ async function ApodRoute() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 /** Mismas medidas que el contenido, para que nada salte al resolverse. */
 function ApodSkeleton() {
   return (
-    <div className="flex w-full animate-pulse flex-col gap-8" aria-hidden="true">
+    <div aria-hidden="true" className="flex w-full animate-pulse flex-col gap-8">
       <div className="h-4 w-64 bg-card" />
       <div className="h-70 w-full border border-border bg-card sm:h-96" />
 
@@ -88,5 +89,5 @@ function ApodSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

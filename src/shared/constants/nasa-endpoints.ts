@@ -7,13 +7,13 @@
  */
 export const NASA_ENDPOINTS = {
   /** EPIC: imágenes de la Tierra en 3D. */
-  epic: 'https://epic.gsfc.nasa.gov/api',
+  epic: "https://epic.gsfc.nasa.gov/api",
   /** APOD: Astronomy Picture of the Day (WP REST de science.nasa.gov). */
-  apod: 'https://science.nasa.gov/wp-json/wp/v2',
+  apod: "https://science.nasa.gov/wp-json/wp/v2",
   /** Feed editorial de noticias (WP REST de www.nasa.gov). */
-  news: 'https://www.nasa.gov/wp-json/wp/v2',
+  news: "https://www.nasa.gov/wp-json/wp/v2",
   /** EONET: catálogo de eventos naturales en curso, con su traza geográfica. */
-  eonet: 'https://eonet.gsfc.nasa.gov/api/v3',
+  eonet: "https://eonet.gsfc.nasa.gov/api/v3",
   /** NeoWs: catálogo de objetos cercanos a la Tierra. */
-  neo: 'https://api.nasa.gov/neo/rest/v1',
-} as const
+  neo: "https://api.nasa.gov/neo/rest/v1",
+} as const;

@@ -1,29 +1,30 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
+import type {NewsArticleDetail} from "@/features/news/types/news";
+import type {Metadata} from "next";
 
-import { getSessionIdentity } from '@/features/account/services/site-user'
+import {notFound} from "next/navigation";
+import {Suspense} from "react";
+
+import {getSessionIdentity} from "@/features/account/services/site-user";
 import {
   CommentsSection,
   CommentsSectionSkeleton,
-} from '@/features/comments/components/comments-section'
+} from "@/features/comments/components/comments-section";
 import {
   FavoriteButton,
   FavoriteButtonPlaceholder,
-} from '@/features/favorites/components/favorite-button'
-import { isFavorite } from '@/features/favorites/services/get-favorites'
-import { ArticleBody } from '@/features/news/components/article-body'
-import { ArticleBreadcrumbs } from '@/features/news/components/article-breadcrumbs'
-import { ArticleGallery } from '@/features/news/components/article-gallery'
-import { ArticleHero } from '@/features/news/components/article-hero'
-import { ArticleSidebar } from '@/features/news/components/article-sidebar'
-import { RelatedArticles } from '@/features/news/components/related-articles'
-import { ShareButton } from '@/features/news/components/share-button'
-import { getNewsArticle } from '@/features/news/services/get-news-article'
-import { getRelatedNews } from '@/features/news/services/get-related-news'
-import type { NewsArticleDetail } from '@/features/news/types/news'
-import { buildArticleHref } from '@/features/news/utils/parse-post'
-import { Container } from '@/shared/components/container/container'
+} from "@/features/favorites/components/favorite-button";
+import {isFavorite} from "@/features/favorites/services/get-favorites";
+import {ArticleBody} from "@/features/news/components/article-body";
+import {ArticleBreadcrumbs} from "@/features/news/components/article-breadcrumbs";
+import {ArticleGallery} from "@/features/news/components/article-gallery";
+import {ArticleHero} from "@/features/news/components/article-hero";
+import {ArticleSidebar} from "@/features/news/components/article-sidebar";
+import {RelatedArticles} from "@/features/news/components/related-articles";
+import {ShareButton} from "@/features/news/components/share-button";
+import {getNewsArticle} from "@/features/news/services/get-news-article";
+import {getRelatedNews} from "@/features/news/services/get-related-news";
+import {buildArticleHref} from "@/features/news/utils/parse-post";
+import {Container} from "@/shared/components/container/container";
 
 /**
  * Detalle de una noticia.
@@ -35,40 +36,40 @@ import { Container } from '@/shared/components/container/container'
  * al artículo, que sale de cache.
  */
 
-export const instant = true
+export const instant = true;
 
-type NewsArticleParams = { id: string }
+type NewsArticleParams = {id: string};
 
 function readArticleId(value: string) {
-  const id = Number.parseInt(value, 10)
+  const id = Number.parseInt(value, 10);
 
-  return Number.isFinite(id) && id > 0 ? id : null
+  return Number.isFinite(id) && id > 0 ? id : null;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<NewsArticleParams>
+  params: Promise<NewsArticleParams>;
 }): Promise<Metadata> {
-  const id = readArticleId((await params).id)
-  const article = id ? await getNewsArticle(id) : null
+  const id = readArticleId((await params).id);
+  const article = id ? await getNewsArticle(id) : null;
 
-  if (!article) return { title: 'Noticia no encontrada' }
+  if (!article) return {title: "Noticia no encontrada"};
 
   return {
     title: article.title,
     description: article.excerpt,
     openGraph: {
-      type: 'article',
+      type: "article",
       title: article.title,
       description: article.excerpt,
       publishedTime: article.publishedAt,
-      images: article.image ? [{ url: article.image }] : undefined,
+      images: article.image ? [{url: article.image}] : undefined,
     },
-  }
+  };
 }
 
-export default function NewsArticlePage({ params }: { params: Promise<NewsArticleParams> }) {
+export default function NewsArticlePage({params}: {params: Promise<NewsArticleParams>}) {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
       <Container className="flex flex-col items-start gap-8">
@@ -77,36 +78,36 @@ export default function NewsArticlePage({ params }: { params: Promise<NewsArticl
         </Suspense>
       </Container>
     </main>
-  )
+  );
 }
 
-async function ArticleRoute({ params }: { params: Promise<NewsArticleParams> }) {
-  const id = readArticleId((await params).id)
-  const article = id ? await getNewsArticle(id) : null
+async function ArticleRoute({params}: {params: Promise<NewsArticleParams>}) {
+  const id = readArticleId((await params).id);
+  const article = id ? await getNewsArticle(id) : null;
 
-  if (!article) notFound()
+  if (!article) notFound();
 
   return (
     <>
       <ArticleBreadcrumbs
         items={[
-          { label: 'Archive', href: '/' },
-          { label: 'News', href: '/news' },
-          { label: article.tag },
+          {label: "Archive", href: "/"},
+          {label: "News", href: "/news"},
+          {label: article.tag},
         ]}
       />
 
       <ArticleHero
-        article={article}
         actions={
           <>
             <Suspense fallback={<FavoriteButtonPlaceholder />}>
               <ArticleFavorite article={article} />
             </Suspense>
 
-            <ShareButton url={buildArticleHref(article.id)} title={article.title} withLabel />
+            <ShareButton withLabel title={article.title} url={buildArticleHref(article.id)} />
           </>
         }
+        article={article}
       />
 
       <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-12">
@@ -131,21 +132,19 @@ async function ArticleRoute({ params }: { params: Promise<NewsArticleParams> }) 
         </Suspense>
       </div>
     </>
-  )
+  );
 }
 
-async function ArticleFavorite({ article }: { article: NewsArticleDetail }) {
+async function ArticleFavorite({article}: {article: NewsArticleDetail}) {
   const [identity, saved] = await Promise.all([
     getSessionIdentity(),
-    isFavorite('news', String(article.id)),
-  ])
+    isFavorite("news", String(article.id)),
+  ]);
 
   return (
     <FavoriteButton
-      saved={saved}
-      canSave={Boolean(identity)}
       item={{
-        kind: 'news',
+        kind: "news",
         itemId: String(article.id),
         title: article.title,
         description: article.excerpt,
@@ -154,18 +153,20 @@ async function ArticleFavorite({ article }: { article: NewsArticleDetail }) {
         tag: article.tag,
         tone: article.tone,
       }}
+      canSave={Boolean(identity)}
+      saved={saved}
     />
-  )
+  );
 }
 
-async function RelatedArticlesRow({ article }: { article: NewsArticleDetail }) {
-  return <RelatedArticles articles={await getRelatedNews(article)} />
+async function RelatedArticlesRow({article}: {article: NewsArticleDetail}) {
+  return <RelatedArticles articles={await getRelatedNews(article)} />;
 }
 
 /** Mismas medidas que el contenido, para que nada salte al resolverse. */
 function ArticleSkeleton() {
   return (
-    <div className="flex w-full animate-pulse flex-col gap-8" aria-hidden="true">
+    <div aria-hidden="true" className="flex w-full animate-pulse flex-col gap-8">
       <div className="h-4 w-64 bg-card" />
       <div className="h-70 w-full border border-border bg-card sm:h-96" />
 
@@ -182,5 +183,5 @@ function ArticleSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

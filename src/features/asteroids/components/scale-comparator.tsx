@@ -1,9 +1,10 @@
-import { TelemetrySection } from '@/features/asteroids/components/telemetry-section'
-import type { Asteroid } from '@/features/asteroids/types/asteroid'
-import { formatSize } from '@/features/asteroids/utils/format-asteroid'
-import { SCALE_TICKS, toLogRatio } from '@/features/asteroids/utils/scale'
-import { Text } from '@/shared/components/text/text'
-import { cn } from '@/shared/utils/className-builder'
+import type {Asteroid} from "@/features/asteroids/types/asteroid";
+
+import {TelemetrySection} from "@/features/asteroids/components/telemetry-section";
+import {formatSize} from "@/features/asteroids/utils/format-asteroid";
+import {SCALE_TICKS, toLogRatio} from "@/features/asteroids/utils/scale";
+import {Text} from "@/shared/components/text/text";
+import {cn} from "@/shared/utils/className-builder";
 
 /**
  * Comparador de tamaños.
@@ -20,28 +21,28 @@ import { cn } from '@/shared/utils/className-builder'
 
 /** Referencias fijas, en metros. */
 const REFERENCES = [
-  { name: 'City bus', note: 'Ref', meters: 12 },
-  { name: 'Eiffel tower', note: 'Ref', meters: 330 },
-] as const
+  {name: "City bus", note: "Ref", meters: 12},
+  {name: "Eiffel tower", note: "Ref", meters: 330},
+] as const;
 
 /** Alto del área de barras; el eje y las guías comparten esta medida. */
-const CHART_HEIGHT = 'h-56 sm:h-64'
+const CHART_HEIGHT = "h-56 sm:h-64";
 
 type Bar = {
-  key: string
-  name: string
-  note: string
-  meters: number
-  label: string
-  neo: boolean
-  hazardous: boolean
-}
+  key: string;
+  name: string;
+  note: string;
+  meters: number;
+  label: string;
+  neo: boolean;
+  hazardous: boolean;
+};
 
-export function ScaleComparator({ asteroids }: { asteroids: Asteroid[] }) {
+export function ScaleComparator({asteroids}: {asteroids: Asteroid[]}) {
   const largest = [...asteroids]
     .filter((asteroid) => asteroid.diameterMaxM > 0)
     .sort((a, b) => b.diameterMaxM - a.diameterMaxM)
-    .slice(0, 2)
+    .slice(0, 2);
 
   const bars: Bar[] = [
     ...REFERENCES.map((reference) => ({
@@ -56,27 +57,27 @@ export function ScaleComparator({ asteroids }: { asteroids: Asteroid[] }) {
     ...largest.map((asteroid) => ({
       key: asteroid.id,
       name: asteroid.name,
-      note: 'NEO',
+      note: "NEO",
       meters: asteroid.diameterMaxM,
       label: `${formatSize(asteroid.diameterMinM)} – ${formatSize(asteroid.diameterMaxM)}`,
       neo: true,
       hazardous: asteroid.hazardous,
     })),
-  ]
+  ];
 
   return (
-    <TelemetrySection title="Scale comparator" readout="[ref_metric: log meters]">
+    <TelemetrySection readout="[ref_metric: log meters]" title="Scale comparator">
       <div className="w-full rounded-2xl border border-border bg-muted p-4 sm:p-6">
         <div className="flex w-full items-start gap-3">
           {/* Las marcas se posicionan por su valor, no por su índice: en un eje
               log la década no cae donde caería en uno lineal. */}
-          <div aria-hidden="true" className={cn('relative w-12 shrink-0', CHART_HEIGHT)}>
+          <div aria-hidden="true" className={cn("relative w-12 shrink-0", CHART_HEIGHT)}>
             {SCALE_TICKS.map((tick) => (
               <Text
-                key={tick}
-                variant="meta.1"
                 className="absolute right-0 -translate-y-1/2 text-muted-foreground"
-                style={{ top: `${(1 - toLogRatio(tick)) * 100}%` }}
+                key={tick}
+                style={{top: `${(1 - toLogRatio(tick)) * 100}%`}}
+                variant="meta.1"
               >
                 {formatSize(tick)}
               </Text>
@@ -84,13 +85,13 @@ export function ScaleComparator({ asteroids }: { asteroids: Asteroid[] }) {
           </div>
 
           <div className="min-w-0 flex-1">
-            <div className={cn('relative w-full', CHART_HEIGHT)}>
+            <div className={cn("relative w-full", CHART_HEIGHT)}>
               <div aria-hidden="true" className="absolute inset-0">
                 {SCALE_TICKS.map((tick) => (
                   <span
-                    key={tick}
                     className="absolute inset-x-0 h-px bg-border"
-                    style={{ top: `${(1 - toLogRatio(tick)) * 100}%` }}
+                    key={tick}
+                    style={{top: `${(1 - toLogRatio(tick)) * 100}%`}}
                   />
                 ))}
               </div>
@@ -98,19 +99,19 @@ export function ScaleComparator({ asteroids }: { asteroids: Asteroid[] }) {
               <div className="relative flex size-full items-end gap-2">
                 {bars.map((bar) => (
                   <div
-                    key={bar.key}
                     className="flex h-full min-w-0 flex-1 items-end justify-center"
+                    key={bar.key}
                   >
                     <div
                       className={cn(
-                        'w-full max-w-24 rounded-t-sm border',
+                        "w-full max-w-24 rounded-t-sm border",
                         bar.hazardous
-                          ? 'border-destructive bg-red-700-20'
+                          ? "border-destructive bg-red-700-20"
                           : bar.neo
-                            ? 'border-foreground bg-blue-700-20'
-                            : 'border-basic-500 bg-basic-500/15',
+                            ? "border-foreground bg-blue-700-20"
+                            : "border-basic-500 bg-basic-500/15",
                       )}
-                      style={{ height: `${toLogRatio(bar.meters) * 100}%` }}
+                      style={{height: `${toLogRatio(bar.meters) * 100}%`}}
                       title={`${bar.name}: ${bar.label}`}
                     />
                   </div>
@@ -124,22 +125,22 @@ export function ScaleComparator({ asteroids }: { asteroids: Asteroid[] }) {
                 `EIFFEL …` y `[NEO] 3…`, que no dicen nada. */}
             <dl className="flex w-full gap-2 border-t border-border pt-2">
               {bars.map((bar) => (
-                <div key={bar.key} className="flex min-w-0 flex-1 flex-col items-center gap-0.5">
+                <div className="flex min-w-0 flex-1 flex-col items-center gap-0.5" key={bar.key}>
                   <dt className="w-full min-w-0">
                     <Text
-                      variant="meta.1"
                       className="text-center break-words text-primary-foreground"
+                      variant="meta.1"
                     >
                       {bar.name}
                     </Text>
                   </dt>
                   <dd className="w-full min-w-0">
                     <Text
-                      variant="meta.1"
                       className={cn(
-                        'text-center break-words',
-                        bar.neo ? 'text-foreground' : 'text-muted-foreground',
+                        "text-center break-words",
+                        bar.neo ? "text-foreground" : "text-muted-foreground",
                       )}
+                      variant="meta.1"
                     >
                       [{bar.note}] {bar.label}
                     </Text>
@@ -151,5 +152,5 @@ export function ScaleComparator({ asteroids }: { asteroids: Asteroid[] }) {
         </div>
       </div>
     </TelemetrySection>
-  )
+  );
 }

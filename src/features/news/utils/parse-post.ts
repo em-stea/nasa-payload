@@ -1,22 +1,23 @@
-import { resolveNewsCategory } from '@/features/news/constants/categories'
-import type { NasaPost, NewsArticle } from '@/features/news/types/news'
-import { toPlainText } from '@/features/news/utils/html-text'
+import type {NasaPost, NewsArticle} from "@/features/news/types/news";
+
+import {resolveNewsCategory} from "@/features/news/constants/categories";
+import {toPlainText} from "@/features/news/utils/html-text";
 
 /**
  * Ancho pedido a la CDN de nasa.gov. Sin esto llegan originales de 8 MB o más
  * que el optimizador de Next rechaza con 500.
  */
-const IMAGE_WIDTH = 1200
+const IMAGE_WIDTH = 1200;
 
 export function toCardImage(url: string) {
-  if (!url) return undefined
+  if (!url) return undefined;
 
-  return url.includes('?') ? url : `${url}?w=${IMAGE_WIDTH}`
+  return url.includes("?") ? url : `${url}?w=${IMAGE_WIDTH}`;
 }
 
 /** Ruta del detalle de una noticia dentro del sitio. */
 export function buildArticleHref(id: number | string) {
-  return `/news/${id}`
+  return `/news/${id}`;
 }
 
 /**
@@ -24,12 +25,12 @@ export function buildArticleHref(id: number | string) {
  * detalle, para que React morphee una imagen en la otra con `ViewTransition`.
  */
 export function buildArticlePhotoTransitionName(id: number | string) {
-  return `news-photo-${id}`
+  return `news-photo-${id}`;
 }
 
 export function parsePost(post: NasaPost): NewsArticle {
-  const category = resolveNewsCategory(post.categories)
-  const title = toPlainText(post.title.rendered)
+  const category = resolveNewsCategory(post.categories);
+  const title = toPlainText(post.title.rendered);
 
   return {
     id: post.id,
@@ -41,11 +42,11 @@ export function parsePost(post: NasaPost): NewsArticle {
     image: toCardImage(post.featured_image_url),
     // Decorativa: el titular ya está en el DOM al lado de la imagen, y un alt
     // vacío evita que una imagen caída deje un párrafo de texto roto.
-    imageAlt: '',
+    imageAlt: "",
     title,
     description: toPlainText(post.excerpt.rendered),
     // El diseño cuenta la antigüedad como una cuenta regresiva de misión.
     date: `T-minus ${post.time_ago}`,
     dateTime: post.date,
-  }
+  };
 }

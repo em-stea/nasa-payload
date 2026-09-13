@@ -1,5 +1,6 @@
-import type { ApodImage, ApodPost } from '@/features/apod/types/apod'
-import { toPlainText } from '@/features/news/utils/html-text'
+import type {ApodImage, ApodPost} from "@/features/apod/types/apod";
+
+import {toPlainText} from "@/features/news/utils/html-text";
 
 /**
  * La bajada de la APOD llega como un único bloque de HTML inline —sin `<p>`—
@@ -9,8 +10,8 @@ import { toPlainText } from '@/features/news/utils/html-text'
 function parseExplanation(html: string) {
   return html
     .split(/(?:<br\s*\/?>\s*){2,}/i)
-    .map((chunk) => toPlainText(chunk.replace(/<br\s*\/?>/gi, ' ')))
-    .filter(Boolean)
+    .map((chunk) => toPlainText(chunk.replace(/<br\s*\/?>/gi, " ")))
+    .filter(Boolean);
 }
 
 export function parseApodPost(post: ApodPost): ApodImage {
@@ -25,5 +26,5 @@ export function parseApodPost(post: ApodPost): ApodImage {
     paragraphs: parseExplanation(post.explanation),
     credit: post.credit ? toPlainText(post.credit) : undefined,
     copyright: post.copyright ? toPlainText(post.copyright) : undefined,
-  }
+  };
 }

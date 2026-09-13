@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import type { CSSProperties } from 'react'
+import type {CSSProperties} from "react";
 
-import { EYEPIECE_CENTER, EYEPIECE_RATIO } from '@/features/not-found/constants/scene'
-import { cn } from '@/shared/utils/className-builder'
+import {EYEPIECE_CENTER, EYEPIECE_RATIO} from "@/features/not-found/constants/scene";
+import {cn} from "@/shared/utils/className-builder";
 
 /**
  * El ocular: todo lo que está entre el ojo del que mira y el cielo.
@@ -14,14 +14,14 @@ import { cn } from '@/shared/utils/className-builder'
  * GPU— sin costarle un frame al render de los planetas.
  */
 
-const CENTER_Y = `${EYEPIECE_CENTER * 100}%`
-const OPEN_RADIUS = `min(${EYEPIECE_RATIO.width * 100}vw, ${EYEPIECE_RATIO.height * 100}vh)`
+const CENTER_Y = `${EYEPIECE_CENTER * 100}%`;
+const OPEN_RADIUS = `min(${EYEPIECE_RATIO.width * 100}vw, ${EYEPIECE_RATIO.height * 100}vh)`;
 
 /** El disco negro con el agujero del ocular. Fuera del radio, tapa todo. */
-const SURROUND_MASK = `radial-gradient(circle var(--iris) at 50% ${CENTER_Y}, transparent 0, transparent 97%, #000 100%)`
+const SURROUND_MASK = `radial-gradient(circle var(--iris) at 50% ${CENTER_Y}, transparent 0, transparent 97%, #000 100%)`;
 
 /** Caída de luz hacia el borde del campo: ningún ocular ilumina parejo. */
-const FIELD_VIGNETTE = `radial-gradient(circle var(--iris) at 50% ${CENTER_Y}, rgba(5, 6, 10, 0) 62%, rgba(5, 6, 10, 0.22) 88%, rgba(5, 6, 10, 0.6) 100%)`
+const FIELD_VIGNETTE = `radial-gradient(circle var(--iris) at 50% ${CENTER_Y}, rgba(5, 6, 10, 0) 62%, rgba(5, 6, 10, 0.22) 88%, rgba(5, 6, 10, 0.6) 100%)`;
 
 /**
  * `--iris` se anima, y una custom property sólo se puede animar si está
@@ -64,59 +64,59 @@ const OVERLAY_STYLES = `
     64%  { transform: rotate(38deg); }
     100% { transform: rotate(43deg); }
   }
-`
+`;
 
 type HudReadoutProps = {
-  label: string
-  value: string
-  className?: string
-}
+  label: string;
+  value: string;
+  className?: string;
+};
 
-function HudReadout({ label, value, className }: HudReadoutProps) {
+function HudReadout({label, value, className}: HudReadoutProps) {
   return (
     <div
       className={cn(
-        'absolute flex gap-2 font-jetbrains-mono text-2_5 leading-3.75 tracking-1 uppercase',
+        "absolute flex gap-2 font-jetbrains-mono text-2_5 leading-3.75 tracking-1 uppercase",
         className,
       )}
-      style={{ animation: 'eyepiece-fade 1200ms ease-out 700ms both' }}
+      style={{animation: "eyepiece-fade 1200ms ease-out 700ms both"}}
     >
       <span className="text-basic-500/70">{label}</span>
       <span className="text-blue-200/80">{value}</span>
     </div>
-  )
+  );
 }
 
 /** La retícula grabada en el ocular: marcas de campo y el objetivo al centro. */
 function Reticle() {
-  const ticks = Array.from({ length: 24 }, (_, index) => index * 15)
+  const ticks = Array.from({length: 24}, (_, index) => index * 15);
 
   return (
     <svg
-      viewBox="0 0 200 200"
       className="size-full"
-      style={{ animation: 'eyepiece-fade 1400ms ease-out 1100ms both' }}
       fill="none"
+      style={{animation: "eyepiece-fade 1400ms ease-out 1100ms both"}}
+      viewBox="0 0 200 200"
     >
       <circle
         cx="100"
         cy="100"
         r="94"
         stroke="rgba(164, 178, 240, 0.35)"
-        strokeWidth="0.4"
         strokeDasharray="0.7 6"
+        strokeWidth="0.4"
       />
 
       {ticks.map((angle) => (
         <line
           key={angle}
-          x1="100"
-          y1="8"
-          x2="100"
-          y2={angle % 90 === 0 ? 18 : 13}
           stroke="rgba(164, 178, 240, 0.45)"
           strokeWidth={angle % 90 === 0 ? 0.9 : 0.4}
           transform={`rotate(${angle} 100 100)`}
+          x1="100"
+          x2="100"
+          y1="8"
+          y2={angle % 90 === 0 ? 18 : 13}
         />
       ))}
 
@@ -124,27 +124,27 @@ function Reticle() {
       {[0, 90, 180, 270].map((angle) => (
         <line
           key={angle}
-          x1="100"
-          y1="30"
-          x2="100"
-          y2="58"
           stroke="rgba(164, 178, 240, 0.28)"
           strokeWidth="0.5"
           transform={`rotate(${angle} 100 100)`}
+          x1="100"
+          x2="100"
+          y1="30"
+          y2="58"
         />
       ))}
 
       {/* Corchetes del objetivo: encuadran el glifo una vez enfocado. */}
       <g
-        stroke="rgba(164, 178, 240, 0.5)"
-        strokeWidth="0.7"
-        strokeLinecap="round"
         className="origin-center opacity-0 transition-all delay-1000 duration-700 group-data-[open=true]:opacity-100"
+        stroke="rgba(164, 178, 240, 0.5)"
+        strokeLinecap="round"
+        strokeWidth="0.7"
       >
         <path d="M34 76v-9h11M166 76v-9h-11M34 124v9h11M166 124v9h-11" />
       </g>
     </svg>
-  )
+  );
 }
 
 /**
@@ -157,37 +157,37 @@ function Reticle() {
 function FocusHand() {
   return (
     <div className="pointer-events-none absolute right-0 bottom-0 hidden h-[46vmin] w-[46vmin] max-w-[420px] motion-safe:group-data-[open=true]:block">
-      <svg viewBox="0 0 260 260" className="size-full" fill="none">
+      <svg className="size-full" fill="none" viewBox="0 0 260 260">
         {/* La perilla, apenas menos desenfocada: está un poco más lejos. */}
         <g
           style={{
-            animation: 'eyepiece-knob 3.4s cubic-bezier(0.33, 1, 0.68, 1) both',
-            transformOrigin: '186px 186px',
-            filter: 'blur(2.5px)',
+            animation: "eyepiece-knob 3.4s cubic-bezier(0.33, 1, 0.68, 1) both",
+            transformOrigin: "186px 186px",
+            filter: "blur(2.5px)",
             opacity: 0.6,
           }}
         >
-          <circle cx="186" cy="186" r="62" fill="#080a11" />
+          <circle cx="186" cy="186" fill="#080a11" r="62" />
           <circle cx="186" cy="186" r="62" stroke="rgba(164, 178, 240, 0.22)" strokeWidth="1.5" />
           <circle cx="186" cy="186" r="31" stroke="rgba(164, 178, 240, 0.14)" strokeWidth="1" />
-          {Array.from({ length: 18 }, (_, index) => index * 20).map((angle) => (
+          {Array.from({length: 18}, (_, index) => index * 20).map((angle) => (
             <line
               key={angle}
-              x1="186"
-              y1="130"
-              x2="186"
-              y2="142"
               stroke="rgba(164, 178, 240, 0.16)"
               strokeWidth="2"
               transform={`rotate(${angle} 186 186)`}
+              x1="186"
+              x2="186"
+              y1="130"
+              y2="142"
             />
           ))}
         </g>
 
         <g
           style={{
-            animation: 'eyepiece-hand 3.4s cubic-bezier(0.4, 0, 0.2, 1) both',
-            filter: 'blur(6px)',
+            animation: "eyepiece-hand 3.4s cubic-bezier(0.4, 0, 0.2, 1) both",
+            filter: "blur(6px)",
           }}
         >
           {/* Un filo azulado bajo la silueta: el rebote del monitor en los nudillos. */}
@@ -211,69 +211,69 @@ function FocusHand() {
         </g>
       </svg>
     </div>
-  )
+  );
 }
 
 type EyepieceOverlayProps = {
   /** El ocular abre recién cuando la escena está lista para enfocar. */
-  isOpen: boolean
-}
+  isOpen: boolean;
+};
 
-export function EyepieceOverlay({ isOpen }: EyepieceOverlayProps) {
+export function EyepieceOverlay({isOpen}: EyepieceOverlayProps) {
   return (
     <div
       aria-hidden
-      data-open={isOpen}
-      className="group pointer-events-none absolute inset-0 z-20 motion-reduce:animate-none motion-reduce:[--iris:var(--iris-open)]"
       style={
         {
-          '--iris-open': OPEN_RADIUS,
-          animation: 'eyepiece-open 2600ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both',
+          "--iris-open": OPEN_RADIUS,
+          animation: "eyepiece-open 2600ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both",
         } as CSSProperties
       }
+      className="group pointer-events-none absolute inset-0 z-20 motion-reduce:animate-none motion-reduce:[--iris:var(--iris-open)]"
+      data-open={isOpen}
     >
       <style>{OVERLAY_STYLES}</style>
 
       <div
         className="absolute inset-0 bg-[#05060a]"
-        style={{ maskImage: SURROUND_MASK, WebkitMaskImage: SURROUND_MASK }}
+        style={{maskImage: SURROUND_MASK, WebkitMaskImage: SURROUND_MASK}}
       />
 
-      <div className="absolute inset-0" style={{ background: FIELD_VIGNETTE }} />
+      <div className="absolute inset-0" style={{background: FIELD_VIGNETTE}} />
 
       {/* El canto del ocular: el bisel metálico y el halo de la lente. */}
       <div
-        className="absolute size-[calc(var(--iris)*2)] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
-          left: '50%',
+          left: "50%",
           top: CENTER_Y,
           boxShadow:
-            'inset 0 0 60px rgba(164, 178, 240, 0.09), inset 0 0 3px rgba(164, 178, 240, 0.35), 0 0 0 1px rgba(164, 178, 240, 0.16), 0 0 2px 2px rgba(58, 34, 138, 0.5), 0 0 90px rgba(58, 34, 138, 0.35)',
+            "inset 0 0 60px rgba(164, 178, 240, 0.09), inset 0 0 3px rgba(164, 178, 240, 0.35), 0 0 0 1px rgba(164, 178, 240, 0.16), 0 0 2px 2px rgba(58, 34, 138, 0.5), 0 0 90px rgba(58, 34, 138, 0.35)",
         }}
+        className="absolute size-[calc(var(--iris)*2)] -translate-x-1/2 -translate-y-1/2 rounded-full"
       >
         <Reticle />
       </div>
 
-      <HudReadout label="Array" value="40.4 cm · f/8" className="top-5 left-5 md:top-8 md:left-8" />
+      <HudReadout className="top-5 left-5 md:top-8 md:left-8" label="Array" value="40.4 cm · f/8" />
       <HudReadout
-        label="Focus"
-        value={isOpen ? 'locked' : 'seeking'}
         className="top-5 right-5 md:top-8 md:right-8"
+        label="Focus"
+        value={isOpen ? "locked" : "seeking"}
       />
       {/* Las dos de abajo sólo en pantallas anchas: en mobile se pisan entre
           ellas y con el botón secundario. */}
       <HudReadout
+        className="hidden md:bottom-8 md:left-8 md:flex"
         label="RA / Dec"
         value="04h 04m · −40° 04′"
-        className="hidden md:bottom-8 md:left-8 md:flex"
       />
       <HudReadout
+        className="hidden md:right-8 md:bottom-8 md:flex"
         label="Exp"
         value="404 ms · iso 1600"
-        className="hidden md:right-8 md:bottom-8 md:flex"
       />
 
       <FocusHand />
     </div>
-  )
+  );
 }

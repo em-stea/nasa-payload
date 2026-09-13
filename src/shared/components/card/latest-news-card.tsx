@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import { Card, type CardData } from '@/shared/components/card/card'
+import {Card, type CardData} from "@/shared/components/card/card";
 
 type LatestNewsCardProps = {
-  data: CardData
-  className?: string
-}
+  data: CardData;
+  className?: string;
+};
 
-export function LatestNewsCard({ data, className }: LatestNewsCardProps) {
+export function LatestNewsCard({data, className}: LatestNewsCardProps) {
   return (
-    <Card data={data} className={className}>
+    <Card className={className} data={data}>
       <Card.Header>
         <Card.Image />
         <Card.Tag />
@@ -22,5 +22,5 @@ export function LatestNewsCard({ data, className }: LatestNewsCardProps) {
         <Card.Date />
       </Card.Footer>
     </Card>
-  )
+  );
 }

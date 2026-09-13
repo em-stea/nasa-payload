@@ -10,5 +10,5 @@
  * para usarlo.
  */
 export function getNasaApiKey() {
-  return process.env.NASA_API_KEY ?? process.env.NEXT_PUBLIC_API_KEY ?? 'DEMO_KEY'
+  return process.env.NASA_API_KEY ?? process.env.NEXT_PUBLIC_API_KEY ?? "DEMO_KEY";
 }

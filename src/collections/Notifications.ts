@@ -1,6 +1,6 @@
-import type { CollectionConfig } from 'payload'
+import type {CollectionConfig} from "payload";
 
-import { authenticated } from '../access'
+import {authenticated} from "../access";
 
 /**
  * Avisos para el lector. Hoy hay un solo disparador —alguien respondió tu
@@ -12,15 +12,15 @@ import { authenticated } from '../access'
  * igual aunque después borren el comentario que la originó.
  */
 export const Notifications: CollectionConfig = {
-  slug: 'notifications',
+  slug: "notifications",
   labels: {
-    singular: 'Notificación',
-    plural: 'Notificaciones',
+    singular: "Notificación",
+    plural: "Notificaciones",
   },
   admin: {
-    useAsTitle: 'actorName',
-    defaultColumns: ['actorName', 'type', 'user', 'read', 'createdAt'],
-    group: 'Comunidad',
+    useAsTitle: "actorName",
+    defaultColumns: ["actorName", "type", "user", "read", "createdAt"],
+    group: "Comunidad",
   },
   access: {
     create: authenticated,
@@ -30,82 +30,82 @@ export const Notifications: CollectionConfig = {
   },
   fields: [
     {
-      name: 'user',
-      type: 'relationship',
-      label: 'Destinatario',
-      relationTo: 'site-users',
+      name: "user",
+      type: "relationship",
+      label: "Destinatario",
+      relationTo: "site-users",
       hasMany: false,
       required: true,
       index: true,
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'type',
-          type: 'select',
-          label: 'Tipo',
+          name: "type",
+          type: "select",
+          label: "Tipo",
           required: true,
-          defaultValue: 'reply',
-          options: [{ label: 'Respuesta a un comentario', value: 'reply' }],
-          admin: { width: '50%' },
+          defaultValue: "reply",
+          options: [{label: "Respuesta a un comentario", value: "reply"}],
+          admin: {width: "50%"},
         },
         {
-          name: 'read',
-          type: 'checkbox',
-          label: 'Leída',
+          name: "read",
+          type: "checkbox",
+          label: "Leída",
           defaultValue: false,
           index: true,
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
       ],
     },
     {
-      name: 'actorName',
-      type: 'text',
-      label: 'Quién la disparó',
+      name: "actorName",
+      type: "text",
+      label: "Quién la disparó",
       required: true,
     },
     {
-      name: 'excerpt',
-      type: 'textarea',
-      label: 'Fragmento',
+      name: "excerpt",
+      type: "textarea",
+      label: "Fragmento",
       maxLength: 300,
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'articleId',
-          type: 'text',
-          label: 'ID del artículo',
+          name: "articleId",
+          type: "text",
+          label: "ID del artículo",
           required: true,
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
         {
-          name: 'articleTitle',
-          type: 'text',
-          label: 'Título del artículo',
-          admin: { width: '50%' },
+          name: "articleTitle",
+          type: "text",
+          label: "Título del artículo",
+          admin: {width: "50%"},
         },
       ],
     },
     {
-      name: 'comment',
-      type: 'relationship',
-      label: 'Respuesta',
-      relationTo: 'comments',
+      name: "comment",
+      type: "relationship",
+      label: "Respuesta",
+      relationTo: "comments",
       hasMany: false,
-      admin: { position: 'sidebar' },
+      admin: {position: "sidebar"},
     },
     {
-      name: 'parent',
-      type: 'relationship',
-      label: 'Comentario respondido',
-      relationTo: 'comments',
+      name: "parent",
+      type: "relationship",
+      label: "Comentario respondido",
+      relationTo: "comments",
       hasMany: false,
-      admin: { position: 'sidebar' },
+      admin: {position: "sidebar"},
     },
   ],
   timestamps: true,
-}
+};

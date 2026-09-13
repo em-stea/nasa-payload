@@ -1,17 +1,18 @@
-import { getSessionSiteUser } from '@/features/account/services/site-user'
-import type { MyCommentView } from '@/features/comments/types/comment'
-import { getPayloadClient } from '@/shared/services/payload'
+import type {MyCommentView} from "@/features/comments/types/comment";
 
-const PAGE_SIZE = 20
+import {getSessionSiteUser} from "@/features/account/services/site-user";
+import {getPayloadClient} from "@/shared/services/payload";
+
+const PAGE_SIZE = 20;
 
 export type MyCommentsPage = {
-  comments: MyCommentView[]
-  page: number
-  totalPages: number
-  totalDocs: number
-}
+  comments: MyCommentView[];
+  page: number;
+  totalPages: number;
+  totalDocs: number;
+};
 
-const EMPTY_PAGE: MyCommentsPage = { comments: [], page: 1, totalPages: 1, totalDocs: 0 }
+const EMPTY_PAGE: MyCommentsPage = {comments: [], page: 1, totalPages: 1, totalDocs: 0};
 
 /**
  * Comentarios propios del lector del request, paginados de a 20.
@@ -21,21 +22,22 @@ const EMPTY_PAGE: MyCommentsPage = { comments: [], page: 1, totalPages: 1, total
  * marcó como rechazado o spam no sale de "My Comments".
  */
 export async function getMyComments(page: number): Promise<MyCommentsPage> {
-  const siteUser = await getSessionSiteUser()
-  if (!siteUser) return EMPTY_PAGE
+  const siteUser = await getSessionSiteUser();
 
-  const payload = await getPayloadClient()
+  if (!siteUser) return EMPTY_PAGE;
+
+  const payload = await getPayloadClient();
 
   const result = await payload.find({
-    collection: 'comments',
+    collection: "comments",
     where: {
-      and: [{ author: { equals: siteUser.id } }, { status: { equals: 'approved' } }],
+      and: [{author: {equals: siteUser.id}}, {status: {equals: "approved"}}],
     },
-    sort: '-createdAt',
+    sort: "-createdAt",
     page,
     limit: PAGE_SIZE,
     depth: 0,
-  })
+  });
 
   return {
     comments: result.docs.map((comment) => ({
@@ -48,5 +50,5 @@ export async function getMyComments(page: number): Promise<MyCommentsPage> {
     page: result.page ?? 1,
     totalPages: result.totalPages,
     totalDocs: result.totalDocs,
-  }
+  };
 }

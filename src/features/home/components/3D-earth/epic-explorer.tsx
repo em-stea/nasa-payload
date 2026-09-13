@@ -1,106 +1,108 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { type ReactNode, useCallback, useEffect, useState } from 'react'
+import type {EpicCapture} from "@/features/home/types/epic";
 
-import type { EpicCapture } from '@/features/home/types/epic'
+import Image from "next/image";
+import {type ReactNode, useCallback, useEffect, useState} from "react";
+
 import {
   toCaptureTimestamp,
   toLatitudeLabel,
   toLongitudeLabel,
-} from '@/features/home/utils/format-capture'
-import { Button } from '@/shared/components/button/button'
-import { Text } from '@/shared/components/text/text'
-import { textVariants } from '@/shared/styles/components/text'
-import { cn } from '@/shared/utils/className-builder'
-import { ScrambleValue } from './scramble-value'
-import { FLIGHT_DURATION_MS, GlobeEarth } from './wrapper-earth'
+} from "@/features/home/utils/format-capture";
+import {Button} from "@/shared/components/button/button";
+import {Text} from "@/shared/components/text/text";
+import {textVariants} from "@/shared/styles/components/text";
+import {cn} from "@/shared/utils/className-builder";
+
+import {ScrambleValue} from "./scramble-value";
+import {FLIGHT_DURATION_MS, GlobeEarth} from "./wrapper-earth";
 
 type ReadoutProps = {
-  label: string
+  label: string;
   /** Vacío mientras no haya toma elegida: la lectura queda en guión. */
-  value: string
+  value: string;
   /** La fecha de captura va en el azul del diseño; las coordenadas, en blanco. */
-  accent?: boolean
-}
+  accent?: boolean;
+};
 
-function Readout({ label, value, accent }: ReadoutProps) {
+function Readout({label, value, accent}: ReadoutProps) {
   return (
     <div className="flex flex-col gap-1.25">
-      <Text variant="body.2" className="font-normal text-basic-500">
+      <Text className="font-normal text-basic-500" variant="body.2">
         {label}
       </Text>
 
       {value ? (
         <ScrambleValue
+          className={cn(
+            textVariants({variant: "body.1"}),
+            "leading-6 whitespace-nowrap",
+            accent ? "text-blue-200" : "text-basic-00",
+          )}
           key={value}
           value={value}
-          className={cn(
-            textVariants({ variant: 'body.1' }),
-            'leading-6 whitespace-nowrap',
-            accent ? 'text-blue-200' : 'text-basic-00',
-          )}
         />
       ) : (
-        <Text variant="body.1" className="leading-6 text-basic-500">
+        <Text className="leading-6 text-basic-500" variant="body.1">
           —
         </Text>
       )}
     </div>
-  )
+  );
 }
 
 /** El punto sub-satelital de la toma elegida, como la card del diseño. */
-function CaptureReadouts({ capture }: { capture: EpicCapture | null }) {
+function CaptureReadouts({capture}: {capture: EpicCapture | null}) {
   return (
     <div className="grid w-full grid-cols-2 gap-2 rounded-xl border-t border-l border-basic-00-10 bg-basic-950-60 px-4 pt-4 pb-4 shadow-card backdrop-blur-sm">
-      <Readout label="Latitude" value={capture ? toLatitudeLabel(capture) : ''} />
-      <Readout label="Longitude" value={capture ? toLongitudeLabel(capture) : ''} />
+      <Readout label="Latitude" value={capture ? toLatitudeLabel(capture) : ""} />
+      <Readout label="Longitude" value={capture ? toLongitudeLabel(capture) : ""} />
 
       <div className="col-span-2 mt-2 border-t border-basic-00-10 pt-2.25">
         <Readout
-          label="Capture date"
-          value={capture ? toCaptureTimestamp(capture.date) : ''}
           accent
+          label="Capture date"
+          value={capture ? toCaptureTimestamp(capture.date) : ""}
         />
       </div>
     </div>
-  )
+  );
 }
 
 type EpicExplorerProps = {
-  captures: EpicCapture[]
+  captures: EpicCapture[];
   /** La bajada de la sección, renderizada en el server. */
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
-export function EpicExplorer({ captures, children }: EpicExplorerProps) {
-  const [activeCaptureId, setActiveCaptureId] = useState<string | null>(null)
+export function EpicExplorer({captures, children}: EpicExplorerProps) {
+  const [activeCaptureId, setActiveCaptureId] = useState<string | null>(null);
   /**
    * La foto que está —o estuvo— sobre el globo. Sobrevive a la deselección
    * para que el disco se desvanezca en vez de desaparecer de un frame al otro.
    */
-  const [photoCapture, setPhotoCapture] = useState<EpicCapture | null>(null)
+  const [photoCapture, setPhotoCapture] = useState<EpicCapture | null>(null);
 
-  const activeCapture = captures.find(({ id }) => id === activeCaptureId) ?? null
+  const activeCapture = captures.find(({id}) => id === activeCaptureId) ?? null;
 
   /**
    * El disco real entra recién cuando el globo terminó de girar: hasta ahí se
    * ve la maniobra, y el cambio de foto queda escondido detrás del fundido.
    */
   useEffect(() => {
-    if (!activeCapture) return
+    if (!activeCapture) return;
 
-    const timeout = setTimeout(() => setPhotoCapture(activeCapture), FLIGHT_DURATION_MS)
+    const timeout = setTimeout(() => setPhotoCapture(activeCapture), FLIGHT_DURATION_MS);
 
-    return () => clearTimeout(timeout)
-  }, [activeCapture])
+    return () => clearTimeout(timeout);
+  }, [activeCapture]);
 
   const handleSelectCapture = useCallback((captureId: string) => {
-    setActiveCaptureId((current) => (current === captureId ? null : captureId))
-  }, [])
+    setActiveCaptureId((current) => (current === captureId ? null : captureId));
+  }, []);
 
-  const isPhotoVisible = Boolean(activeCapture) && photoCapture?.id === activeCaptureId
+  const isPhotoVisible = Boolean(activeCapture) && photoCapture?.id === activeCaptureId;
 
   return (
     // Dos mitades iguales, como el diseño: la bajada y la card miden lo mismo
@@ -117,23 +119,23 @@ export function EpicExplorer({ captures, children }: EpicExplorerProps) {
           <div className="size-full rounded-full border border-red-200-30 bg-basic-970 p-2.5">
             <div className="relative size-full overflow-hidden rounded-full border border-basic-00-10 bg-basic-970 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
               <GlobeEarth
-                captures={captures}
                 activeCaptureId={activeCaptureId}
+                captures={captures}
                 onSelectCapture={handleSelectCapture}
               />
 
               {photoCapture && (
                 <Image
-                  src={photoCapture.imageUrl}
-                  alt={photoCapture.caption}
                   fill
-                  sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 320px"
                   className={cn(
                     // Sobre los pines —el disco real ya es esa toma— y a la
                     // escala del globo, para que el fundido calce.
-                    'pointer-events-none z-10 scale-[1.28] object-cover transition-opacity duration-700',
-                    isPhotoVisible ? 'opacity-100' : 'opacity-0',
+                    "pointer-events-none z-10 scale-[1.28] object-cover transition-opacity duration-700",
+                    isPhotoVisible ? "opacity-100" : "opacity-0",
                   )}
+                  alt={photoCapture.caption}
+                  sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 320px"
+                  src={photoCapture.imageUrl}
                 />
               )}
             </div>
@@ -142,25 +144,25 @@ export function EpicExplorer({ captures, children }: EpicExplorerProps) {
 
         {/* Siempre montado: si apareciera y desapareciera, el globo saltaría. */}
         <Text
-          variant="meta.1"
           className={cn(
-            'text-center text-basic-500 transition-opacity duration-500',
-            activeCapture ? 'opacity-0' : 'opacity-100',
+            "text-center text-basic-500 transition-opacity duration-500",
+            activeCapture ? "opacity-0" : "opacity-100",
           )}
+          variant="meta.1"
         >
           Pick a capture on the globe
         </Text>
 
         {/* La salida de la toma elegida; en vivo queda encendido, como estado. */}
         <Button
-          variant="primary"
-          size="xs"
           active={!activeCapture}
+          size="xs"
+          variant="primary"
           onClick={() => setActiveCaptureId(null)}
         >
           Live globe
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -1,13 +1,14 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
+import type {Metadata} from "next";
 
-import { EventDetailHero } from '@/features/events/components/event-detail-hero'
-import { EventTelemetry } from '@/features/events/components/event-telemetry'
-import { EventTimeline } from '@/features/events/components/event-timeline'
-import { EventTrackMap } from '@/features/events/components/event-track-map'
-import { getEvent } from '@/features/events/services/get-event'
-import { Container } from '@/shared/components/container/container'
+import {notFound} from "next/navigation";
+import {Suspense} from "react";
+
+import {EventDetailHero} from "@/features/events/components/event-detail-hero";
+import {EventTelemetry} from "@/features/events/components/event-telemetry";
+import {EventTimeline} from "@/features/events/components/event-timeline";
+import {EventTrackMap} from "@/features/events/components/event-track-map";
+import {getEvent} from "@/features/events/services/get-event";
+import {Container} from "@/shared/components/container/container";
 
 /**
  * Detalle de un evento natural.
@@ -17,33 +18,33 @@ import { Container } from '@/shared/components/container/container'
  * mismas medidas para que nada salte al resolverse.
  */
 
-export const instant = true
+export const instant = true;
 
-type EventParams = { id: string }
+type EventParams = {id: string};
 
 /** El id de la URL es la parte numérica del identificador de EONET. */
 function readEventRef(value: string) {
-  return /^\d+$/.test(value) ? value : null
+  return /^\d+$/.test(value) ? value : null;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<EventParams>
+  params: Promise<EventParams>;
 }): Promise<Metadata> {
-  const ref = readEventRef((await params).id)
-  const event = ref ? await getEvent(ref) : null
+  const ref = readEventRef((await params).id);
+  const event = ref ? await getEvent(ref) : null;
 
-  if (!event) return { title: 'Evento no encontrado' }
+  if (!event) return {title: "Evento no encontrado"};
 
   return {
     title: event.title,
     description:
       event.description ?? `${event.category.label} tracked by NASA EONET at ${event.coords}.`,
-  }
+  };
 }
 
-export default function EventPage({ params }: { params: Promise<EventParams> }) {
+export default function EventPage({params}: {params: Promise<EventParams>}) {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
       <Container className="flex flex-col items-start gap-8">
@@ -52,14 +53,14 @@ export default function EventPage({ params }: { params: Promise<EventParams> }) 
         </Suspense>
       </Container>
     </main>
-  )
+  );
 }
 
-async function EventRoute({ params }: { params: Promise<EventParams> }) {
-  const ref = readEventRef((await params).id)
-  const event = ref ? await getEvent(ref) : null
+async function EventRoute({params}: {params: Promise<EventParams>}) {
+  const ref = readEventRef((await params).id);
+  const event = ref ? await getEvent(ref) : null;
 
-  if (!event) notFound()
+  if (!event) notFound();
 
   return (
     <>
@@ -76,13 +77,13 @@ async function EventRoute({ params }: { params: Promise<EventParams> }) {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 /** Mismas medidas que el contenido, para que nada salte al resolverse. */
 function EventSkeleton() {
   return (
-    <div className="flex w-full animate-pulse flex-col gap-8" aria-hidden="true">
+    <div aria-hidden="true" className="flex w-full animate-pulse flex-col gap-8">
       <div className="flex flex-col gap-4">
         <div className="h-6 w-48 rounded-lg bg-card" />
         <div className="h-12 w-3/4 bg-card" />
@@ -101,5 +102,5 @@ function EventSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

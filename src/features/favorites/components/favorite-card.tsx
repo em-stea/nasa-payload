@@ -1,11 +1,12 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { useState } from 'react'
+import type {Favorite} from "@/payload-types";
 
-import { FavoriteButton } from '@/features/favorites/components/favorite-button'
-import type { Favorite } from '@/payload-types'
-import { Card } from '@/shared/components/card/card'
+import Link from "next/link";
+import {useState} from "react";
+
+import {FavoriteButton} from "@/features/favorites/components/favorite-button";
+import {Card} from "@/shared/components/card/card";
 
 /**
  * Card de un guardado.
@@ -19,22 +20,22 @@ import { Card } from '@/shared/components/card/card'
  * que la card se saca sola apenas el botón pasa a "no guardado" —optimista,
  * sin esperar respuesta del server ni refrescar la ruta.
  */
-export function FavoriteCard({ favorite }: { favorite: Favorite }) {
-  const [removed, setRemoved] = useState(false)
+export function FavoriteCard({favorite}: {favorite: Favorite}) {
+  const [removed, setRemoved] = useState(false);
 
-  if (removed) return null
+  if (removed) return null;
 
   return (
     <Card
-      className="relative h-full"
       data={{
         tag: favorite.tag ?? undefined,
-        tone: favorite.tone ?? 'blue',
+        tone: favorite.tone ?? "blue",
         image: favorite.image ?? undefined,
-        imageAlt: '',
+        imageAlt: "",
         title: favorite.title,
         description: favorite.description ?? undefined,
       }}
+      className="relative h-full"
     >
       <Card.Header>
         <Card.Image />
@@ -44,11 +45,8 @@ export function FavoriteCard({ favorite }: { favorite: Favorite }) {
       <Card.Body className="flex-1 pb-4">
         <div className="relative z-10 flex items-center justify-end">
           <FavoriteButton
-            saved
             canSave
-            onSavedChange={(saved) => {
-              if (!saved) setRemoved(true)
-            }}
+            saved
             item={{
               kind: favorite.kind,
               itemId: favorite.itemId,
@@ -59,13 +57,16 @@ export function FavoriteCard({ favorite }: { favorite: Favorite }) {
               tag: favorite.tag ?? undefined,
               tone: favorite.tone ?? undefined,
             }}
+            onSavedChange={(saved) => {
+              if (!saved) setRemoved(true);
+            }}
           />
         </div>
 
         <Card.Title className="line-clamp-2">
           <Link
-            href={favorite.href ?? '/news'}
             className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-200"
+            href={favorite.href ?? "/news"}
           >
             {favorite.title}
           </Link>
@@ -74,5 +75,5 @@ export function FavoriteCard({ favorite }: { favorite: Favorite }) {
         <Card.Description className="line-clamp-3" />
       </Card.Body>
     </Card>
-  )
+  );
 }

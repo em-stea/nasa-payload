@@ -1,19 +1,16 @@
-import type { ComponentProps } from 'react'
+import type {ComponentProps} from "react";
 
-import { containerVariants } from '@/shared/styles/components/container'
-import { cn } from '@/shared/utils/className-builder'
-import { VariantProps } from 'class-variance-authority'
+import {VariantProps} from "class-variance-authority";
 
-type ContainerProps = ComponentProps<'div'> & VariantProps<typeof containerVariants>
+import {containerVariants} from "@/shared/styles/components/container";
+import {cn} from "@/shared/utils/className-builder";
 
-function Container({ className, variant, ...props }: ContainerProps) {
+type ContainerProps = ComponentProps<"div"> & VariantProps<typeof containerVariants>;
+
+function Container({className, variant, ...props}: ContainerProps) {
   return (
-    <div
-      data-slot="container"
-      className={cn(containerVariants({ variant }), className)}
-      {...props}
-    />
-  )
+    <div className={cn(containerVariants({variant}), className)} data-slot="container" {...props} />
+  );
 }
 
-export { Container }
+export {Container};

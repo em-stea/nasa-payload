@@ -1,5 +1,5 @@
-import configPromise from '@payload-config'
-import { getPayload, type Payload } from 'payload'
+import configPromise from "@payload-config";
+import {getPayload, type Payload} from "payload";
 
 /**
  * Instancia de Payload para usar desde el server del blog (Local API).
@@ -13,5 +13,5 @@ import { getPayload, type Payload } from 'payload'
  * request no reconecta nada.
  */
 export function getPayloadClient(): Promise<Payload> {
-  return getPayload({ config: configPromise })
+  return getPayload({config: configPromise});
 }

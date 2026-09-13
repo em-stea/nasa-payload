@@ -1,10 +1,10 @@
-export function Google({ ...props }) {
+export function Google({...props}) {
   return (
     <svg
-      width="24"
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -27,5 +27,5 @@ export function Google({ ...props }) {
         />
       </g>
     </svg>
-  )
+  );
 }

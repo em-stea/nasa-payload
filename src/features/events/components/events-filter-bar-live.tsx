@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { useSearchParams } from 'next/navigation'
+import {useSearchParams} from "next/navigation";
 
-import { EventsFilterBar } from '@/features/events/components/events-filter-bar'
-import { isEventCategorySlug } from '@/features/events/constants/categories'
+import {EventsFilterBar} from "@/features/events/components/events-filter-bar";
+import {isEventCategorySlug} from "@/features/events/constants/categories";
 
 /**
  * La barra de filtros conectada a la URL.
@@ -17,7 +17,7 @@ import { isEventCategorySlug } from '@/features/events/constants/categories'
  * barra sin chip activo, con las mismas medidas.
  */
 export function EventsFilterBarLive() {
-  const category = useSearchParams().get('category')
+  const category = useSearchParams().get("category");
 
-  return <EventsFilterBar active={isEventCategorySlug(category) ? category : undefined} />
+  return <EventsFilterBar active={isEventCategorySlug(category) ? category : undefined} />;
 }

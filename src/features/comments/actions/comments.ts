@@ -1,14 +1,15 @@
-'use server'
+"use server";
 
-import { refresh } from 'next/cache'
-import { z } from 'zod'
+import type {CommentActionState} from "@/features/comments/actions/state";
 
-import { requireSiteUser } from '@/features/account/services/site-user'
-import type { CommentActionState } from '@/features/comments/actions/state'
-import { getPayloadClient } from '@/shared/services/payload'
+import {refresh} from "next/cache";
+import {z} from "zod";
 
-const MIN_LENGTH = 2
-const MAX_LENGTH = 2000
+import {requireSiteUser} from "@/features/account/services/site-user";
+import {getPayloadClient} from "@/shared/services/payload";
+
+const MIN_LENGTH = 2;
+const MAX_LENGTH = 2000;
 
 const createSchema = z.object({
   articleId: z.string().min(1),
@@ -20,22 +21,22 @@ const createSchema = z.object({
     .trim()
     .min(MIN_LENGTH, `El comentario necesita al menos ${MIN_LENGTH} caracteres.`)
     .max(MAX_LENGTH, `El comentario no puede superar los ${MAX_LENGTH} caracteres.`),
-})
+});
 
 function readForm(formData: FormData) {
   const value = (name: string) => {
-    const raw = formData.get(name)
+    const raw = formData.get(name);
 
-    return typeof raw === 'string' && raw.length > 0 ? raw : undefined
-  }
+    return typeof raw === "string" && raw.length > 0 ? raw : undefined;
+  };
 
   return {
-    articleId: value('articleId') ?? '',
-    articleTitle: value('articleTitle'),
-    articleUrl: value('articleUrl'),
-    parentId: value('parentId'),
-    content: value('content') ?? '',
-  }
+    articleId: value("articleId") ?? "",
+    articleTitle: value("articleTitle"),
+    articleUrl: value("articleUrl"),
+    parentId: value("parentId"),
+    content: value("content") ?? "",
+  };
 }
 
 /**
@@ -53,26 +54,26 @@ export async function createComment(
   _state: CommentActionState,
   formData: FormData,
 ): Promise<CommentActionState> {
-  const parsed = createSchema.safeParse(readForm(formData))
+  const parsed = createSchema.safeParse(readForm(formData));
 
   if (!parsed.success) {
-    return { status: 'error', message: parsed.error.issues[0]?.message ?? 'Revisá el comentario.' }
+    return {status: "error", message: parsed.error.issues[0]?.message ?? "Revisá el comentario."};
   }
 
-  let siteUser
+  let siteUser;
 
   try {
-    siteUser = await requireSiteUser()
+    siteUser = await requireSiteUser();
   } catch {
-    return { status: 'error', message: 'Necesitás iniciar sesión para comentar.' }
+    return {status: "error", message: "Necesitás iniciar sesión para comentar."};
   }
 
-  const payload = await getPayloadClient()
-  const { articleId, articleTitle, articleUrl, parentId, content } = parsed.data
+  const payload = await getPayloadClient();
+  const {articleId, articleTitle, articleUrl, parentId, content} = parsed.data;
 
   try {
     await payload.create({
-      collection: 'comments',
+      collection: "comments",
       data: {
         articleId,
         articleTitle,
@@ -82,17 +83,17 @@ export async function createComment(
         author: siteUser.id,
         content,
         parent: parentId,
-        status: 'approved',
+        status: "approved",
       },
       depth: 0,
-    })
+    });
   } catch (error) {
-    payload.logger.error({ err: error, msg: 'No se pudo guardar el comentario' })
+    payload.logger.error({err: error, msg: "No se pudo guardar el comentario"});
 
-    return { status: 'error', message: 'No pudimos guardar tu comentario. Probá de nuevo.' }
+    return {status: "error", message: "No pudimos guardar tu comentario. Probá de nuevo."};
   }
 
-  refresh()
+  refresh();
 
-  return { status: 'success', formKey: Date.now() }
+  return {status: "success", formKey: Date.now()};
 }

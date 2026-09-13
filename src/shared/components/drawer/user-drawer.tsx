@@ -1,25 +1,26 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { useTheme } from 'next-themes'
-import { useState, type ComponentProps, type ReactNode } from 'react'
-import { Dialog } from 'radix-ui'
+import type {NavbarLogoData} from "@/shared/components/navbar/navbar";
 
-import { AUTH_PROVIDERS, type AuthProviderId } from '@/features/auth/providers'
-import { UnreadNotificationsBadge } from '@/features/notifications/components/unread-badge'
-import { Account } from '@/shared/components/icons/other/account'
-import { Bell } from '@/shared/components/icons/other/bell'
-import { Comments } from '@/shared/components/icons/other/comments'
-import { Cross } from '@/shared/components/icons/feedback/cross'
-import { Heart } from '@/shared/components/icons/other/heart'
-import { Logout } from '@/shared/components/icons/other/logout'
-import { Moon } from '@/shared/components/icons/other/moon'
-import { Settings } from '@/shared/components/icons/other/settings'
-import { User } from '@/shared/components/icons/other/user'
-import type { NavbarLogoData } from '@/shared/components/navbar/navbar'
-import { Switch } from '@/shared/components/switch/switch'
+import {signIn, signOut, useSession} from "next-auth/react";
+import {useTheme} from "next-themes";
+import Image from "next/image";
+import Link from "next/link";
+import {Dialog} from "radix-ui";
+import {type ComponentProps, type ReactNode, useState} from "react";
+
+import {AUTH_PROVIDERS, type AuthProviderId} from "@/features/auth/providers";
+import {UnreadNotificationsBadge} from "@/features/notifications/components/unread-badge";
+import {Cross} from "@/shared/components/icons/feedback/cross";
+import {Account} from "@/shared/components/icons/other/account";
+import {Bell} from "@/shared/components/icons/other/bell";
+import {Comments} from "@/shared/components/icons/other/comments";
+import {Heart} from "@/shared/components/icons/other/heart";
+import {Logout} from "@/shared/components/icons/other/logout";
+import {Moon} from "@/shared/components/icons/other/moon";
+import {Settings} from "@/shared/components/icons/other/settings";
+import {User} from "@/shared/components/icons/other/user";
+import {Switch} from "@/shared/components/switch/switch";
 import {
   drawerActionIconVariants,
   drawerAvatarIconVariants,
@@ -52,35 +53,35 @@ import {
   drawerUserEmailVariants,
   drawerUserMetaVariants,
   drawerUserNameVariants,
-} from '@/shared/styles/components/drawer'
-import { cn } from '@/shared/utils/className-builder'
+} from "@/shared/styles/components/drawer";
+import {cn} from "@/shared/utils/className-builder";
 
-type IconComponent = (props: ComponentProps<'svg'>) => ReactNode
+type IconComponent = (props: ComponentProps<"svg">) => ReactNode;
 
 type PreferenceLink = {
-  href: string
-  label: string
-  icon: IconComponent
+  href: string;
+  label: string;
+  icon: IconComponent;
   /** Muestra el contador de avisos sin leer al final de la fila. */
-  showUnread?: boolean
-}
+  showUnread?: boolean;
+};
 
 /** Acciones de cuenta: sólo visibles con sesión iniciada. */
 const PREFERENCE_LINKS: PreferenceLink[] = [
-  { href: '/favorites', label: 'Favorites', icon: Heart },
-  { href: '/comments', label: 'My Comments', icon: Comments },
-  { href: '/notifications', label: 'Notifications', icon: Bell, showUnread: true },
-  { href: '/settings', label: 'Settings', icon: Settings },
-  { href: '/account', label: 'Account', icon: Account },
-]
+  {href: "/favorites", label: "Favorites", icon: Heart},
+  {href: "/comments", label: "My Comments", icon: Comments},
+  {href: "/notifications", label: "Notifications", icon: Bell, showUnread: true},
+  {href: "/settings", label: "Settings", icon: Settings},
+  {href: "/account", label: "Account", icon: Account},
+];
 
 function DarkModeSwitch() {
-  const { resolvedTheme, setTheme } = useTheme()
+  const {resolvedTheme, setTheme} = useTheme();
 
   // Sin guard de hidratación a propósito: Dialog.Portal no renderiza nada
   // mientras el drawer está cerrado, así que esto monta recién al abrirlo,
   // siempre después de hidratar y con el tema ya resuelto.
-  const isDark = resolvedTheme === 'dark'
+  const isDark = resolvedTheme === "dark";
 
   return (
     <div className={drawerThemeRowVariants()}>
@@ -89,62 +90,62 @@ function DarkModeSwitch() {
         Dark Mode
       </label>
       <Switch
-        id="drawer-dark-mode"
         checked={isDark}
-        onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
         className={drawerSwitchVariants()}
+        id="drawer-dark-mode"
         thumbClassName={drawerSwitchThumbVariants()}
+        onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
       />
     </div>
-  )
+  );
 }
 
 /** Botones de OAuth. `pending` bloquea la lista mientras se abre el redirect. */
-function LoginActions({ disabled }: { disabled: boolean }) {
-  const [pending, setPending] = useState<AuthProviderId | null>(null)
+function LoginActions({disabled}: {disabled: boolean}) {
+  const [pending, setPending] = useState<AuthProviderId | null>(null);
 
   return (
     <div className={drawerLoginWrapperVariants()}>
-      {AUTH_PROVIDERS.map(({ id, label, icon: Icon }, index) => (
+      {AUTH_PROVIDERS.map(({id, label, icon: Icon}, index) => (
         <button
+          className={drawerLoginVariants({intent: index === 0 ? "primary" : "secondary"})}
+          disabled={disabled || pending !== null}
           key={id}
           type="button"
-          disabled={disabled || pending !== null}
           onClick={() => {
-            setPending(id)
+            setPending(id);
             // signIn navega fuera del sitio; si el usuario vuelve con el botón
             // atrás el componente se remonta y `pending` arranca en null.
-            void signIn(id)
+            void signIn(id);
           }}
-          className={drawerLoginVariants({ intent: index === 0 ? 'primary' : 'secondary' })}
         >
           <Icon className={drawerActionIconVariants()} />
-          {pending === id ? 'Redirecting…' : label}
+          {pending === id ? "Redirecting…" : label}
         </button>
       ))}
     </div>
-  )
+  );
 }
 
 export type UserDrawerProps = {
   /** Disparador del drawer (se renderiza con asChild). */
-  children: ReactNode
-  logo: NavbarLogoData
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-}
+  children: ReactNode;
+  logo: NavbarLogoData;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
 
 /**
  * Drawer de usuario. El contenido depende de la sesión de Auth.js:
  * deslogueado sólo ofrece los providers de OAuth (más el tema, que es una
  * preferencia del dispositivo); logueado muestra perfil, preferencias y logout.
  */
-export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerProps) {
-  const { data: session, status } = useSession()
+export function UserDrawer({children, logo, open, onOpenChange}: UserDrawerProps) {
+  const {data: session, status} = useSession();
 
-  const isLoading = status === 'loading'
-  const user = session?.user
-  const isAuthenticated = status === 'authenticated' && Boolean(user)
+  const isLoading = status === "loading";
+  const user = session?.user;
+  const isAuthenticated = status === "authenticated" && Boolean(user);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -153,25 +154,25 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
       <Dialog.Portal>
         <Dialog.Overlay className={drawerOverlayVariants()} />
 
-        <Dialog.Content data-slot="user-drawer" className={drawerContentVariants()}>
+        <Dialog.Content className={drawerContentVariants()} data-slot="user-drawer">
           <Dialog.Description className="sr-only">
             {isAuthenticated
-              ? 'Perfil, tema y preferencias de la cuenta.'
-              : 'Iniciá sesión para acceder a tu cuenta.'}
+              ? "Perfil, tema y preferencias de la cuenta."
+              : "Iniciá sesión para acceder a tu cuenta."}
           </Dialog.Description>
 
-          <div data-slot="user-drawer-header" className={drawerHeaderVariants()}>
+          <div className={drawerHeaderVariants()} data-slot="user-drawer-header">
             <div className={drawerIdentityVariants()}>
               {isAuthenticated ? (
                 <>
                   <span className={drawerAvatarVariants()}>
                     {user?.image ? (
                       <Image
-                        src={user.image}
-                        alt={user.name ?? 'Avatar'}
-                        width={40}
-                        height={40}
+                        alt={user.name ?? "Avatar"}
                         className={drawerAvatarImageVariants()}
+                        height={40}
+                        src={user.image}
+                        width={40}
                       />
                     ) : (
                       <User className={drawerAvatarIconVariants()} />
@@ -179,7 +180,7 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
                   </span>
                   <span className={drawerUserMetaVariants()}>
                     <Dialog.Title className={drawerUserNameVariants()}>
-                      {user?.name ?? 'Astronaut'}
+                      {user?.name ?? "Astronaut"}
                     </Dialog.Title>
                     {user?.email && <span className={drawerUserEmailVariants()}>{user.email}</span>}
                   </span>
@@ -188,11 +189,11 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
                 <>
                   <span className={drawerLogoVariants()}>
                     <Image
-                      src={logo.src}
                       alt={logo.alt}
-                      width={40}
-                      height={40}
                       className={drawerLogoImageVariants()}
+                      height={40}
+                      src={logo.src}
+                      width={40}
                     />
                   </span>
                   <Dialog.Title className={drawerTitleVariants()}>User Profile</Dialog.Title>
@@ -205,7 +206,7 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
             </Dialog.Close>
           </div>
 
-          <div data-slot="user-drawer-body" className={drawerBodyVariants()}>
+          <div className={drawerBodyVariants()} data-slot="user-drawer-body">
             {!isAuthenticated && <LoginActions disabled={isLoading} />}
 
             <section className={drawerSectionVariants()}>
@@ -217,9 +218,9 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
               <section className={drawerSectionVariants()}>
                 <h4 className={drawerSectionTitleVariants()}>Preferences</h4>
                 <nav className={drawerNavVariants()}>
-                  {PREFERENCE_LINKS.map(({ href, label, icon: Icon, showUnread }) => (
-                    <Dialog.Close key={href} asChild>
-                      <Link href={href} className={cn(drawerNavLinkVariants())}>
+                  {PREFERENCE_LINKS.map(({href, label, icon: Icon, showUnread}) => (
+                    <Dialog.Close asChild key={href}>
+                      <Link className={cn(drawerNavLinkVariants())} href={href}>
                         <Icon className={drawerNavLinkIconVariants()} />
                         {label}
                         {showUnread && <UnreadNotificationsBadge />}
@@ -232,11 +233,11 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
           </div>
 
           {isAuthenticated && (
-            <div data-slot="user-drawer-footer" className={drawerFooterVariants()}>
+            <div className={drawerFooterVariants()} data-slot="user-drawer-footer">
               <button
+                className={drawerLogoutVariants()}
                 type="button"
                 onClick={() => void signOut()}
-                className={drawerLogoutVariants()}
               >
                 <Logout className={drawerActionIconVariants()} />
                 Logout
@@ -246,5 +247,5 @@ export function UserDrawer({ children, logo, open, onOpenChange }: UserDrawerPro
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  )
+  );
 }

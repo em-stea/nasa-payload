@@ -1,10 +1,10 @@
-'use server'
+"use server";
 
-import { refresh } from 'next/cache'
+import {refresh} from "next/cache";
 
-import { getSessionSiteUser, requireSiteUser } from '@/features/account/services/site-user'
-import { countUnreadNotifications } from '@/features/notifications/services/get-notifications'
-import { getPayloadClient } from '@/shared/services/payload'
+import {getSessionSiteUser, requireSiteUser} from "@/features/account/services/site-user";
+import {countUnreadNotifications} from "@/features/notifications/services/get-notifications";
+import {getPayloadClient} from "@/shared/services/payload";
 
 /**
  * Marca como leídos todos los avisos del lector.
@@ -14,36 +14,37 @@ import { getPayloadClient } from '@/shared/services/payload'
  * haber pasado por la lista.
  */
 export async function markAllNotificationsRead(): Promise<void> {
-  const siteUser = await requireSiteUser()
-  const payload = await getPayloadClient()
+  const siteUser = await requireSiteUser();
+  const payload = await getPayloadClient();
 
   await payload.update({
-    collection: 'notifications',
+    collection: "notifications",
     where: {
-      and: [{ user: { equals: siteUser.id } }, { read: { not_equals: true } }],
+      and: [{user: {equals: siteUser.id}}, {read: {not_equals: true}}],
     },
-    data: { read: true },
+    data: {read: true},
     depth: 0,
-  })
+  });
 
-  refresh()
+  refresh();
 }
 
 /** Marca un aviso como leído (al abrir el hilo desde la lista). */
 export async function markNotificationRead(id: string): Promise<void> {
-  const siteUser = await getSessionSiteUser()
-  if (!siteUser) return
+  const siteUser = await getSessionSiteUser();
 
-  const payload = await getPayloadClient()
+  if (!siteUser) return;
+
+  const payload = await getPayloadClient();
 
   await payload.update({
-    collection: 'notifications',
+    collection: "notifications",
     where: {
-      and: [{ id: { equals: id } }, { user: { equals: siteUser.id } }],
+      and: [{id: {equals: id}}, {user: {equals: siteUser.id}}],
     },
-    data: { read: true },
+    data: {read: true},
     depth: 0,
-  })
+  });
 }
 
 /**
@@ -54,5 +55,5 @@ export async function markNotificationRead(id: string): Promise<void> {
  * Mongo en cada navegación del sitio.
  */
 export async function fetchUnreadNotificationCount(): Promise<number> {
-  return countUnreadNotifications()
+  return countUnreadNotifications();
 }

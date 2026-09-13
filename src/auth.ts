@@ -1,6 +1,6 @@
-import NextAuth from 'next-auth'
-import GitHub from 'next-auth/providers/github'
-import Google from 'next-auth/providers/google'
+import NextAuth from "next-auth";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 
 /**
  * Configuración de Auth.js (NextAuth v5).
@@ -13,23 +13,23 @@ import Google from 'next-auth/providers/google'
  * Las credenciales se infieren de las env vars `AUTH_<PROVIDER>_ID` /
  * `AUTH_<PROVIDER>_SECRET`, por eso los providers se pasan sin argumentos.
  */
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const {handlers, auth, signIn, signOut} = NextAuth({
   providers: [Google, GitHub],
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   callbacks: {
     /** Guarda el proveedor usado para poder mostrarlo en el perfil. */
-    jwt({ token, account }) {
-      if (account) token.provider = account.provider
+    jwt({token, account}) {
+      if (account) token.provider = account.provider;
 
-      return token
+      return token;
     },
-    session({ session, token }) {
-      if (token.sub) session.user.id = token.sub
-      if (typeof token.provider === 'string') session.user.provider = token.provider
+    session({session, token}) {
+      if (token.sub) session.user.id = token.sub;
+      if (typeof token.provider === "string") session.user.provider = token.provider;
 
-      return session
+      return session;
     },
   },
-})
+});

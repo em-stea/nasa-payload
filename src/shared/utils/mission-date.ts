@@ -7,25 +7,27 @@
  * hidratación. Acá lo que se ve es literalmente lo que publicó la fuente.
  */
 
-const ISO_PATTERN = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/
+const ISO_PATTERN = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/;
 
 /** `2042.11.04` */
 export function toMissionDate(iso: string) {
-  const match = iso.match(ISO_PATTERN)
-  if (!match) return iso
+  const match = iso.match(ISO_PATTERN);
 
-  const [, year, month, day] = match
+  if (!match) return iso;
 
-  return `${year}.${month}.${day}`
+  const [, year, month, day] = match;
+
+  return `${year}.${month}.${day}`;
 }
 
 /** `2042.11.04_1800Z` */
 export function toMissionTimestamp(iso: string) {
-  const match = iso.match(ISO_PATTERN)
-  if (!match) return iso
+  const match = iso.match(ISO_PATTERN);
 
-  const [, year, month, day, hours, minutes] = match
-  const time = hours && minutes ? `_${hours}${minutes}Z` : ''
+  if (!match) return iso;
 
-  return `${year}.${month}.${day}${time}`
+  const [, year, month, day, hours, minutes] = match;
+  const time = hours && minutes ? `_${hours}${minutes}Z` : "";
+
+  return `${year}.${month}.${day}${time}`;
 }

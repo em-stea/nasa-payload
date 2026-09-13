@@ -1,26 +1,26 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 import {
   NEWS_CATEGORIES,
   NEWS_FILTER_SLUGS,
   type NewsCategorySlug,
-} from '@/features/news/constants/categories'
-import { buildNewsHref } from '@/features/news/utils/build-news-href'
-import { Button } from '@/shared/components/button/button'
+} from "@/features/news/constants/categories";
+import {buildNewsHref} from "@/features/news/utils/build-news-href";
+import {Button} from "@/shared/components/button/button";
 
 type NewsFilterBarProps = {
   /** Categoría activa; `undefined` es "ALL". */
-  active?: NewsCategorySlug
-}
+  active?: NewsCategorySlug;
+};
 
 const FILTERS = [
-  { slug: undefined, label: 'All', href: buildNewsHref() },
+  {slug: undefined, label: "All", href: buildNewsHref()},
   ...NEWS_FILTER_SLUGS.map((slug) => ({
     slug,
     label: NEWS_CATEGORIES[slug].label,
-    href: buildNewsHref({ category: slug }),
+    href: buildNewsHref({category: slug}),
   })),
-]
+];
 
 /**
  * Chips de categoría. Son links a `/news?category=...`, así el filtro queda en
@@ -33,29 +33,29 @@ const FILTERS = [
  * Sin `active` renderiza la barra en reposo — misma caja, mismas medidas — y
  * por eso sirve de fallback mientras se resuelve la categoría.
  */
-export function NewsFilterBar({ active }: NewsFilterBarProps) {
+export function NewsFilterBar({active}: NewsFilterBarProps) {
   return (
     <nav aria-label="Filtrar noticias por categoría" className="w-full overflow-x-auto pt-2 pb-6">
       <ul className="flex items-start gap-2">
-        {FILTERS.map(({ slug, label, href }) => {
-          const isActive = slug === active
+        {FILTERS.map(({slug, label, href}) => {
+          const isActive = slug === active;
 
           return (
             <li key={label}>
-              <Button asChild variant="secondary" size="xs" active={isActive}>
+              <Button asChild active={isActive} size="xs" variant="secondary">
                 <Link
-                  href={href}
                   prefetch
+                  aria-current={isActive ? "page" : undefined}
+                  href={href}
                   scroll={false}
-                  aria-current={isActive ? 'page' : undefined}
                 >
                   {label}
                 </Link>
               </Button>
             </li>
-          )
+          );
         })}
       </ul>
     </nav>
-  )
+  );
 }

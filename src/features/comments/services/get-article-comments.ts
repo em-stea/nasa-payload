@@ -1,30 +1,31 @@
-import { connection } from 'next/server'
+import type {CommentView} from "@/features/comments/types/comment";
+import type {Comment, SiteUser} from "@/payload-types";
 
-import type { CommentView } from '@/features/comments/types/comment'
-import { toCommentHandle, toCommentTone } from '@/features/comments/utils/comment-view'
-import type { Comment, SiteUser } from '@/payload-types'
-import { getPayloadClient } from '@/shared/services/payload'
+import {connection} from "next/server";
+
+import {toCommentHandle, toCommentTone} from "@/features/comments/utils/comment-view";
+import {getPayloadClient} from "@/shared/services/payload";
 
 /**
  * Tope de comentarios que se traen de un artículo. Con más que esto el hilo
  * necesita paginación propia, que hoy no está en el diseño.
  */
-const MAX_COMMENTS = 200
+const MAX_COMMENTS = 200;
 
 function toId(value: unknown): string | undefined {
-  if (!value) return undefined
-  if (typeof value === 'object') return String((value as { id: unknown }).id)
+  if (!value) return undefined;
+  if (typeof value === "object") return String((value as {id: unknown}).id);
 
-  return String(value)
+  return String(value);
 }
 
 function toAuthor(comment: Comment): SiteUser | null {
-  return typeof comment.author === 'object' && comment.author !== null ? comment.author : null
+  return typeof comment.author === "object" && comment.author !== null ? comment.author : null;
 }
 
 function toView(comment: Comment): CommentView {
-  const author = toAuthor(comment)
-  const authorId = author?.id ?? toId(comment.author)
+  const author = toAuthor(comment);
+  const authorId = author?.id ?? toId(comment.author);
 
   return {
     id: comment.id,
@@ -37,7 +38,7 @@ function toView(comment: Comment): CommentView {
     content: comment.content,
     createdAt: comment.createdAt,
     replies: [],
-  }
+  };
 }
 
 /**
@@ -49,24 +50,25 @@ function toView(comment: Comment): CommentView {
  * índice cuando llega la hija.
  */
 function buildThread(comments: Comment[]): CommentView[] {
-  const byId = new Map<string, CommentView>()
-  const roots: CommentView[] = []
+  const byId = new Map<string, CommentView>();
+  const roots: CommentView[] = [];
 
   for (const comment of comments) {
-    byId.set(comment.id, toView(comment))
+    byId.set(comment.id, toView(comment));
   }
 
   for (const comment of comments) {
-    const view = byId.get(comment.id)
-    if (!view) continue
+    const view = byId.get(comment.id);
 
-    const parent = byId.get(toId(comment.parent) ?? '')
+    if (!view) continue;
 
-    if (parent) parent.replies.push(view)
-    else roots.push(view)
+    const parent = byId.get(toId(comment.parent) ?? "");
+
+    if (parent) parent.replies.push(view);
+    else roots.push(view);
   }
 
-  return roots
+  return roots;
 }
 
 /**
@@ -80,26 +82,26 @@ export async function getArticleComments(articleId: string): Promise<CommentView
   // Siempre a pedido: los comentarios cambian entre visitas y el componente
   // ya cuelga de un <Suspense> en la página, así que sacarlo del shell
   // estático no cuesta nada.
-  await connection()
+  await connection();
 
-  const payload = await getPayloadClient()
+  const payload = await getPayloadClient();
 
-  const { docs } = await payload.find({
-    collection: 'comments',
+  const {docs} = await payload.find({
+    collection: "comments",
     where: {
-      and: [{ articleId: { equals: articleId } }, { status: { equals: 'approved' } }],
+      and: [{articleId: {equals: articleId}}, {status: {equals: "approved"}}],
     },
-    sort: 'createdAt',
+    sort: "createdAt",
     limit: MAX_COMMENTS,
     // Profundidad 1 para traer el lector de cada comentario (avatar y color) y
     // no una cadena de relaciones que no usamos.
     depth: 1,
-  })
+  });
 
-  return buildThread(docs)
+  return buildThread(docs);
 }
 
 /** Cuántos comentarios tiene el artículo, contando respuestas. */
 export function countComments(comments: CommentView[]): number {
-  return comments.reduce((total, comment) => total + 1 + countComments(comment.replies), 0)
+  return comments.reduce((total, comment) => total + 1 + countComments(comment.replies), 0);
 }

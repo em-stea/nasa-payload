@@ -1,10 +1,10 @@
-export function Cyclone({ ...props }) {
+export function Cyclone({...props}) {
   return (
     <svg
-      width="24"
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -12,10 +12,10 @@ export function Cyclone({ ...props }) {
       <path
         d="M12 6.25c3.2 0 5.75 1.1 5.75 3.1S15.2 12 12 12s-5.75 1.1-5.75 3.1 2.55 3.1 5.75 3.1"
         stroke="currentColor"
-        strokeWidth="1.5"
         strokeLinecap="round"
+        strokeWidth="1.5"
       />
-      <circle cx="12" cy="12" r="1.75" fill="currentColor" />
+      <circle cx="12" cy="12" fill="currentColor" r="1.75" />
     </svg>
-  )
+  );
 }

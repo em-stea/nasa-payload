@@ -1,11 +1,13 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { createContext, use, ViewTransition } from 'react'
-import type { ComponentProps, ReactNode } from 'react'
-import type { VariantProps } from 'class-variance-authority'
+import type {VariantProps} from "class-variance-authority";
+import type {ComponentProps, ReactNode} from "react";
 
-import { Badge } from '@/shared/components/badge/badge'
+import Image from "next/image";
+import {createContext, use, ViewTransition} from "react";
+
+import {Badge} from "@/shared/components/badge/badge";
+import {Separator} from "@/shared/components/separator/separator";
 import {
   cardAlertDotVariants,
   cardBodyVariants,
@@ -21,65 +23,64 @@ import {
   cardTagVariants,
   cardTitleVariants,
   cardVariants,
-} from '@/shared/styles/components/card'
-import { cn } from '@/shared/utils/className-builder'
-import { Separator } from '@/shared/components/separator/separator'
+} from "@/shared/styles/components/card";
+import {cn} from "@/shared/utils/className-builder";
 
-type DivProps = Omit<ComponentProps<'div'>, 'children'> & { children?: ReactNode }
-type BadgeProps = Omit<ComponentProps<typeof Badge>, 'children' | 'variant' | 'tone'>
-type ImageProps = Omit<ComponentProps<typeof Image>, 'src' | 'alt' | 'fill'>
-type TimeProps = Omit<ComponentProps<'time'>, 'dateTime' | 'children'> & {
-  children?: ReactNode
-}
+type DivProps = Omit<ComponentProps<"div">, "children"> & {children?: ReactNode};
+type BadgeProps = Omit<ComponentProps<typeof Badge>, "children" | "variant" | "tone">;
+type ImageProps = Omit<ComponentProps<typeof Image>, "src" | "alt" | "fill">;
+type TimeProps = Omit<ComponentProps<"time">, "dateTime" | "children"> & {
+  children?: ReactNode;
+};
 
-export type CardTone = NonNullable<VariantProps<typeof cardVariants>['tone']>
+export type CardTone = NonNullable<VariantProps<typeof cardVariants>["tone"]>;
+
 export type CardStatData = {
-  label: string
-  value: string
-  highlight?: boolean
-}
+  label: string;
+  value: string;
+  highlight?: boolean;
+};
 
 export type CardData = {
-  tag?: string
-  tone?: CardTone
-  image?: string
-  imageAlt?: string
-  title: string
-  description?: string
-  date?: string
-  dateTime?: string
-  alert?: string
-  stats?: CardStatData[]
-  viewTransitionName?: string
-  isHighlighted?: boolean
-}
+  tag?: string;
+  tone?: CardTone;
+  image?: string;
+  imageAlt?: string;
+  title: string;
+  description?: string;
+  date?: string;
+  dateTime?: string;
+  alert?: string;
+  stats?: CardStatData[];
+  viewTransitionName?: string;
+  isHighlighted?: boolean;
+};
 
 type CardContextValue = {
-  data: CardData
-}
+  data: CardData;
+};
 
-const CardContext = createContext<CardContextValue | null>(null)
+const CardContext = createContext<CardContextValue | null>(null);
 
 function useCardContext() {
-  const context = use(CardContext)
+  const context = use(CardContext);
 
   if (!context) {
-    throw new Error('Card compound parts must be used within <Card data={...}>')
+    throw new Error("Card compound parts must be used within <Card data={...}>");
   }
 
-  return context
+  return context;
 }
 
 type CardRootProps = DivProps &
-  Omit<VariantProps<typeof cardVariants>, 'tone'> & {
-    data: CardData
-  }
+  Omit<VariantProps<typeof cardVariants>, "tone"> & {
+    data: CardData;
+  };
 
-function CardRoot({ className, data, padding, children, ...props }: CardRootProps) {
+function CardRoot({className, data, padding, children, ...props}: CardRootProps) {
   return (
-    <CardContext value={{ data }}>
+    <CardContext value={{data}}>
       <div
-        data-slot="card"
         className={cn(
           cardVariants({
             tone: data.tone,
@@ -88,131 +89,132 @@ function CardRoot({ className, data, padding, children, ...props }: CardRootProp
           }),
           className,
         )}
+        data-slot="card"
         {...props}
       >
         {children}
       </div>
     </CardContext>
-  )
+  );
 }
 
-type CardHeaderProps = DivProps & VariantProps<typeof cardHeaderVariants>
+type CardHeaderProps = DivProps & VariantProps<typeof cardHeaderVariants>;
 
-function CardHeader({ className, variant, children, ...props }: CardHeaderProps) {
+function CardHeader({className, variant, children, ...props}: CardHeaderProps) {
   return (
     <div
+      className={cn(cardHeaderVariants({variant}), className)}
       data-slot="card-header"
-      className={cn(cardHeaderVariants({ variant }), className)}
       {...props}
     >
       {children}
     </div>
-  )
+  );
 }
 
 type CardTagProps = BadgeProps & {
   /** Antepone el punto de color del tone, como en las cards de noticias. */
-  dot?: boolean
-}
+  dot?: boolean;
+};
 
-function CardTag({ className, dot = false, ...props }: CardTagProps) {
-  const { data } = useCardContext()
+function CardTag({className, dot = false, ...props}: CardTagProps) {
+  const {data} = useCardContext();
 
-  if (!data.tag) return null
+  if (!data.tag) return null;
 
   return (
     <Badge
-      data-slot="card-tag"
-      variant="media"
-      tone={data.tone ?? 'blue'}
       className={cn(cardTagVariants(), className)}
+      data-slot="card-tag"
+      tone={data.tone ?? "blue"}
+      variant="media"
       {...props}
     >
       {dot && (
         <span
           aria-hidden="true"
+          className={cardTagDotVariants({tone: data.tone})}
           data-slot="card-tag-dot"
-          className={cardTagDotVariants({ tone: data.tone })}
         />
       )}
       {data.tag}
     </Badge>
-  )
+  );
 }
 
-function CardImage({ className, sizes = '(max-width: 768px) 100vw, 33vw', ...props }: ImageProps) {
-  const { data } = useCardContext()
+function CardImage({className, sizes = "(max-width: 768px) 100vw, 33vw", ...props}: ImageProps) {
+  const {data} = useCardContext();
 
-  if (!data.image) return null
+  if (!data.image) return null;
 
   const image = (
     <Image
       {...props}
-      data-slot="card-image"
-      src={data.image}
-      alt={data.imageAlt ?? ''}
-      loading="eager"
       fill
-      sizes={sizes}
+      alt={data.imageAlt ?? ""}
       className={cn(cardImageVariants(), className)}
+      data-slot="card-image"
+      loading="eager"
+      sizes={sizes}
+      src={data.image}
     />
-  )
+  );
 
-  if (!data.viewTransitionName) return image
+  if (!data.viewTransitionName) return image;
 
-  return <ViewTransition name={data.viewTransitionName}>{image}</ViewTransition>
+  return <ViewTransition name={data.viewTransitionName}>{image}</ViewTransition>;
 }
 
-type CardBodyProps = DivProps & VariantProps<typeof cardBodyVariants>
+type CardBodyProps = DivProps & VariantProps<typeof cardBodyVariants>;
 
-function CardBody({ className, variant, children, ...props }: CardBodyProps) {
+function CardBody({className, variant, children, ...props}: CardBodyProps) {
   return (
-    <div data-slot="card-body" className={cn(cardBodyVariants({ variant }), className)} {...props}>
+    <div className={cn(cardBodyVariants({variant}), className)} data-slot="card-body" {...props}>
       {children}
     </div>
-  )
+  );
 }
 
-type CardTitleProps = DivProps & Omit<VariantProps<typeof cardTitleVariants>, 'tone'>
+type CardTitleProps = DivProps & Omit<VariantProps<typeof cardTitleVariants>, "tone">;
 
-function CardTitle({ className, size, children, ...props }: CardTitleProps) {
-  const { data } = useCardContext()
+function CardTitle({className, size, children, ...props}: CardTitleProps) {
+  const {data} = useCardContext();
 
   return (
     <div
+      className={cn(cardTitleVariants({tone: data.tone, size}), className)}
       data-slot="card-title"
-      className={cn(cardTitleVariants({ tone: data.tone, size }), className)}
       {...props}
     >
       {/* Por defecto pinta el título de `data`; se le pueden pasar children
           para envolverlo (por ejemplo en un link que estira su área de click). */}
       {children ?? data.title}
     </div>
-  )
+  );
 }
 
-function CardDescription({ className, ...props }: DivProps) {
-  const { data } = useCardContext()
+function CardDescription({className, ...props}: DivProps) {
+  const {data} = useCardContext();
 
   if (!data.description) {
-    return null
+    return null;
   }
 
   return (
     <div
-      data-slot="card-description"
       className={cn(cardDescriptionVariants(), className)}
+      data-slot="card-description"
       {...props}
     >
       {data.description}
     </div>
-  )
+  );
 }
 
 type CardFooterProps = DivProps &
   VariantProps<typeof cardFooterVariants> & {
-    withSeparator?: boolean
-  }
+    withSeparator?: boolean;
+  };
 
 function CardFooter({
   className,
@@ -223,81 +225,81 @@ function CardFooter({
 }: CardFooterProps) {
   return (
     <div
+      className={cn(cardFooterVariants({variant}), className)}
       data-slot="card-footer"
-      className={cn(cardFooterVariants({ variant }), className)}
       {...props}
     >
       {withSeparator && <Separator />}
 
-      <div className="flex flex-row  w-full pt-1">{children}</div>
+      <div className="flex w-full flex-row pt-1">{children}</div>
     </div>
-  )
+  );
 }
 
-function CardDate({ className, ...props }: TimeProps) {
-  const { data } = useCardContext()
+function CardDate({className, ...props}: TimeProps) {
+  const {data} = useCardContext();
 
   if (!data.date) {
-    return null
+    return null;
   }
 
   return (
     <time
+      className={cn(cardDateVariants(), className)}
       data-slot="card-date"
       dateTime={data.dateTime}
-      className={cn(cardDateVariants(), className)}
       {...props}
     >
       {data.date}
     </time>
-  )
+  );
 }
 
 type CardStatProps = DivProps &
   VariantProps<typeof cardStatVariants> &
-  Omit<VariantProps<typeof cardStatValueVariants>, 'tone'> & {
-    index: number
-  }
+  Omit<VariantProps<typeof cardStatValueVariants>, "tone"> & {
+    index: number;
+  };
 
-function CardStat({ className, index, layout, size, ...props }: CardStatProps) {
-  const { data } = useCardContext()
-  const stat = data.stats?.[index]
+function CardStat({className, index, layout, size, ...props}: CardStatProps) {
+  const {data} = useCardContext();
+  const stat = data.stats?.[index];
 
   if (!stat) {
-    return null
+    return null;
   }
 
   return (
-    <div data-slot="card-stat" className={cn(cardStatVariants({ layout }), className)} {...props}>
-      <span data-slot="card-stat-label" className={cardStatLabelVariants()}>
+    <div className={cn(cardStatVariants({layout}), className)} data-slot="card-stat" {...props}>
+      <span className={cardStatLabelVariants()} data-slot="card-stat-label">
         {stat.label}
       </span>
       <span
-        data-slot="card-stat-value"
         className={cardStatValueVariants({
           size,
-          tone: stat.highlight ? 'highlight' : 'default',
+          tone: stat.highlight ? "highlight" : "default",
         })}
+        data-slot="card-stat-value"
       >
         {stat.value}
       </span>
     </div>
-  )
+  );
 }
 
-function CardAlert({ className, ...props }: BadgeProps) {
-  const { data } = useCardContext()
+function CardAlert({className, ...props}: BadgeProps) {
+  const {data} = useCardContext();
 
   if (!data.alert) {
-    return null
+    return null;
   }
 
   return (
-    <Badge data-slot="card-alert" variant="alert" className={className} {...props}>
-      <span data-slot="card-alert-dot" className={cardAlertDotVariants()} />
+    <Badge className={className} data-slot="card-alert" variant="alert" {...props}>
+      <span className={cardAlertDotVariants()} data-slot="card-alert-dot" />
       {data.alert}
     </Badge>
-  )
+  );
 }
 
 export const Card = Object.assign(CardRoot, {
@@ -311,6 +313,6 @@ export const Card = Object.assign(CardRoot, {
   Date: CardDate,
   Stat: CardStat,
   Alert: CardAlert,
-})
+});
 
-export type CardProps = CardRootProps
+export type CardProps = CardRootProps;

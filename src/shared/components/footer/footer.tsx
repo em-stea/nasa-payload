@@ -1,12 +1,13 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { createContext, use } from 'react'
-import type { ComponentProps, ReactNode } from 'react'
-import type { VariantProps } from 'class-variance-authority'
+import type {NavbarLogoData} from "@/shared/components/navbar/navbar";
+import type {VariantProps} from "class-variance-authority";
+import type {ComponentProps, ReactNode} from "react";
 
-import type { NavbarLogoData } from '@/shared/components/navbar/navbar'
+import Image from "next/image";
+import Link from "next/link";
+import {createContext, use} from "react";
+
 import {
   footerContainerVariants,
   footerCopyrightVariants,
@@ -15,146 +16,146 @@ import {
   footerLogoImageVariants,
   footerLogoVariants,
   footerVariants,
-} from '@/shared/styles/components/footer'
-import { cn } from '@/shared/utils/className-builder'
+} from "@/shared/styles/components/footer";
+import {cn} from "@/shared/utils/className-builder";
 
-type LinkProps = ComponentProps<typeof Link>
+type LinkProps = ComponentProps<typeof Link>;
 
 /** El logo del footer comparte forma con el del navbar. */
-export type FooterLogoData = NavbarLogoData
+export type FooterLogoData = NavbarLogoData;
 
 /** Item del footer; a diferencia del navbar puede apuntar fuera del sitio. */
 export type FooterLinkItem = {
-  href: string
-  label: string
+  href: string;
+  label: string;
   /** Abre en una pestaña nueva (ej. nasa.gov). */
-  external?: boolean
-}
+  external?: boolean;
+};
 
 export type FooterData = {
-  logo: FooterLogoData
+  logo: FooterLogoData;
   /** Etiqueta accesible del <footer>. */
-  label?: string
-}
+  label?: string;
+};
 
 type FooterContextValue = {
-  data: FooterData
-}
+  data: FooterData;
+};
 
-const FooterContext = createContext<FooterContextValue | null>(null)
+const FooterContext = createContext<FooterContextValue | null>(null);
 
 function useFooterContext() {
-  const context = use(FooterContext)
+  const context = use(FooterContext);
 
   if (!context) {
-    throw new Error('Footer compound parts must be used within <Footer data={...}>')
+    throw new Error("Footer compound parts must be used within <Footer data={...}>");
   }
 
-  return context
+  return context;
 }
 
-type FooterRootProps = Omit<ComponentProps<'footer'>, 'children'> & {
-  data: FooterData
-  children?: ReactNode
-}
+type FooterRootProps = Omit<ComponentProps<"footer">, "children"> & {
+  data: FooterData;
+  children?: ReactNode;
+};
 
-function FooterRoot({ className, data, children, ...props }: FooterRootProps) {
+function FooterRoot({className, data, children, ...props}: FooterRootProps) {
   return (
-    <FooterContext value={{ data }}>
+    <FooterContext value={{data}}>
       <footer
-        data-slot="footer"
-        aria-label={data.label ?? 'Pie de página'}
+        aria-label={data.label ?? "Pie de página"}
         className={cn(footerVariants(), className)}
+        data-slot="footer"
         {...props}
       >
         <div className={footerContainerVariants()}>{children}</div>
       </footer>
     </FooterContext>
-  )
+  );
 }
 
-type FooterGroupProps = ComponentProps<'div'> & VariantProps<typeof footerGroupVariants>
+type FooterGroupProps = ComponentProps<"div"> & VariantProps<typeof footerGroupVariants>;
 
-function FooterGroup({ className, gap, wrap, children, ...props }: FooterGroupProps) {
+function FooterGroup({className, gap, wrap, children, ...props}: FooterGroupProps) {
   return (
     <div
+      className={cn(footerGroupVariants({gap, wrap}), className)}
       data-slot="footer-group"
-      className={cn(footerGroupVariants({ gap, wrap }), className)}
       {...props}
     >
       {children}
     </div>
-  )
+  );
 }
 
-type FooterLogoProps = Omit<LinkProps, 'href' | 'children'>
+type FooterLogoProps = Omit<LinkProps, "href" | "children">;
 
-function FooterLogo({ className, ...props }: FooterLogoProps) {
-  const { data } = useFooterContext()
-  const { logo } = data
+function FooterLogo({className, ...props}: FooterLogoProps) {
+  const {data} = useFooterContext();
+  const {logo} = data;
 
   return (
     <Link
       {...props}
-      data-slot="footer-logo"
-      href={logo.href ?? '/'}
       aria-label={logo.alt}
       className={cn(footerLogoVariants(), className)}
+      data-slot="footer-logo"
+      href={logo.href ?? "/"}
     >
       <Image
-        src={logo.src}
         alt={logo.alt}
-        width={48}
-        height={48}
         className={footerLogoImageVariants()}
+        height={48}
+        src={logo.src}
+        width={48}
       />
     </Link>
-  )
+  );
 }
 
-type FooterNavProps = ComponentProps<'nav'> & VariantProps<typeof footerGroupVariants>
+type FooterNavProps = ComponentProps<"nav"> & VariantProps<typeof footerGroupVariants>;
 
 /** Fila de links legales / externos; envuelve en mobile. */
-function FooterNav({ className, gap = 'md', wrap = true, children, ...props }: FooterNavProps) {
+function FooterNav({className, gap = "md", wrap = true, children, ...props}: FooterNavProps) {
   return (
     <nav
       {...props}
+      aria-label={props["aria-label"] ?? "Enlaces del pie de página"}
+      className={cn(footerGroupVariants({gap, wrap}), className)}
       data-slot="footer-nav"
-      aria-label={props['aria-label'] ?? 'Enlaces del pie de página'}
-      className={cn(footerGroupVariants({ gap, wrap }), className)}
     >
       {children}
     </nav>
-  )
+  );
 }
 
 type FooterLinkProps = LinkProps & {
   /** Abre en una pestaña nueva y agrega el rel seguro. */
-  external?: boolean
-}
+  external?: boolean;
+};
 
-function FooterLink({ className, external, children, ...props }: FooterLinkProps) {
+function FooterLink({className, external, children, ...props}: FooterLinkProps) {
   return (
     <Link
       {...props}
-      data-slot="footer-link"
-      target={external ? '_blank' : props.target}
-      rel={external ? 'noreferrer noopener' : props.rel}
       className={cn(footerLinkVariants(), className)}
+      data-slot="footer-link"
+      rel={external ? "noreferrer noopener" : props.rel}
+      target={external ? "_blank" : props.target}
     >
       {children}
     </Link>
-  )
+  );
 }
 
-type FooterCopyrightProps = ComponentProps<'p'>
+type FooterCopyrightProps = ComponentProps<"p">;
 
-function FooterCopyright({ className, children, ...props }: FooterCopyrightProps) {
+function FooterCopyright({className, children, ...props}: FooterCopyrightProps) {
   return (
-    <p data-slot="footer-copyright" className={cn(footerCopyrightVariants(), className)} {...props}>
+    <p className={cn(footerCopyrightVariants(), className)} data-slot="footer-copyright" {...props}>
       {children}
     </p>
-  )
+  );
 }
 
 export const Footer = Object.assign(FooterRoot, {
@@ -163,6 +164,6 @@ export const Footer = Object.assign(FooterRoot, {
   Nav: FooterNav,
   Link: FooterLink,
   Copyright: FooterCopyright,
-})
+});
 
-export type FooterProps = FooterRootProps
+export type FooterProps = FooterRootProps;

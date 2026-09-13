@@ -1,7 +1,7 @@
-import config from './helpers/generated-config.json'
+import config from "./helpers/generated-config.json";
 
 export const tailwindMergeConfig = {
   extend: {
     theme: config,
   },
-} as const
+} as const;

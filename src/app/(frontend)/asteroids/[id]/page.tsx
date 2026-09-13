@@ -1,15 +1,16 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
+import type {Metadata} from "next";
 
-import { AsteroidDetailHero } from '@/features/asteroids/components/asteroid-detail-hero'
-import { CloseApproachPanel } from '@/features/asteroids/components/close-approach-panel'
-import { HazardAnalysis } from '@/features/asteroids/components/hazard-analysis'
-import { OrbitalParameters } from '@/features/asteroids/components/orbital-parameters'
-import { PhysicalCharacteristics } from '@/features/asteroids/components/physical-characteristics'
-import { getAsteroid } from '@/features/asteroids/services/get-asteroid'
-import { ArticleBreadcrumbs } from '@/features/news/components/article-breadcrumbs'
-import { Container } from '@/shared/components/container/container'
+import {notFound} from "next/navigation";
+import {Suspense} from "react";
+
+import {AsteroidDetailHero} from "@/features/asteroids/components/asteroid-detail-hero";
+import {CloseApproachPanel} from "@/features/asteroids/components/close-approach-panel";
+import {HazardAnalysis} from "@/features/asteroids/components/hazard-analysis";
+import {OrbitalParameters} from "@/features/asteroids/components/orbital-parameters";
+import {PhysicalCharacteristics} from "@/features/asteroids/components/physical-characteristics";
+import {getAsteroid} from "@/features/asteroids/services/get-asteroid";
+import {ArticleBreadcrumbs} from "@/features/news/components/article-breadcrumbs";
+import {Container} from "@/shared/components/container/container";
 
 /**
  * Detalle de un objeto del catálogo.
@@ -19,32 +20,32 @@ import { Container } from '@/shared/components/container/container'
  * de una noticia.
  */
 
-export const instant = true
+export const instant = true;
 
-type AsteroidParams = { id: string }
+type AsteroidParams = {id: string};
 
 /** El id de NeoWs es numérico y viaja como string; cualquier otra cosa es 404. */
 function readAsteroidId(value: string) {
-  return /^\d+$/.test(value) ? value : null
+  return /^\d+$/.test(value) ? value : null;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<AsteroidParams>
+  params: Promise<AsteroidParams>;
 }): Promise<Metadata> {
-  const id = readAsteroidId((await params).id)
-  const asteroid = id ? await getAsteroid(id) : null
+  const id = readAsteroidId((await params).id);
+  const asteroid = id ? await getAsteroid(id) : null;
 
-  if (!asteroid) return { title: 'Objeto no encontrado' }
+  if (!asteroid) return {title: "Objeto no encontrado"};
 
   return {
     title: `${asteroid.name} · Asteroid Tracker`,
     description: asteroid.summary,
-  }
+  };
 }
 
-export default function AsteroidPage({ params }: { params: Promise<AsteroidParams> }) {
+export default function AsteroidPage({params}: {params: Promise<AsteroidParams>}) {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
       <Container className="flex flex-col items-start gap-8">
@@ -53,22 +54,22 @@ export default function AsteroidPage({ params }: { params: Promise<AsteroidParam
         </Suspense>
       </Container>
     </main>
-  )
+  );
 }
 
-async function AsteroidRoute({ params }: { params: Promise<AsteroidParams> }) {
-  const id = readAsteroidId((await params).id)
-  const asteroid = id ? await getAsteroid(id) : null
+async function AsteroidRoute({params}: {params: Promise<AsteroidParams>}) {
+  const id = readAsteroidId((await params).id);
+  const asteroid = id ? await getAsteroid(id) : null;
 
-  if (!asteroid) notFound()
+  if (!asteroid) notFound();
 
   return (
     <>
       <ArticleBreadcrumbs
         items={[
-          { label: 'Archive', href: '/' },
-          { label: 'Asteroids', href: '/asteroids' },
-          { label: asteroid.name },
+          {label: "Archive", href: "/"},
+          {label: "Asteroids", href: "/asteroids"},
+          {label: asteroid.name},
         ]}
       />
 
@@ -94,13 +95,13 @@ async function AsteroidRoute({ params }: { params: Promise<AsteroidParams> }) {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 /** Mismas medidas que el contenido, para que nada salte al resolverse. */
 function AsteroidDetailSkeleton() {
   return (
-    <div className="flex w-full animate-pulse flex-col gap-8" aria-hidden="true">
+    <div aria-hidden="true" className="flex w-full animate-pulse flex-col gap-8">
       <div className="h-4 w-64 bg-card" />
 
       <div className="grid w-full grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-8">
@@ -122,5 +123,5 @@ function AsteroidDetailSkeleton() {
         <div className="h-56 w-full bg-card lg:col-span-7" />
       </div>
     </div>
-  )
+  );
 }

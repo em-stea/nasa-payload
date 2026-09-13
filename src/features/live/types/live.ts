@@ -1,4 +1,4 @@
 export type NasaLiveStatus = {
-  isLive: boolean
-  videoId: string | null
-}
+  isLive: boolean;
+  videoId: string | null;
+};

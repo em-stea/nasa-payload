@@ -1,87 +1,87 @@
-import Link from 'next/link'
+import Link from "next/link";
 
-import { Button } from '../button/button'
-import { ChevronLeft } from '../icons/directional/chevron-left'
-import { ChevronRight } from '../icons/directional/chevron-right'
-import { Text } from '../text/text'
+import {Button} from "../button/button";
+import {ChevronLeft} from "../icons/directional/chevron-left";
+import {ChevronRight} from "../icons/directional/chevron-right";
+import {Text} from "../text/text";
 
 type PaginationProps = {
-  page: number
-  totalPages: number
+  page: number;
+  totalPages: number;
   /** Href de cada página. Se resuelve en el server: los botones son links. */
-  buildHref: (page: number) => string
+  buildHref: (page: number) => string;
   /**
    * Opta los links al runtime prefetching, para que la página destino esté
    * resuelta antes del click. Cuesta una invocación de server por link.
    */
-  prefetch?: boolean
-}
+  prefetch?: boolean;
+};
 
-const WINDOW_SIZE = 3
+const WINDOW_SIZE = 3;
 
 /** Ventana de páginas alrededor de la actual, con `…` si quedan más atrás. */
 function buildWindow(page: number, totalPages: number) {
-  const start = Math.min(Math.max(page - 1, 1), Math.max(totalPages - WINDOW_SIZE + 1, 1))
+  const start = Math.min(Math.max(page - 1, 1), Math.max(totalPages - WINDOW_SIZE + 1, 1));
 
-  return Array.from({ length: Math.min(WINDOW_SIZE, totalPages) }, (_, index) => start + index)
+  return Array.from({length: Math.min(WINDOW_SIZE, totalPages)}, (_, index) => start + index);
 }
 
 function formatPage(page: number) {
-  return String(page).padStart(2, '0')
+  return String(page).padStart(2, "0");
 }
 
-export const Pagination = ({ page, totalPages, buildHref, prefetch }: PaginationProps) => {
-  const pages = buildWindow(page, totalPages)
-  const hasMore = (pages.at(-1) ?? 0) < totalPages
-  const previousPage = page - 1
-  const nextPage = page + 1
+export const Pagination = ({page, totalPages, buildHref, prefetch}: PaginationProps) => {
+  const pages = buildWindow(page, totalPages);
+  const hasMore = (pages.at(-1) ?? 0) < totalPages;
+  const previousPage = page - 1;
+  const nextPage = page + 1;
 
   return (
     <div className="flex items-center justify-between gap-2 py-2">
-      <Text variant="body.2" className="text-basic-500">
+      <Text className="text-basic-500" variant="body.2">
         Page {formatPage(page)} / {formatPage(totalPages)}
       </Text>
 
       <nav aria-label="Paginación" className="flex items-center gap-1">
         {previousPage >= 1 ? (
-          <Button variant="secondary" size="sm" asChild>
-            <Link href={buildHref(previousPage)} prefetch={prefetch} aria-label="Página anterior">
+          <Button asChild size="sm" variant="secondary">
+            <Link aria-label="Página anterior" href={buildHref(previousPage)} prefetch={prefetch}>
               <ChevronLeft className="text-muted-foreground" />
             </Link>
           </Button>
         ) : (
-          <Button variant="secondary" size="sm" disabled aria-label="Página anterior">
+          <Button disabled aria-label="Página anterior" size="sm" variant="secondary">
             <ChevronLeft className="text-muted-foreground opacity-50" />
           </Button>
         )}
 
         {pages.map((item) => {
-          const isCurrent = item === page
+          const isCurrent = item === page;
 
           return (
             <Button
-              key={item}
-              variant="secondary"
-              size="sm"
               asChild
-              className={isCurrent ? 'border-blue-200 bg-background' : undefined}
+              className={isCurrent ? "border-blue-200 bg-background" : undefined}
+              key={item}
+              size="sm"
+              variant="secondary"
             >
               <Link
+                aria-current={isCurrent ? "page" : undefined}
                 href={buildHref(item)}
                 prefetch={prefetch}
-                aria-current={isCurrent ? 'page' : undefined}
               >
                 <Text
-                  variant="body.2"
                   className={
-                    isCurrent ? 'font-normal text-foreground' : 'font-normal text-muted-foreground'
+                    isCurrent ? "font-normal text-foreground" : "font-normal text-muted-foreground"
                   }
+                  variant="body.2"
                 >
                   {formatPage(item)}
                 </Text>
               </Link>
             </Button>
-          )
+          );
         })}
 
         {hasMore ? (
@@ -96,17 +96,17 @@ export const Pagination = ({ page, totalPages, buildHref, prefetch }: Pagination
         ) : null}
 
         {nextPage <= totalPages ? (
-          <Button variant="secondary" size="sm" asChild>
-            <Link href={buildHref(nextPage)} prefetch={prefetch} aria-label="Página siguiente">
+          <Button asChild size="sm" variant="secondary">
+            <Link aria-label="Página siguiente" href={buildHref(nextPage)} prefetch={prefetch}>
               <ChevronRight className="text-muted-foreground" />
             </Link>
           </Button>
         ) : (
-          <Button variant="secondary" size="sm" disabled aria-label="Página siguiente">
+          <Button disabled aria-label="Página siguiente" size="sm" variant="secondary">
             <ChevronRight className="text-muted-foreground opacity-50" />
           </Button>
         )}
       </nav>
     </div>
-  )
-}
+  );
+};

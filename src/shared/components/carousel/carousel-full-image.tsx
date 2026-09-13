@@ -1,72 +1,75 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from './carousel'
-import { Button } from '../button/button'
-import { cn } from '@/shared/utils/className-builder'
-import { Text } from '../text/text'
-import Image from 'next/image'
+import Image from "next/image";
+import {useEffect, useState} from "react";
+
+import {cn} from "@/shared/utils/className-builder";
+
+import {Button} from "../button/button";
+import {Text} from "../text/text";
+import {Carousel, CarouselApi, CarouselContent, CarouselItem} from "./carousel";
 
 export function CarouselFullImage() {
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!api) {
-      return
+      return;
     }
 
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap())
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Embla publica su estado recién cuando la API está montada.
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
 
     const onSelect = () => {
-      setCurrent(api.selectedScrollSnap())
-    }
+      setCurrent(api.selectedScrollSnap());
+    };
 
-    api.on('select', onSelect)
+    api.on("select", onSelect);
 
     return () => {
-      api.off('select', onSelect)
-    }
-  }, [api])
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
   return (
     <div className="mx-auto w-100">
-      <Carousel setApi={setApi} className="w-full">
+      <Carousel className="w-full" setApi={setApi}>
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({length: 5}).map((_, index) => (
             <CarouselItem key={index}>
               <Image
-                src={`https://placehold.co/600x400?text=${index + 1}`}
                 alt={`Image ${index + 1}`}
                 className="h-full w-full object-cover"
-                width={600}
                 height={400}
+                src={`https://placehold.co/600x400?text=${index + 1}`}
+                width={600}
               />
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="flex items-center justify-between py-4 ">
+      <div className="flex items-center justify-between py-4">
         <div className="flex items-center gap-1">
-          {Array.from({ length: count }).map((_, index) => (
+          {Array.from({length: count}).map((_, index) => (
             <Button
-              key={index}
-              variant="ghost"
-              size="intrinsic"
+              aria-current={current === index ? "true" : undefined}
               aria-label={`Go to slide ${index + 1}`}
-              aria-current={current === index ? 'true' : undefined}
-              className={cn('size-2 ', current === index ? 'bg-primary' : 'bg-secondary')}
+              className={cn("size-2", current === index ? "bg-primary" : "bg-secondary")}
+              key={index}
+              size="intrinsic"
+              variant="ghost"
               onClick={() => api?.scrollTo(index)}
             />
           ))}
         </div>
-        <Text variant="body.4" className="text-secondary-foreground">
+        <Text className="text-secondary-foreground" variant="body.4">
           Image 0{current + 1} // 0{count}
         </Text>
       </div>
     </div>
-  )
+  );
 }

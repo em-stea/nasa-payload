@@ -1,27 +1,27 @@
-'use client'
+"use client";
 
-import { useActionState, useEffect } from 'react'
+import {useActionState, useEffect} from "react";
 
-import { createComment } from '@/features/comments/actions/comments'
-import { INITIAL_COMMENT_STATE, type CommentActionState } from '@/features/comments/actions/state'
-import { Button } from '@/shared/components/button/button'
-import { Text } from '@/shared/components/text/text'
-import { textVariants } from '@/shared/styles/components/text'
-import { cn } from '@/shared/utils/className-builder'
+import {createComment} from "@/features/comments/actions/comments";
+import {type CommentActionState, INITIAL_COMMENT_STATE} from "@/features/comments/actions/state";
+import {Button} from "@/shared/components/button/button";
+import {Text} from "@/shared/components/text/text";
+import {textVariants} from "@/shared/styles/components/text";
+import {cn} from "@/shared/utils/className-builder";
 
 export type CommentFormProps = {
-  articleId: string
-  articleTitle: string
-  articleUrl: string
+  articleId: string;
+  articleTitle: string;
+  articleUrl: string;
   /** Presente sólo cuando el formulario es una respuesta a otro comentario. */
-  parentId?: string
-  label?: string
-  placeholder?: string
-  submitLabel?: string
+  parentId?: string;
+  label?: string;
+  placeholder?: string;
+  submitLabel?: string;
   /** Se llama al publicar; lo usa la respuesta para cerrarse sola. */
-  onSubmitted?: () => void
-  autoFocus?: boolean
-}
+  onSubmitted?: () => void;
+  autoFocus?: boolean;
+};
 
 /**
  * La "terminal de respuesta" del diseño.
@@ -36,50 +36,51 @@ export function CommentForm({
   articleTitle,
   articleUrl,
   parentId,
-  label = '> RESPONSE',
-  placeholder = 'Leave your comment...',
-  submitLabel = 'Send',
+  label = "> RESPONSE",
+  placeholder = "Leave your comment...",
+  submitLabel = "Send",
   onSubmitted,
   autoFocus = false,
 }: CommentFormProps) {
   const [state, formAction, pending] = useActionState<CommentActionState, FormData>(
     createComment,
     INITIAL_COMMENT_STATE,
-  )
+  );
 
   useEffect(() => {
-    if (state.status === 'success') onSubmitted?.()
-  }, [state, onSubmitted])
+    if (state.status === "success") onSubmitted?.();
+  }, [state, onSubmitted]);
 
   return (
     <form
       action={formAction}
       className="flex w-full flex-col gap-1 border border-border bg-card p-2.25"
     >
-      <input type="hidden" name="articleId" value={articleId} />
-      <input type="hidden" name="articleTitle" value={articleTitle} />
-      <input type="hidden" name="articleUrl" value={articleUrl} />
-      {parentId && <input type="hidden" name="parentId" value={parentId} />}
+      <input name="articleId" type="hidden" value={articleId} />
+      <input name="articleTitle" type="hidden" value={articleTitle} />
+      <input name="articleUrl" type="hidden" value={articleUrl} />
+      {parentId && <input name="parentId" type="hidden" value={parentId} />}
 
-      <Text variant="body.4" className="pl-1 tracking-1_2 text-foreground">
+      <Text className="pl-1 tracking-1.2 text-foreground" variant="body.4">
         {label}
       </Text>
 
       <textarea
+        required
+        className={cn(
+          textVariants({variant: "meta.3"}),
+          "min-h-30 w-full resize-y border border-border bg-background p-4 text-primary-foreground",
+          "placeholder:text-secondary focus:border-foreground focus:outline-none",
+          state.status === "error" && "border-destructive",
+        )}
+        aria-invalid={state.status === "error" || undefined}
+        aria-label={parentId ? "Tu respuesta" : "Tu comentario"}
+        // eslint-disable-next-line jsx-a11y/no-autofocus -- solo es true cuando el usuario abrió el formulario de respuesta.
+        autoFocus={autoFocus}
         key={state.formKey}
         name="content"
-        required
-        rows={4}
-        autoFocus={autoFocus}
         placeholder={placeholder}
-        aria-label={parentId ? 'Tu respuesta' : 'Tu comentario'}
-        aria-invalid={state.status === 'error' || undefined}
-        className={cn(
-          textVariants({ variant: 'meta.3' }),
-          'min-h-30 w-full resize-y border border-border bg-background p-4 text-primary-foreground',
-          'placeholder:text-secondary focus:border-foreground focus:outline-none',
-          state.status === 'error' && 'border-destructive',
-        )}
+        rows={4}
       />
 
       {/* El aviso vive siempre en el DOM —aunque esté vacío— para que el
@@ -87,23 +88,23 @@ export function CommentForm({
           izquierda sin mover el botón del borde derecho que pide el diseño. */}
       <div className="flex items-center justify-end gap-4 pt-2.5">
         <Text
-          variant="meta.3"
           aria-live="polite"
-          className={cn('me-auto min-w-0', state.status === 'error' && 'text-destructive')}
+          className={cn("me-auto min-w-0", state.status === "error" && "text-destructive")}
+          variant="meta.3"
         >
-          {state.status === 'error' ? state.message : ''}
+          {state.status === "error" ? state.message : ""}
         </Text>
 
         <Button
-          type="submit"
-          size="md"
-          loading={pending}
+          className="w-40 shrink-0 rounded-lg py-2 font-bold tracking-0.8 uppercase"
           disabled={pending}
-          className="w-40 shrink-0 rounded-lg py-2 font-bold tracking-0_8 uppercase"
+          loading={pending}
+          size="md"
+          type="submit"
         >
           {submitLabel}
         </Button>
       </div>
     </form>
-  )
+  );
 }

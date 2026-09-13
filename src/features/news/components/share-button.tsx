@@ -14,8 +14,8 @@ type ShareButtonProps = {
 }
 
 /**
- * Comparte el artículo. Usa el share nativo cuando el browser lo expone
- * (mobile, Safari) y si no cae al portapapeles.
+ * Comparte el artículo copiando el link al portapapeles y avisando que se
+ * copió.
  *
  * Vive dentro del link de la card, así que corta la propagación para que
  * tocarlo no navegue a nasa.gov.
@@ -30,11 +30,6 @@ export function ShareButton({ url, title, withLabel = false }: ShareButtonProps)
     // Las rutas del sitio llegan relativas; recién en el browser sabemos contra
     // qué origen resolverlas.
     const target = new URL(url, window.location.origin).toString()
-
-    if (navigator.share) {
-      await navigator.share({ title, url: target }).catch(() => undefined)
-      return
-    }
 
     await navigator.clipboard.writeText(target).catch(() => undefined)
     setCopied(true)
@@ -51,9 +46,19 @@ export function ShareButton({ url, title, withLabel = false }: ShareButtonProps)
       {/* size-6 = viewBox 24: deja el glifo en los 12x13.33 del diseño. */}
       <Share className="size-6 shrink-0" aria-hidden="true" />
       {withLabel && (
-        <Text variant="meta.3" className="hidden uppercase sm:block">
-          {copied ? 'Copied' : 'Share'}
-        </Text>
+        <span className="relative hidden sm:inline-grid">
+          {/* Reserva el ancho de "Copied" (la más larga) para que el toggle no mueva el layout. */}
+          <Text
+            variant="meta.3"
+            aria-hidden="true"
+            className="invisible col-start-1 row-start-1 uppercase"
+          >
+            Copied
+          </Text>
+          <Text variant="meta.3" className="col-start-1 row-start-1 uppercase">
+            {copied ? 'Copied' : 'Share'}
+          </Text>
+        </span>
       )}
     </button>
   )

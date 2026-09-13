@@ -35,7 +35,7 @@ function SystemLog({ article }: { article: NewsArticleDetail }) {
   ]
 
   return (
-    <div className="w-full border border-l-4 border-foreground bg-card px-5 py-4">
+    <div className="w-full rounded-lg border border-l-4 border-foreground bg-card px-5 py-4">
       {lines.map((line) => (
         <Text key={line} variant="meta.3" className="text-foreground">
           {line}

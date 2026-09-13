@@ -56,7 +56,7 @@ export function ArticleGallery({ figures }: { figures: ArticleFigure[] }) {
 
   return (
     <section aria-label="Imágenes del artículo" className="flex w-full flex-col gap-3">
-      <div className="relative w-full overflow-hidden border border-border bg-card">
+      <div className="relative w-full overflow-hidden rounded-lg border border-border bg-card">
         <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
           <CarouselContent className="ml-0">
             {figures.map((figure) => (

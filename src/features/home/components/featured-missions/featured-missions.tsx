@@ -10,7 +10,7 @@ import {UpcomingLaunchBox} from "./upcoming-launch-box";
 export async function FeaturedMissions() {
   const projects = await getTechPortProjectsIds();
   const projectsById = await getTechPortProjectById(projects);
-  const projectsMedia = await getProjectMedia(projectsById);
+  const projectsMedia = await getProjectMedia({projectsById, pageSize: 1});
 
   const nextUpcomingLaunch = await getNextUpcomingLaunch();
 

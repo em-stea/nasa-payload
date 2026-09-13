@@ -6,7 +6,7 @@ import type {ComponentProps, ReactNode} from "react";
 import Image from "next/image";
 import {createContext, use, ViewTransition} from "react";
 
-import {Badge} from "@/shared/components/badge/badge";
+import {Badge, badgeVariants} from "@/shared/components/badge/badge";
 import {Separator} from "@/shared/components/separator/separator";
 import {
   cardAlertDotVariants,
@@ -115,19 +115,19 @@ function CardHeader({className, variant, children, ...props}: CardHeaderProps) {
 type CardTagProps = BadgeProps & {
   /** Antepone el punto de color del tone, como en las cards de noticias. */
   dot?: boolean;
+  variant?: VariantProps<typeof badgeVariants>["variant"];
 };
 
-function CardTag({className, dot = false, ...props}: CardTagProps) {
+function CardBadge({className, dot = false, variant = "default", ...props}: CardTagProps) {
   const {data} = useCardContext();
 
   if (!data.tag) return null;
 
   return (
     <Badge
-      className={cn(cardTagVariants(), className)}
+      className={cn(cardTagVariants({ tone: data.tone }), className)}
       data-slot="card-tag"
-      tone={data.tone ?? "blue"}
-      variant="media"
+      variant={variant}
       {...props}
     >
       {dot && (
@@ -287,24 +287,26 @@ function CardStat({className, index, layout, size, ...props}: CardStatProps) {
   );
 }
 
-function CardAlert({className, ...props}: BadgeProps) {
-  const {data} = useCardContext();
+// function CardAlert({className, ...props}: BadgeProps) {
+//   const {data} = useCardContext();
 
-  if (!data.alert) {
-    return null;
-  }
+//   if (!data.alert) {
+//     return null;
+//   }
 
-  return (
-    <Badge className={className} data-slot="card-alert" variant="alert" {...props}>
-      <span className={cardAlertDotVariants()} data-slot="card-alert-dot" />
-      {data.alert}
-    </Badge>
-  );
-}
+//   return (
+//     <Badge className={className} data-slot="card-alert" variant="alert" {...props}>
+//       <span className={cardAlertDotVariants()} data-slot="card-alert-dot" />
+
+//       {data.alert}
+     
+//     </Badge>
+//   );
+// }
 
 export const Card = Object.assign(CardRoot, {
   Header: CardHeader,
-  Tag: CardTag,
+  Badge : CardBadge,
   Image: CardImage,
   Body: CardBody,
   Title: CardTitle,
@@ -312,7 +314,7 @@ export const Card = Object.assign(CardRoot, {
   Footer: CardFooter,
   Date: CardDate,
   Stat: CardStat,
-  Alert: CardAlert,
+  // Alert: CardAlert,
 });
 
 export type CardProps = CardRootProps;

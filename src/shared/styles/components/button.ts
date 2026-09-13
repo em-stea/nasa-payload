@@ -21,6 +21,8 @@ export const buttonVariants = cva(commonClassnames, {
       secondary:
         "flex size-10 items-center justify-center border border-muted-foreground bg-muted p-0 focus-within:border-blue-200 hover:border-blue-200 focus:border-blue-200",
       ghost: "flex size-10 items-center justify-center bg-transparent p-0 hover:border-blue-200",
+      "ghost-outline":
+        "group flex items-center justify-center rounded-full border border-basic-00 p-1 text-basic-00 transition-colors hover:border-blue-200 hover:text-blue-200 active:border-blue-200 active:text-blue-200 disabled:pointer-events-none disabled:opacity-40",
     },
     size: {
       sm: "px-0.9 py-0.9",

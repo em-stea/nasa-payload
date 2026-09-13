@@ -2,10 +2,7 @@
 
 import {cn} from "cn";
 import useEmblaCarousel, {type UseEmblaCarouselType} from "embla-carousel-react";
-import {ArrowLeft, ArrowRight} from "lucide-react";
 import {createContext, useCallback, useContext, useEffect, useState} from "react";
-
-import {Button} from "@/shared/components/carousel/button";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -160,64 +157,4 @@ function CarouselItem({className, ...props}: React.ComponentProps<"div">) {
   );
 }
 
-function CarouselPrevious({
-  className,
-  variant = "outline",
-  size = "icon",
-  ...props
-}: React.ComponentProps<typeof Button>) {
-  const {orientation, scrollPrev, canScrollPrev} = useCarousel();
-
-  return (
-    <Button
-      className={cn(
-        "absolute size-8 rounded-full",
-        orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        className,
-      )}
-      data-slot="carousel-previous"
-      disabled={!canScrollPrev}
-      size={size}
-      variant={variant}
-      onClick={scrollPrev}
-      {...props}
-    >
-      <ArrowLeft />
-      <span className="sr-only">Previous slide</span>
-    </Button>
-  );
-}
-
-function CarouselNext({
-  className,
-  variant = "outline",
-  size = "icon",
-  ...props
-}: React.ComponentProps<typeof Button>) {
-  const {orientation, scrollNext, canScrollNext} = useCarousel();
-
-  return (
-    <Button
-      className={cn(
-        "absolute size-8 rounded-full",
-        orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        className,
-      )}
-      data-slot="carousel-next"
-      disabled={!canScrollNext}
-      size={size}
-      variant={variant}
-      onClick={scrollNext}
-      {...props}
-    >
-      <ArrowRight />
-      <span className="sr-only">Next slide</span>
-    </Button>
-  );
-}
-
-export {type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext};
+export {Carousel, CarouselContent, CarouselItem, type CarouselApi};

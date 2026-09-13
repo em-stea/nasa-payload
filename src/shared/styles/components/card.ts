@@ -22,6 +22,7 @@ export const cardVariants = cva(
   {
     variants: {
       tone: {
+        default: "hover:border-foreground, hover:bg-transparent",
         blue: "hover:border-foreground, hover:bg-basic-700",
         red: "hover:border-foreground, hover:bg-basic-700",
       },
@@ -35,7 +36,7 @@ export const cardVariants = cva(
       },
     },
     defaultVariants: {
-      tone: "blue",
+      tone: "default",
       padding: "none",
     },
     compoundVariants: [
@@ -71,8 +72,9 @@ export const cardImageVariants = cva([
 export const cardTagVariants = cva("absolute top-4 left-4", {
   variants: {
     tone: {
-      blue: "text-blue-200",
-      red: "text-red-300",
+      default: "text-basic-300 border border-basic-300 bg-basic-700",
+      blue: "text-blue-200 border border-basic-00-10 bg-basic-960-90",
+      red: "text-red-200 border border-basic-00-10 bg-basic-960-90",
     },
   },
 });
@@ -81,8 +83,9 @@ export const cardTagVariants = cva("absolute top-4 left-4", {
 export const cardTagDotVariants = cva("size-2 shrink-0 rounded-full", {
   variants: {
     tone: {
+      default: "bg-basic-00",
       blue: "bg-blue-200",
-      red: "bg-red-300",
+      red: "bg-red-200",
     },
   },
   defaultVariants: {
@@ -105,6 +108,7 @@ export const cardBodyVariants = cva("flex w-full flex-col", {
 export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
   variants: {
     tone: {
+      default: "line-clamp-1 text-basic-00 group-hover:text-basic-00",
       blue: "line-clamp-1 text-primary-foreground group-hover:text-foreground",
       red: "line-clamp-1 text-basic-00 group-hover:text-red-300",
     },
@@ -114,7 +118,7 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
     },
   },
   defaultVariants: {
-    tone: "blue",
+    tone: "default",
     size: "md",
   },
 });

@@ -32,44 +32,27 @@ export const badgeVariants = cva(commonClassnames, {
   variants: {
     variant: {
       default: "border border-blue-200-30 bg-blue-700-20 text-blue-200",
-      // secondary: 'bg-secondary text-secondary-foreground',
       destructive: "bg-destructive text-destructive-foreground",
-      // outline:
-      //   'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-      // ghost: '[a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-      // link: 'text-primary underline-offset-4 [a&]:hover:underline',
-      /** Tag que se apoya sobre media; el color lo pone `tone`. */
       media: [
-        "rounded-lg",
         "border-basic-00-10",
         "bg-basic-960-80",
-        "px-3",
         "py-2",
         "pt-2.75",
-        "backdrop-blur-xs",
-        textVariants({variant: "meta.1"}),
-      ],
-      alert: [
-        "rounded-lg",
-        "border-red-200-30",
-        "bg-red-700-20",
-        "px-2",
-        "py-1",
-        "font-normal",
-        "text-red-200",
         textVariants({variant: "meta.1"}),
       ],
     },
     tone: {
       blue: "",
       red: "",
-      orange: "",
+      neutral: "",
+      darkRed: "",
+
     },
   },
   compoundVariants: [
     {variant: "media", tone: "blue", class: "text-blue-200"},
     {variant: "media", tone: "red", class: "text-red-300"},
-    {variant: "media", tone: "orange", class: "text-orange-200"},
+  
   ],
   defaultVariants: {
     variant: "default",
@@ -80,20 +63,22 @@ export const badgeDotVariants = cva("size-2 shrink-0 rounded-full", {
   variants: {
     variant: {
       default: "bg-blue-200",
-      media: "",
       destructive: "bg-destructive text-destructive-foreground",
-      alert: "bg-red-200-30",
+      media: "",
+   
     },
     tone: {
+      neutral: "bg-basic-00",
       blue: "bg-blue-200",
       red: "bg-red-300",
-      orange: "bg-orange-200",
+      darkRed: "bg-red-300",
+    
     },
   },
   compoundVariants: [
     {variant: "media", tone: "blue", class: "bg-blue-200"},
     {variant: "media", tone: "red", class: "bg-red-300"},
-    {variant: "media", tone: "orange", class: "bg-orange-200"},
+  
   ],
   defaultVariants: {
     variant: "default",

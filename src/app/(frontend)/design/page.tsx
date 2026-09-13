@@ -1,11 +1,13 @@
 "use client";
 import type {ComponentProps, ReactNode} from "react";
 
+import Image from "next/image";
+
 import {Button} from "@/shared/components/button/button";
 import {Card} from "@/shared/components/card/card";
 import {CloseApproachCard} from "@/shared/components/card/close-approach-card";
 import {MissionCard} from "@/shared/components/card/mission-card";
-import {CarouselFullImage} from "@/shared/components/carousel/carousel-full-image";
+import {CarouselImage} from "@/shared/components/carousel/carousel-image";
 import {Heading} from "@/shared/components/heading/heading";
 import {Icons} from "@/shared/components/icons";
 import {ArrowRight} from "@/shared/components/icons/directional/arrow-right";
@@ -199,6 +201,12 @@ const COLOR_GROUPS = [
 function sectionNumber(id: string) {
   return String(SECTIONS.findIndex((section) => section.id === id) + 1).padStart(2, "0");
 }
+
+const images = [
+  {src: "/images/card-discovery.jpg", alt: "Spaceship flying through a nebula"},
+  {src: "/images/card-parker-solar-probe.jpg", alt: "Parker Solar Probe approaching the Sun"},
+  {src: "/images/card-discovery.jpg", alt: "Spaceship flying through a nebula"},
+];
 
 function Section({
   id,
@@ -418,7 +426,7 @@ const Page = () => {
               >
                 <Card.Header>
                   <Card.Image />
-                  <Card.Tag />
+                  <Card.Badge />
                 </Card.Header>
                 <Card.Body>
                   <Card.Title />
@@ -481,9 +489,9 @@ const Page = () => {
               <Navbar
                 data={{
                   logo: {
-                    src: '/images/dscovr-logo.png',
-                    alt: 'DSCOVR',
-                    href: '/',
+                    src: "/images/dscovr-logo.png",
+                    alt: "DSCOVR",
+                    href: "/",
                   },
                 }}
               >
@@ -543,7 +551,18 @@ const Page = () => {
 
         <Section description="shared/components/carousel" id="carousel" title="Carousel">
           <Specimen name="carousel" spec="shared/components/carousel">
-            <CarouselFullImage />
+            <CarouselImage
+              renderItem={(item) => (
+                <Image
+                  alt={item.alt}
+                  className="h-full w-full object-cover"
+                  height={400}
+                  src={item.src}
+                  width={600}
+                />
+              )}
+              items={images}
+            />
           </Specimen>
         </Section>
 

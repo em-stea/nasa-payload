@@ -12,7 +12,7 @@ export function MissionCard({data, className}: MissionCardProps) {
     <Card className={className} data={data}>
       <Card.Header>
         <Card.Image />
-        <Card.Tag />
+        <Card.Badge />
       </Card.Header>
       <Card.Body className="pb-4">
         <Card.Title />

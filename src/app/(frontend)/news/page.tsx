@@ -7,6 +7,7 @@ import { NewsGrid, NewsGridSkeleton } from '@/features/news/components/news-grid
 import { NewsHero } from '@/features/news/components/news-hero'
 import { NewsResultsBoundary } from '@/features/news/components/news-results-boundary'
 import { isNewsCategorySlug } from '@/features/news/constants/categories'
+import { Container } from '@/shared/components/container/container'
 
 export const metadata: Metadata = {
   title: 'NASA News',
@@ -43,20 +44,22 @@ function readPage(value: string | string[] | undefined) {
  */
 export default function NewsPage({ searchParams }: { searchParams: Promise<NewsSearchParams> }) {
   return (
-    <main className="flex min-h-dvh w-full flex-col items-start gap-8 bg-background px-6 pt-24 pb-32 text-primary-foreground">
-      <NewsHero />
+    <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
+      <Container className="flex flex-col items-start gap-8">
+        <NewsHero />
 
-      <div className="w-full border-b border-border">
-        <Suspense fallback={<NewsFilterBar />}>
-          <NewsFilterBarLive />
+        <div className="w-full border-b border-border">
+          <Suspense fallback={<NewsFilterBar />}>
+            <NewsFilterBarLive />
+          </Suspense>
+        </div>
+
+        <Suspense fallback={<NewsGridSkeleton />}>
+          <NewsResultsBoundary fallback={<NewsGridSkeleton />}>
+            <NewsResults searchParams={searchParams} />
+          </NewsResultsBoundary>
         </Suspense>
-      </div>
-
-      <Suspense fallback={<NewsGridSkeleton />}>
-        <NewsResultsBoundary fallback={<NewsGridSkeleton />}>
-          <NewsResults searchParams={searchParams} />
-        </NewsResultsBoundary>
-      </Suspense>
+      </Container>
     </main>
   )
 }

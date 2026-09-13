@@ -5,6 +5,7 @@ import { SignInPanel } from '@/features/account/components/sign-in-panel'
 import { getSessionIdentity } from '@/features/account/services/site-user'
 import { FavoriteCard } from '@/features/favorites/components/favorite-card'
 import { getFavorites } from '@/features/favorites/services/get-favorites'
+import { Container } from '@/shared/components/container/container'
 import { Heading } from '@/shared/components/heading/heading'
 import { Text } from '@/shared/components/text/text'
 
@@ -26,25 +27,27 @@ const GRID_CLASSNAME = 'grid w-full auto-rows-96 grid-cols-1 gap-4 sm:grid-cols-
  */
 export default function FavoritesPage() {
   return (
-    <main className="flex min-h-dvh w-full flex-col items-start gap-8 bg-background px-6 pt-24 pb-32 text-primary-foreground">
-      <header className="flex w-full flex-col gap-1.8 border-b border-border pt-20 pb-6">
-        <Text variant="body.4" className="flex flex-wrap items-baseline gap-2">
-          <span className="text-foreground">SYS.MSG</span>
-          <span className="text-basic-500">PERSONAL_ARCHIVE</span>
-        </Text>
+    <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
+      <Container className="flex flex-col items-start gap-8">
+        <header className="flex w-full flex-col gap-1.8 border-b border-border pt-20 pb-6">
+          <Text variant="body.4" className="flex flex-wrap items-baseline gap-2">
+            <span className="text-foreground">SYS.MSG</span>
+            <span className="text-basic-500">PERSONAL_ARCHIVE</span>
+          </Text>
 
-        <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
-          Favorites
-        </Heading>
+          <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
+            Favorites
+          </Heading>
 
-        <Text variant="body.1" className="max-w-2xl text-basic-500">
-          Las transmisiones que marcaste para volver a leer.
-        </Text>
-      </header>
+          <Text variant="body.1" className="max-w-2xl text-basic-500">
+            Las transmisiones que marcaste para volver a leer.
+          </Text>
+        </header>
 
-      <Suspense fallback={<FavoritesSkeleton />}>
-        <FavoritesList />
-      </Suspense>
+        <Suspense fallback={<FavoritesSkeleton />}>
+          <FavoritesList />
+        </Suspense>
+      </Container>
     </main>
   )
 }

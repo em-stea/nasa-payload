@@ -8,6 +8,7 @@ import { getMyComments } from '@/features/comments/services/get-my-comments'
 import type { MyCommentView } from '@/features/comments/types/comment'
 import { NewsResultsBoundary } from '@/features/news/components/news-results-boundary'
 import { buildArticleHref } from '@/features/news/utils/parse-post'
+import { Container } from '@/shared/components/container/container'
 import { Heading } from '@/shared/components/heading/heading'
 import { Pagination } from '@/shared/components/pagination/pagination'
 import { Text } from '@/shared/components/text/text'
@@ -50,36 +51,34 @@ export default function MyCommentsPage({
   searchParams: Promise<CommentsSearchParams>
 }) {
   return (
-    <main className="flex min-h-dvh w-full flex-col items-start gap-8 bg-background px-6 pt-24 pb-32 text-primary-foreground">
-      <header className="flex w-full flex-col gap-1.8 border-b border-border pt-20 pb-6">
-        <Text variant="body.4" className="flex flex-wrap items-baseline gap-2">
-          <span className="text-foreground">SYS.MSG</span>
-          <span className="text-basic-500">TRANSMISSION_LOG</span>
-        </Text>
+    <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
+      <Container className="flex flex-col items-start gap-8">
+        <header className="flex w-full flex-col gap-1.8 border-b border-border pt-20 pb-6">
+          <Text variant="body.4" className="flex flex-wrap items-baseline gap-2">
+            <span className="text-foreground">SYS.MSG</span>
+            <span className="text-basic-500">TRANSMISSION_LOG</span>
+          </Text>
 
-        <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
-          My Comments
-        </Heading>
+          <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
+            My Comments
+          </Heading>
 
-        <Text variant="body.1" className="max-w-2xl text-basic-500">
-          Todo lo que comentaste en las noticias, ordenado del más nuevo al más viejo.
-        </Text>
-      </header>
+          <Text variant="body.1" className="max-w-2xl text-basic-500">
+            Todo lo que comentaste en las noticias, ordenado del más nuevo al más viejo.
+          </Text>
+        </header>
 
-      <Suspense fallback={<MyCommentsSkeleton />}>
-        <NewsResultsBoundary fallback={<MyCommentsSkeleton />}>
-          <MyCommentsList searchParams={searchParams} />
-        </NewsResultsBoundary>
-      </Suspense>
+        <Suspense fallback={<MyCommentsSkeleton />}>
+          <NewsResultsBoundary fallback={<MyCommentsSkeleton />}>
+            <MyCommentsList searchParams={searchParams} />
+          </NewsResultsBoundary>
+        </Suspense>
+      </Container>
     </main>
   )
 }
 
-async function MyCommentsList({
-  searchParams,
-}: {
-  searchParams: Promise<CommentsSearchParams>
-}) {
+async function MyCommentsList({ searchParams }: { searchParams: Promise<CommentsSearchParams> }) {
   const identity = await getSessionIdentity()
 
   if (!identity) {

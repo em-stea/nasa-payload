@@ -8,6 +8,7 @@ import { NotificationLink } from '@/features/notifications/components/notificati
 import { getNotifications } from '@/features/notifications/services/get-notifications'
 import { buildArticleHref } from '@/features/news/utils/parse-post'
 import type { Notification } from '@/payload-types'
+import { Container } from '@/shared/components/container/container'
 import { Heading } from '@/shared/components/heading/heading'
 import { Text } from '@/shared/components/text/text'
 import { cn } from '@/shared/utils/className-builder'
@@ -29,25 +30,27 @@ export const instant = true
  */
 export default function NotificationsPage() {
   return (
-    <main className="flex min-h-dvh w-full flex-col items-start gap-8 bg-background px-6 pt-24 pb-32 text-primary-foreground">
-      <header className="flex w-full flex-col gap-1.8 border-b border-border pt-20 pb-6">
-        <Text variant="body.4" className="flex flex-wrap items-baseline gap-2">
-          <span className="text-foreground">SYS.MSG</span>
-          <span className="text-basic-500">INCOMING_TRANSMISSIONS</span>
-        </Text>
+    <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
+      <Container className="flex flex-col items-start gap-8">
+        <header className="flex w-full flex-col gap-1.8 border-b border-border pt-20 pb-6">
+          <Text variant="body.4" className="flex flex-wrap items-baseline gap-2">
+            <span className="text-foreground">SYS.MSG</span>
+            <span className="text-basic-500">INCOMING_TRANSMISSIONS</span>
+          </Text>
 
-        <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
-          Notifications
-        </Heading>
+          <Heading as="h1" variant="title.2" className="text-12 leading-13.2 tracking-n0_96">
+            Notifications
+          </Heading>
 
-        <Text variant="body.1" className="max-w-2xl text-basic-500">
-          Cuando alguien responde uno de tus comentarios, te avisamos acá.
-        </Text>
-      </header>
+          <Text variant="body.1" className="max-w-2xl text-basic-500">
+            Cuando alguien responde uno de tus comentarios, te avisamos acá.
+          </Text>
+        </header>
 
-      <Suspense fallback={<NotificationsSkeleton />}>
-        <NotificationsList />
-      </Suspense>
+        <Suspense fallback={<NotificationsSkeleton />}>
+          <NotificationsList />
+        </Suspense>
+      </Container>
     </main>
   )
 }

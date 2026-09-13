@@ -33,7 +33,6 @@ type TimeProps = Omit<ComponentProps<'time'>, 'dateTime' | 'children'> & {
 }
 
 export type CardTone = NonNullable<VariantProps<typeof cardVariants>['tone']>
-
 export type CardStatData = {
   label: string
   value: string
@@ -51,8 +50,8 @@ export type CardData = {
   dateTime?: string
   alert?: string
   stats?: CardStatData[]
-  /** Nombre de identidad para morphear esta imagen con un `<ViewTransition>` de destino. */
   viewTransitionName?: string
+  isHighlighted?: boolean
 }
 
 type CardContextValue = {
@@ -81,7 +80,14 @@ function CardRoot({ className, data, padding, children, ...props }: CardRootProp
     <CardContext value={{ data }}>
       <div
         data-slot="card"
-        className={cn(cardVariants({ tone: data.tone, padding }), className)}
+        className={cn(
+          cardVariants({
+            tone: data.tone,
+            isHighlighted: data.isHighlighted,
+            padding,
+          }),
+          className,
+        )}
         {...props}
       >
         {children}
@@ -112,9 +118,7 @@ type CardTagProps = BadgeProps & {
 function CardTag({ className, dot = false, ...props }: CardTagProps) {
   const { data } = useCardContext()
 
-  if (!data.tag) {
-    return null
-  }
+  if (!data.tag) return null
 
   return (
     <Badge
@@ -124,13 +128,13 @@ function CardTag({ className, dot = false, ...props }: CardTagProps) {
       className={cn(cardTagVariants(), className)}
       {...props}
     >
-      {dot ? (
+      {dot && (
         <span
           aria-hidden="true"
           data-slot="card-tag-dot"
           className={cardTagDotVariants({ tone: data.tone })}
         />
-      ) : null}
+      )}
       {data.tag}
     </Badge>
   )
@@ -139,9 +143,7 @@ function CardTag({ className, dot = false, ...props }: CardTagProps) {
 function CardImage({ className, sizes = '(max-width: 768px) 100vw, 33vw', ...props }: ImageProps) {
   const { data } = useCardContext()
 
-  if (!data.image) {
-    return null
-  }
+  if (!data.image) return null
 
   const image = (
     <Image
@@ -156,9 +158,7 @@ function CardImage({ className, sizes = '(max-width: 768px) 100vw, 33vw', ...pro
     />
   )
 
-  if (!data.viewTransitionName) {
-    return image
-  }
+  if (!data.viewTransitionName) return image
 
   return <ViewTransition name={data.viewTransitionName}>{image}</ViewTransition>
 }
@@ -209,16 +209,26 @@ function CardDescription({ className, ...props }: DivProps) {
   )
 }
 
-type CardFooterProps = DivProps & VariantProps<typeof cardFooterVariants>
+type CardFooterProps = DivProps &
+  VariantProps<typeof cardFooterVariants> & {
+    withSeparator?: boolean
+  }
 
-function CardFooter({ className, variant, children, ...props }: CardFooterProps) {
+function CardFooter({
+  className,
+  variant,
+  children,
+  withSeparator = false,
+  ...props
+}: CardFooterProps) {
   return (
     <div
       data-slot="card-footer"
       className={cn(cardFooterVariants({ variant }), className)}
       {...props}
     >
-      <Separator />
+      {withSeparator && <Separator />}
+
       <div className="flex flex-row  w-full pt-1">{children}</div>
     </div>
   )

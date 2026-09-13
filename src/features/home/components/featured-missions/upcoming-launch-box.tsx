@@ -6,7 +6,7 @@ export const UpcomingLaunchBox = ({ nextUpcomingLaunch }: { nextUpcomingLaunch: 
   const { name, date, status, location } = nextUpcomingLaunch
 
   return (
-    <div className="w-80 relative lg:absolute top-0 lg:-top-20 right-0 lg:right-6 mx-auto lg:mx-0  mt-2 lg:mt-0 z-10 rounded-lg p-px overflow-hidden">
+    <div className="w-full md:w-80 relative lg:absolute top-0 right-0 lg:right-6 mx-auto lg:mx-0 mb-6 lg:mb-0 z-10 rounded-lg p-px overflow-hidden">
       <span
         className="absolute -inset-full w-[300%] h-[300%] -left-full -top-full"
         style={{
@@ -21,10 +21,10 @@ export const UpcomingLaunchBox = ({ nextUpcomingLaunch }: { nextUpcomingLaunch: 
         <Heading variant="title.4" className="uppercase my-2">
           Mission Status: {status?.name || status}
         </Heading>
-        <Text variant="nav.link" color="blue-200">
+        <Text variant="meta.1" color="blue-200">
           NAME: {name}
         </Text>
-        <Text variant="nav.link" color="blue-200">
+        <Text variant="meta.1" color="blue-200">
           LOCATION: {location}
         </Text>
       </div>

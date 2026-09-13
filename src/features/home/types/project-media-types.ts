@@ -1,12 +1,14 @@
 export interface ProjectMediaResponse {
   collection: {
     href: string
-    items: {
-      data: DataItem[]
-      href: string
-      links: LinkItems[]
-    }[]
+    items: Item[]
   }
+}
+
+export interface Item {
+  data: DataItem[]
+  href: string
+  links: LinkItems[]
 }
 
 export interface DataItem {

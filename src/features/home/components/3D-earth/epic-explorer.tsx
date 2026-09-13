@@ -153,7 +153,7 @@ export function EpicExplorer({ captures, children }: EpicExplorerProps) {
 
         {/* La salida de la toma elegida; en vivo queda encendido, como estado. */}
         <Button
-          variant="secondary"
+          variant="primary"
           size="xs"
           active={!activeCapture}
           onClick={() => setActiveCaptureId(null)}

@@ -67,7 +67,7 @@ export const navbarLinkVariants = cva(
     'transition-colors',
     'duration-200',
     'hover:text-accent',
-    textVariants({ variant: 'body.4' }),
+    textVariants({ variant: 'nav.link' }),
   ],
   {
     variants: {

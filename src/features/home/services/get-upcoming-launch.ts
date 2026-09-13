@@ -4,7 +4,6 @@ export async function getNextUpcomingLaunch() {
 
   const nextLaunch = data.results?.[0]
 
-  console.log(nextLaunch, 'nextLaunch')
   return {
     name: nextLaunch?.name,
     date: nextLaunch?.net?.split('T')[0],

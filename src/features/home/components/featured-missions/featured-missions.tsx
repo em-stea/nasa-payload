@@ -14,15 +14,15 @@ export async function FeaturedMissions() {
   const nextUpcomingLaunch = await getNextUpcomingLaunch()
 
   return (
-    <div>
-      <HeaderGroup
-        title="Featured Missions"
-        description="Deep space exploration vanguard pushing the boundaries of our solar system and beyond."
-      />
+    <div className="py-10 ">
       <div className="relative">
+        <HeaderGroup
+          title="Featured Missions"
+          description="Deep space exploration vanguard pushing the boundaries of our solar system and beyond, highlighting technological breakthroughs and active spaceflight initiatives."
+        />
         <UpcomingLaunchBox nextUpcomingLaunch={nextUpcomingLaunch} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projectsMedia.map((project) => (
             <MissionCard
               key={project.id}

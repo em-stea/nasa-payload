@@ -23,18 +23,25 @@ export const cardVariants = cva(
     variants: {
       tone: {
         blue: 'hover:border-foreground, hover:bg-basic-700',
-        red: 'hover:border-red-300',
-        orange: 'hover:border-orange-200',
+        red: 'hover:border-foreground, hover:bg-basic-700',
       },
       padding: {
         none: '',
         md: 'gap-4 p-4',
+      },
+      isHighlighted: {
+        true: true,
+        false: false,
       },
     },
     defaultVariants: {
       tone: 'blue',
       padding: 'none',
     },
+    compoundVariants: [
+      { isHighlighted: true, tone: 'blue', class: 'hover:border-blue-200' },
+      { isHighlighted: true, tone: 'red', class: 'hover:border-red-300' },
+    ],
   },
 )
 
@@ -61,7 +68,14 @@ export const cardImageVariants = cva([
   'group-hover:scale-105',
 ])
 
-export const cardTagVariants = cva('absolute top-4 left-4')
+export const cardTagVariants = cva('absolute top-4 left-4', {
+  variants: {
+    tone: {
+      blue: 'text-blue-200',
+      red: 'text-red-300',
+    },
+  },
+})
 
 /** Punto de color del tag: toma el color del `tone` de la card. */
 export const cardTagDotVariants = cva('size-2 shrink-0 rounded-full', {
@@ -69,7 +83,6 @@ export const cardTagDotVariants = cva('size-2 shrink-0 rounded-full', {
     tone: {
       blue: 'bg-blue-200',
       red: 'bg-red-300',
-      orange: 'bg-orange-200',
     },
   },
   defaultVariants: {
@@ -93,8 +106,7 @@ export const cardTitleVariants = cva(['transition-colors', 'duration-300'], {
   variants: {
     tone: {
       blue: 'text-primary-foreground group-hover:text-foreground line-clamp-1',
-      red: 'text-basic-00 group-hover:text-red-300',
-      orange: 'text-basic-00 group-hover:text-orange-200',
+      red: 'text-basic-00 group-hover:text-red-300 line-clamp-1',
     },
     size: {
       md: textVariants({ variant: 'card.title' }),

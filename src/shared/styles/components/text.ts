@@ -10,10 +10,11 @@ export const textVariants = cva(commonClassnames, {
       'body.3': 'text-3.5 lg:text-3.5 leading-5.5 lg:leading-5.5',
       'body.4': 'text-3 lg:text-3 leading-3 lg:leading-3 tracking-1.2 uppercase font-bold',
       'button.2': 'text-4 lg:text-4 leading-6 lg:leading-6 font-bold',
-      'button.1': 'text-4 lg:text-4 tracking-1.2 lg:leading-6',
+      'button.1': 'text-3.5 lg:text-3.5 tracking-1.2 lg:leading-6 uppercase',
       eyebrow: 'text-3 lg:text-3 leading-4 lg:leading-4 uppercase tracking-1.2',
-      'meta.1': 'text-2.5 lg:text-2.5 leading-3.75 lg:leading-3.75 uppercase tracking-0.5',
-      'nav.link': 'text-3 lg:text-3 leading-3.5 lg:leading-3.5 tracking-0.6 uppercase',
+      'meta.1': 'text-3 lg:text-3 leading-3.75 lg:leading-3.75 uppercase tracking-0.5',
+      'nav.link':
+        'text-3,5 lg:text-3.5 leading-3.5 lg:leading-3.5 tracking-widest uppercase font-bold',
       'meta.2': 'text-2.5 lg:text-2.5 leading-3.75 lg:leading-3.75 uppercase tracking-1',
 
       /* Dato de telemetría: migas, fechas, filas de la sidebar, epígrafes. */

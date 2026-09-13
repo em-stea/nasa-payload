@@ -8,7 +8,7 @@ export async function getProjectMedia(projectsById: string[]) {
       const cleanQuery = title.split(' ').slice(0, 3).join(' ')
 
       const response = await http.get<ProjectMediaResponse>(
-        `https://images-api.nasa.gov/search?q=${encodeURIComponent(cleanQuery)}&media_type=image&page_size=1`,
+        `https://images-api.nasa.gov/search?q=${cleanQuery}&media_type=image&page_size=1`,
       )
       const newData = response.data
       const item = newData.collection.items?.[0]

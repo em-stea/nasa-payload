@@ -14,14 +14,14 @@ export default async function ThreeDEarth() {
   const captures = await getEPIC3DImages()
 
   return (
-    <section className="relative my-8 w-full overflow-hidden bg-basic-950 py-12">
+    <section className="relative my-10 w-full overflow-hidden bg-basic-950 py-12">
       {/* El lavado azul que baja sobre el globo, como en el diseño. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 right-0 left-1/2 bg-linear-to-l from-blue-200/5 to-transparent"
       />
 
-      <Container className="relative">
+      <Container>
         <EpicExplorer captures={captures}>
           <HeaderGroup
             title="Earth EPIC 3D"

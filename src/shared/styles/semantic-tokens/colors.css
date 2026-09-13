@@ -71,7 +71,7 @@
   --muted: var(--gray-300);
   --muted-foreground: var(--basic-300);
 
-  --accent: var(--blue-200);
+  --accent: var(--color-blue-50);
   --accent-foreground: var(--basic-970);
   --highlight: var(--blue-50);
 

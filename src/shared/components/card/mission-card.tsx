@@ -18,7 +18,7 @@ export function MissionCard({ data, className }: MissionCardProps) {
         <Card.Title />
         <Card.Description />
       </Card.Body>
-      <Card.Footer variant="stats">
+      <Card.Footer variant="stats" withSeparator>
         {data.stats?.map((stat, index) => (
           <Card.Stat key={stat.label} index={index} size="sm" />
         ))}

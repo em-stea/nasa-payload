@@ -19,6 +19,14 @@ export function buildArticleHref(id: number | string) {
   return `/news/${id}`
 }
 
+/**
+ * Nombre de identidad compartido entre la card del grid y el hero del
+ * detalle, para que React morphee una imagen en la otra con `ViewTransition`.
+ */
+export function buildArticlePhotoTransitionName(id: number | string) {
+  return `news-photo-${id}`
+}
+
 export function parsePost(post: NasaPost): NewsArticle {
   const category = resolveNewsCategory(post.categories)
   const title = toPlainText(post.title.rendered)

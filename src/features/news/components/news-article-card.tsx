@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { ShareButton } from '@/features/news/components/share-button'
 import type { NewsArticle } from '@/features/news/types/news'
+import { buildArticlePhotoTransitionName } from '@/features/news/utils/parse-post'
 import { Card } from '@/shared/components/card/card'
 
 type NewsArticleCardProps = {
@@ -25,7 +26,10 @@ export function NewsArticleCard({ article }: NewsArticleCardProps) {
       href={article.href}
       className="block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-200"
     >
-      <Card data={article} className="h-full">
+      <Card
+        data={{ ...article, viewTransitionName: buildArticlePhotoTransitionName(article.id) }}
+        className="h-full"
+      >
         <Card.Header>
           <Card.Image />
           <Card.Tag dot />

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { createContext, use } from 'react'
+import { createContext, use, ViewTransition } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
 import type { VariantProps } from 'class-variance-authority'
 
@@ -50,6 +50,8 @@ export type CardData = {
   dateTime?: string
   alert?: string
   stats?: CardStatData[]
+  /** Nombre de identidad para morphear esta imagen con un `<ViewTransition>` de destino. */
+  viewTransitionName?: string
 }
 
 type CardContextValue = {
@@ -140,7 +142,7 @@ function CardImage({ className, sizes = '(max-width: 768px) 100vw, 33vw', ...pro
     return null
   }
 
-  return (
+  const image = (
     <Image
       {...props}
       data-slot="card-image"
@@ -152,6 +154,12 @@ function CardImage({ className, sizes = '(max-width: 768px) 100vw, 33vw', ...pro
       className={cn(cardImageVariants(), className)}
     />
   )
+
+  if (!data.viewTransitionName) {
+    return image
+  }
+
+  return <ViewTransition name={data.viewTransitionName}>{image}</ViewTransition>
 }
 
 type CardBodyProps = DivProps & VariantProps<typeof cardBodyVariants>

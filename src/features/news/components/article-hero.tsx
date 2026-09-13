@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import type { ReactNode } from 'react'
+import { ViewTransition } from 'react'
 
 import type { NewsArticleDetail } from '@/features/news/types/news'
+import { buildArticlePhotoTransitionName } from '@/features/news/utils/parse-post'
 import { toMissionTimestamp } from '@/shared/utils/mission-date'
 import { Heading } from '@/shared/components/heading/heading'
 import { Text } from '@/shared/components/text/text'
@@ -24,14 +26,16 @@ export function ArticleHero({ article, actions }: ArticleHeroProps) {
   return (
     <header className="relative h-70 w-full overflow-hidden border border-border sm:h-96">
       {article.image && (
-        <Image
-          src={article.image}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover dark:opacity-80 dark:mix-blend-screen"
-        />
+        <ViewTransition name={buildArticlePhotoTransitionName(article.id)}>
+          <Image
+            src={article.image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover dark:opacity-80 dark:mix-blend-screen"
+          />
+        </ViewTransition>
       )}
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 bg-gradient-to-t from-background to-transparent px-4 pt-4 pb-4">

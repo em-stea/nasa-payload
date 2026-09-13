@@ -1,6 +1,6 @@
-import type { CollectionConfig } from 'payload'
+import type {CollectionConfig} from "payload";
 
-import { authenticated } from '../access'
+import {authenticated} from "../access";
 
 /**
  * Usuarios del blog (los que comentan), distintos de `users`.
@@ -16,17 +16,17 @@ import { authenticated } from '../access'
  * encontrar al usuario en cada request.
  */
 export const SiteUsers: CollectionConfig = {
-  slug: 'site-users',
+  slug: "site-users",
   labels: {
-    singular: 'Lector',
-    plural: 'Lectores',
+    singular: "Lector",
+    plural: "Lectores",
   },
   admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'email', 'provider', 'createdAt'],
-    listSearchableFields: ['name', 'email', 'authKey'],
-    group: 'Comunidad',
-    description: 'Usuarios del blog que comentan. No tienen acceso al backoffice.',
+    useAsTitle: "name",
+    defaultColumns: ["name", "email", "provider", "createdAt"],
+    listSearchableFields: ["name", "email", "authKey"],
+    group: "Comunidad",
+    description: "Usuarios del blog que comentan. No tienen acceso al backoffice.",
   },
   access: {
     // El front entra por Local API (que saltea access control); esto gobierna
@@ -38,58 +38,58 @@ export const SiteUsers: CollectionConfig = {
   },
   fields: [
     {
-      name: 'authKey',
-      type: 'text',
-      label: 'Clave de identidad',
+      name: "authKey",
+      type: "text",
+      label: "Clave de identidad",
       required: true,
       unique: true,
       index: true,
       admin: {
         readOnly: true,
-        description: '<provider>:<id del provider OAuth>. La escribe el front, no se edita.',
+        description: "<provider>:<id del provider OAuth>. La escribe el front, no se edita.",
       },
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'name',
-          type: 'text',
-          label: 'Nombre',
+          name: "name",
+          type: "text",
+          label: "Nombre",
           required: true,
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
         {
-          name: 'email',
-          type: 'email',
-          label: 'Email',
-          admin: { width: '50%' },
+          name: "email",
+          type: "email",
+          label: "Email",
+          admin: {width: "50%"},
         },
       ],
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'provider',
-          type: 'select',
-          label: 'Proveedor',
+          name: "provider",
+          type: "select",
+          label: "Proveedor",
           required: true,
           index: true,
           options: [
-            { label: 'Google', value: 'google' },
-            { label: 'GitHub', value: 'github' },
+            {label: "Google", value: "google"},
+            {label: "GitHub", value: "github"},
           ],
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
         {
-          name: 'image',
-          type: 'text',
-          label: 'Avatar (URL)',
-          admin: { width: '50%' },
+          name: "image",
+          type: "text",
+          label: "Avatar (URL)",
+          admin: {width: "50%"},
         },
       ],
     },
   ],
   timestamps: true,
-}
+};

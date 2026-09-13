@@ -1,8 +1,7 @@
-'use client'
+"use client";
 
-import { Suspense, type ReactNode } from 'react'
-
-import { useSearchParams } from 'next/navigation'
+import {useSearchParams} from "next/navigation";
+import {type ReactNode, Suspense} from "react";
 
 /**
  * Envuelve el grid en un `<Suspense>` cuya key cambia con la URL.
@@ -21,15 +20,15 @@ export function NewsResultsBoundary({
   children,
   fallback,
 }: {
-  children: ReactNode
-  fallback: ReactNode
+  children: ReactNode;
+  fallback: ReactNode;
 }) {
-  const searchParams = useSearchParams()
-  const key = `${searchParams.get('category') ?? 'all'}-${searchParams.get('page') ?? '1'}`
+  const searchParams = useSearchParams();
+  const key = `${searchParams.get("category") ?? "all"}-${searchParams.get("page") ?? "1"}`;
 
   return (
-    <Suspense key={key} fallback={fallback}>
+    <Suspense fallback={fallback} key={key}>
       {children}
     </Suspense>
-  )
+  );
 }

@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { usePathname } from 'next/navigation'
-import { Suspense } from 'react'
+import {usePathname} from "next/navigation";
+import {Suspense} from "react";
 
-import { NavDrawer } from '@/shared/components/drawer/nav-drawer'
-import { UserDrawer } from '@/shared/components/drawer/user-drawer'
+import {NavDrawer} from "@/shared/components/drawer/nav-drawer";
+import {UserDrawer} from "@/shared/components/drawer/user-drawer";
 
-import { Navbar, type NavbarData, type NavbarLinkItem } from './navbar'
+import {Navbar, type NavbarData, type NavbarLinkItem} from "./navbar";
 
 /**
  * Composición del TopNavBar del sitio.
@@ -21,18 +21,18 @@ import { Navbar, type NavbarData, type NavbarLinkItem } from './navbar'
 
 const NAVBAR_DATA: NavbarData = {
   logo: {
-    src: '/images/dscovr-logo.jpg',
-    alt: 'DSCOVR',
-    href: '/',
+    src: "/images/dscovr-logo.jpg",
+    alt: "DSCOVR",
+    href: "/",
   },
-}
+};
 
 const NAVBAR_LINKS: NavbarLinkItem[] = [
-  { href: '/news', label: 'News' },
-  { href: '/asteroids', label: 'Asteroids' },
-  { href: '/events', label: 'Events' },
-  { href: '/live', label: 'Live', showDot: true },
-]
+  {href: "/news", label: "News"},
+  {href: "/asteroids", label: "Asteroids"},
+  {href: "/events", label: "Events"},
+  {href: "/live", label: "Live", showDot: true},
+];
 
 /**
  * La barra entera se pinta sin saber la ruta y el `<Suspense>` la reemplaza por
@@ -49,23 +49,23 @@ export function SiteNavbar() {
     <Suspense fallback={<NavbarShell />}>
       <ActiveNavbar />
     </Suspense>
-  )
+  );
 }
 
 function ActiveNavbar() {
-  return <NavbarShell activePath={usePathname()} />
+  return <NavbarShell activePath={usePathname()} />;
 }
 
-function NavbarShell({ activePath = null }: { activePath?: string | null }) {
+function NavbarShell({activePath = null}: {activePath?: string | null}) {
   return (
-    <Navbar data={{ ...NAVBAR_DATA, activePath }}>
+    <Navbar data={{...NAVBAR_DATA, activePath}}>
       <Navbar.Group>
         <Navbar.Logo />
       </Navbar.Group>
 
       <Navbar.Group gap="md" visibility="desktop">
-        {NAVBAR_LINKS.map(({ href, label, showDot }) => (
-          <Navbar.Link key={href} href={href} showDot={showDot}>
+        {NAVBAR_LINKS.map(({href, label, showDot}) => (
+          <Navbar.Link href={href} key={href} showDot={showDot}>
             {label}
           </Navbar.Link>
         ))}
@@ -76,10 +76,10 @@ function NavbarShell({ activePath = null }: { activePath?: string | null }) {
           <Navbar.User />
         </UserDrawer>
 
-        <NavDrawer logo={NAVBAR_DATA.logo} links={NAVBAR_LINKS} activePath={activePath}>
+        <NavDrawer activePath={activePath} links={NAVBAR_LINKS} logo={NAVBAR_DATA.logo}>
           <Navbar.Menu />
         </NavDrawer>
       </Navbar.Group>
     </Navbar>
-  )
+  );
 }

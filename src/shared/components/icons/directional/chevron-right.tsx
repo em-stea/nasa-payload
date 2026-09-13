@@ -1,10 +1,10 @@
-export function ChevronRight({ ...props }) {
+export function ChevronRight({...props}) {
   return (
     <svg
-      width="24"
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -15,5 +15,5 @@ export function ChevronRight({ ...props }) {
         />
       </g>
     </svg>
-  )
+  );
 }

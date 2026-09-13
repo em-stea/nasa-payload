@@ -9,15 +9,16 @@
  */
 
 /** Extremos del eje, en metros. */
-export const SCALE_MIN_METERS = 1
-export const SCALE_MAX_METERS = 100_000
+export const SCALE_MIN_METERS = 1;
+
+export const SCALE_MAX_METERS = 100_000;
 
 /** Marcas del eje, de arriba hacia abajo; una por década. */
-export const SCALE_TICKS = [100_000, 10_000, 1_000, 100, 10, 1] as const
+export const SCALE_TICKS = [100_000, 10_000, 1_000, 100, 10, 1] as const;
 
 /** Metros → fracción del eje, entre 0 y 1. */
 export function toLogRatio(meters: number, min = SCALE_MIN_METERS, max = SCALE_MAX_METERS) {
-  const clamped = Math.min(Math.max(meters, min), max)
+  const clamped = Math.min(Math.max(meters, min), max);
 
-  return Math.log10(clamped / min) / Math.log10(max / min)
+  return Math.log10(clamped / min) / Math.log10(max / min);
 }

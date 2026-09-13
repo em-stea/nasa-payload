@@ -1,15 +1,16 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
+import type {NewsArticle} from "@/features/news/types/news";
 
-import { ShareButton } from '@/features/news/components/share-button'
-import type { NewsArticle } from '@/features/news/types/news'
-import { buildArticlePhotoTransitionName } from '@/features/news/utils/parse-post'
-import { Card } from '@/shared/components/card/card'
+import Link from "next/link";
+
+import {ShareButton} from "@/features/news/components/share-button";
+import {buildArticlePhotoTransitionName} from "@/features/news/utils/parse-post";
+import {Card} from "@/shared/components/card/card";
 
 type NewsArticleCardProps = {
-  article: NewsArticle
-}
+  article: NewsArticle;
+};
 
 /**
  * Card del grid de noticias.
@@ -20,15 +21,15 @@ type NewsArticleCardProps = {
  * Es client por el mismo motivo que `LatestNewsCard`: las partes compuestas de
  * `Card` se cuelgan con Object.assign y no cruzan el borde RSC.
  */
-export function NewsArticleCard({ article }: NewsArticleCardProps) {
+export function NewsArticleCard({article}: NewsArticleCardProps) {
   return (
     <Link
-      href={article.href}
       className="block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-200"
+      href={article.href}
     >
       <Card
-        data={{ ...article, viewTransitionName: buildArticlePhotoTransitionName(article.id) }}
         className="h-full"
+        data={{...article, viewTransitionName: buildArticlePhotoTransitionName(article.id)}}
       >
         <Card.Header>
           <Card.Image />
@@ -38,7 +39,7 @@ export function NewsArticleCard({ article }: NewsArticleCardProps) {
         <Card.Body className="flex-1 pb-4">
           <div className="flex items-center justify-between gap-2">
             <Card.Date className="opacity-70" />
-            <ShareButton url={article.href} title={article.title} />
+            <ShareButton title={article.title} url={article.href} />
           </div>
 
           <Card.Title className="line-clamp-2" />
@@ -46,5 +47,5 @@ export function NewsArticleCard({ article }: NewsArticleCardProps) {
         </Card.Body>
       </Card>
     </Link>
-  )
+  );
 }

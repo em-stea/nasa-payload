@@ -1,14 +1,14 @@
-import Link from 'next/link'
-import { Fragment } from 'react'
+import Link from "next/link";
+import {Fragment} from "react";
 
-import { ChevronRight } from '@/shared/components/icons/directional/chevron-right'
-import { Text } from '@/shared/components/text/text'
+import {ChevronRight} from "@/shared/components/icons/directional/chevron-right";
+import {Text} from "@/shared/components/text/text";
 
 export type Breadcrumb = {
-  label: string
+  label: string;
   /** Sin `href` el ítem es el actual y no linkea. */
-  href?: string
-}
+  href?: string;
+};
 
 /**
  * Migas del detalle: `ARCHIVE › NEWS › MARS`.
@@ -16,11 +16,11 @@ export type Breadcrumb = {
  * El último ítem se marca con `aria-current` en vez de renderizarse como link,
  * que es lo que espera un lector de pantalla al llegar a la posición actual.
  */
-export function ArticleBreadcrumbs({ items }: { items: Breadcrumb[] }) {
+export function ArticleBreadcrumbs({items}: {items: Breadcrumb[]}) {
   return (
     <nav aria-label="Migas de navegación" className="w-full">
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        {items.map(({ label, href }, index) => (
+        {items.map(({label, href}, index) => (
           <Fragment key={`${label}-${index}`}>
             {index > 0 && (
               <ChevronRight aria-hidden="true" className="size-3 shrink-0 text-basic-500" />
@@ -29,15 +29,15 @@ export function ArticleBreadcrumbs({ items }: { items: Breadcrumb[] }) {
             <li>
               {href ? (
                 <Link
-                  href={href}
                   className="text-basic-500 transition-colors duration-200 hover:text-foreground"
+                  href={href}
                 >
-                  <Text variant="meta.3" className="uppercase">
+                  <Text className="uppercase" variant="meta.3">
                     {label}
                   </Text>
                 </Link>
               ) : (
-                <Text variant="meta.3" aria-current="page" className="text-foreground uppercase">
+                <Text aria-current="page" className="text-foreground uppercase" variant="meta.3">
                   {label}
                 </Text>
               )}
@@ -46,5 +46,5 @@ export function ArticleBreadcrumbs({ items }: { items: Breadcrumb[] }) {
         ))}
       </ol>
     </nav>
-  )
+  );
 }

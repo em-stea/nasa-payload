@@ -13,13 +13,13 @@
  * azul, y el hielo en el gris neutro del tema.
  */
 
-export type EventTone = 'orange' | 'blue' | 'neutral'
+export type EventTone = "orange" | "blue" | "neutral";
 
 /**
  * Qué se muestra en la cuarta fila de la card. Cada categoría destaca el dato
  * que EONET publica para ella; `updated` es el que sirve para todas.
  */
-export type EventMetricKind = 'wind' | 'area' | 'status' | 'drift' | 'updated'
+export type EventMetricKind = "wind" | "area" | "status" | "drift" | "updated";
 
 /**
  * Cómo hay que pedirle a EONET los eventos de cada categoría.
@@ -36,84 +36,84 @@ export type EventMetricKind = 'wind' | 'area' | 'status' | 'drift' | 'updated'
  *   erupción, un témpano a la deriva) y actualiza la traza de a saltos. Estos
  *   se caen de cualquier ventana de días, así que van por `status=open`.
  */
-export type EventFeed = 'recent' | 'open'
+export type EventFeed = "recent" | "open";
 
 export type EventCategory = {
   /** Id de la categoría en EONET; es el valor de `?category=` en la URL. */
-  id: string
-  label: string
-  code: string
-  tone: EventTone
-  metric: EventMetricKind
-  feed: EventFeed
-}
+  id: string;
+  label: string;
+  code: string;
+  tone: EventTone;
+  metric: EventMetricKind;
+  feed: EventFeed;
+};
 
 export const EVENT_CATEGORIES = {
   wildfires: {
-    id: 'wildfires',
-    label: 'Wildfires',
-    code: 'WF',
-    tone: 'orange',
-    metric: 'area',
-    feed: 'recent',
+    id: "wildfires",
+    label: "Wildfires",
+    code: "WF",
+    tone: "orange",
+    metric: "area",
+    feed: "recent",
   },
   floods: {
-    id: 'floods',
-    label: 'Floods',
-    code: 'FL',
-    tone: 'blue',
-    metric: 'updated',
-    feed: 'recent',
+    id: "floods",
+    label: "Floods",
+    code: "FL",
+    tone: "blue",
+    metric: "updated",
+    feed: "recent",
   },
   severeStorms: {
-    id: 'severeStorms',
-    label: 'Severe Storms',
-    code: 'ST',
-    tone: 'blue',
-    metric: 'wind',
-    feed: 'recent',
+    id: "severeStorms",
+    label: "Severe Storms",
+    code: "ST",
+    tone: "blue",
+    metric: "wind",
+    feed: "recent",
   },
   volcanoes: {
-    id: 'volcanoes',
-    label: 'Volcanoes',
-    code: 'VL',
-    tone: 'orange',
-    metric: 'status',
-    feed: 'open',
+    id: "volcanoes",
+    label: "Volcanoes",
+    code: "VL",
+    tone: "orange",
+    metric: "status",
+    feed: "open",
   },
   seaLakeIce: {
-    id: 'seaLakeIce',
-    label: 'Ice/Snow',
-    code: 'IC',
-    tone: 'neutral',
-    metric: 'drift',
-    feed: 'open',
+    id: "seaLakeIce",
+    label: "Ice/Snow",
+    code: "IC",
+    tone: "neutral",
+    metric: "drift",
+    feed: "open",
   },
-} as const satisfies Record<string, EventCategory>
+} as const satisfies Record<string, EventCategory>;
 
-export type EventCategorySlug = keyof typeof EVENT_CATEGORIES
+export type EventCategorySlug = keyof typeof EVENT_CATEGORIES;
 
 /** Chips de la barra de filtros, en el orden del diseño. */
 export const EVENT_FILTER_SLUGS = [
-  'wildfires',
-  'floods',
-  'severeStorms',
-  'volcanoes',
-  'seaLakeIce',
-] as const satisfies readonly EventCategorySlug[]
+  "wildfires",
+  "floods",
+  "severeStorms",
+  "volcanoes",
+  "seaLakeIce",
+] as const satisfies readonly EventCategorySlug[];
 
 /** Categoría de los eventos que no caen en ninguno de los cinco chips. */
 export const EVENT_FALLBACK_CATEGORY: EventCategory = {
-  id: 'other',
-  label: 'Event',
-  code: 'EV',
-  tone: 'blue',
-  metric: 'updated',
-  feed: 'recent',
-}
+  id: "other",
+  label: "Event",
+  code: "EV",
+  tone: "blue",
+  metric: "updated",
+  feed: "recent",
+};
 
 export function isEventCategorySlug(value: string | null | undefined): value is EventCategorySlug {
-  return value != null && value in EVENT_CATEGORIES
+  return value != null && value in EVENT_CATEGORIES;
 }
 
 /**
@@ -121,20 +121,20 @@ export function isEventCategorySlug(value: string | null | undefined): value is 
  * de una (un volcán que además genera humo), y solo una nos sirve de tag.
  */
 export function resolveEventCategory(ids: readonly string[]): EventCategory {
-  const match = ids.find(isEventCategorySlug)
+  const match = ids.find(isEventCategorySlug);
 
-  return match ? EVENT_CATEGORIES[match] : EVENT_FALLBACK_CATEGORY
+  return match ? EVENT_CATEGORIES[match] : EVENT_FALLBACK_CATEGORY;
 }
 
 /** Clases del color de cada tono, para texto, borde e ícono. */
 export const TONE_TEXT = {
-  orange: 'text-orange-200',
-  blue: 'text-foreground',
-  neutral: 'text-primary-foreground',
-} as const satisfies Record<EventTone, string>
+  orange: "text-orange-200",
+  blue: "text-foreground",
+  neutral: "text-primary-foreground",
+} as const satisfies Record<EventTone, string>;
 
 export const TONE_BORDER = {
-  orange: 'border-orange-200',
-  blue: 'border-foreground',
-  neutral: 'border-border',
-} as const satisfies Record<EventTone, string>
+  orange: "border-orange-200",
+  blue: "border-foreground",
+  neutral: "border-border",
+} as const satisfies Record<EventTone, string>;

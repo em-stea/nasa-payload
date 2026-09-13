@@ -1,9 +1,10 @@
-import { cacheLife, cacheTag } from 'next/cache'
+import type {ApodImage, ApodPost} from "@/features/apod/types/apod";
 
-import type { ApodImage, ApodPost } from '@/features/apod/types/apod'
-import { parseApodPost } from '@/features/apod/utils/parse-apod'
-import { NASA_ENDPOINTS } from '@/shared/constants/nasa-endpoints'
-import { http } from '@/shared/services/http'
+import {cacheLife, cacheTag} from "next/cache";
+
+import {parseApodPost} from "@/features/apod/utils/parse-apod";
+import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
+import {http} from "@/shared/services/http";
 
 /**
  * La Astronomy Picture of the Day vigente.
@@ -14,13 +15,13 @@ import { http } from '@/shared/services/http'
  * de ayer una vez que NASA publique la de hoy.
  */
 export async function getAPODImage(): Promise<ApodImage> {
-  'use cache'
-  cacheLife('hours')
-  cacheTag('apod-image')
+  "use cache";
+  cacheLife("hours");
+  cacheTag("apod-image");
 
-  const { data } = await http.get<ApodPost[]>(`${NASA_ENDPOINTS.apod}/apod-basic`, {
-    searchParams: { page: 1, per_page: 1 },
-  })
+  const {data} = await http.get<ApodPost[]>(`${NASA_ENDPOINTS.apod}/apod-basic`, {
+    searchParams: {page: 1, per_page: 1},
+  });
 
-  return parseApodPost(data[0])
+  return parseApodPost(data[0]);
 }

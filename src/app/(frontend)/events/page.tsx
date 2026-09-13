@@ -1,40 +1,41 @@
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
+import type {Metadata} from "next";
 
-import { EventsFilterBar } from '@/features/events/components/events-filter-bar'
-import { EventsFilterBarLive } from '@/features/events/components/events-filter-bar-live'
-import { EventsGrid, EventsGridSkeleton } from '@/features/events/components/events-grid'
-import { EventsHero, EventsHeroSkeleton } from '@/features/events/components/events-hero'
-import { EventsResultsBoundary } from '@/features/events/components/events-results-boundary'
-import { isEventCategorySlug } from '@/features/events/constants/categories'
-import { Container } from '@/shared/components/container/container'
+import {Suspense} from "react";
+
+import {EventsFilterBar} from "@/features/events/components/events-filter-bar";
+import {EventsFilterBarLive} from "@/features/events/components/events-filter-bar-live";
+import {EventsGrid, EventsGridSkeleton} from "@/features/events/components/events-grid";
+import {EventsHero, EventsHeroSkeleton} from "@/features/events/components/events-hero";
+import {EventsResultsBoundary} from "@/features/events/components/events-results-boundary";
+import {isEventCategorySlug} from "@/features/events/constants/categories";
+import {Container} from "@/shared/components/container/container";
 
 export const metadata: Metadata = {
-  title: 'Global Events Tracker',
+  title: "Global Events Tracker",
   description:
-    'Wildfires, storms, floods, volcanoes and ice events currently tracked by NASA EONET, plotted worldwide.',
-}
+    "Wildfires, storms, floods, volcanoes and ice events currently tracked by NASA EONET, plotted worldwide.",
+};
 
 /**
  * Pide a Next que valide que navegar a esta ruta pinta UI al instante. Si algo
  * bloquea —una lectura sin cachear, un `<Suspense>` que falta— lo avisa en el
  * overlay de desarrollo en vez de dejarlo pasar a producción.
  */
-export const instant = true
+export const instant = true;
 
 type EventsSearchParams = {
-  category?: string | string[]
-  page?: string | string[]
-}
+  category?: string | string[];
+  page?: string | string[];
+};
 
 function readParam(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value
+  return Array.isArray(value) ? value[0] : value;
 }
 
 function readPage(value: string | string[] | undefined) {
-  const page = Number.parseInt(readParam(value) ?? '1', 10)
+  const page = Number.parseInt(readParam(value) ?? "1", 10);
 
-  return Number.isFinite(page) && page > 0 ? page : 1
+  return Number.isFinite(page) && page > 0 ? page : 1;
 }
 
 /**
@@ -43,11 +44,7 @@ function readPage(value: string | string[] | undefined) {
  * propio `<Suspense>`, con un fallback de las mismas medidas que su contenido,
  * así nada se mueve cuando resuelve.
  */
-export default function EventsPage({
-  searchParams,
-}: {
-  searchParams: Promise<EventsSearchParams>
-}) {
+export default function EventsPage({searchParams}: {searchParams: Promise<EventsSearchParams>}) {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-18 pb-32 text-primary-foreground">
       <Suspense fallback={<EventsHeroSkeleton />}>
@@ -68,17 +65,17 @@ export default function EventsPage({
         </Suspense>
       </Container>
     </main>
-  )
+  );
 }
 
-async function EventsResults({ searchParams }: { searchParams: Promise<EventsSearchParams> }) {
-  const params = await searchParams
-  const rawCategory = readParam(params.category)
+async function EventsResults({searchParams}: {searchParams: Promise<EventsSearchParams>}) {
+  const params = await searchParams;
+  const rawCategory = readParam(params.category);
 
   return (
     <EventsGrid
-      page={readPage(params.page)}
       category={isEventCategorySlug(rawCategory) ? rawCategory : undefined}
+      page={readPage(params.page)}
     />
-  )
+  );
 }

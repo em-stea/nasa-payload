@@ -1,13 +1,14 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { createContext, use } from 'react'
-import type { ComponentProps, ReactNode } from 'react'
-import type { VariantProps } from 'class-variance-authority'
+import type {VariantProps} from "class-variance-authority";
+import type {ComponentProps, ReactNode} from "react";
 
-import { Menu } from '@/shared/components/icons/other/menu'
-import { User } from '@/shared/components/icons/other/user'
+import Image from "next/image";
+import Link from "next/link";
+import {createContext, use} from "react";
+
+import {Menu} from "@/shared/components/icons/other/menu";
+import {User} from "@/shared/components/icons/other/user";
 import {
   navbarContainerVariants,
   navbarDotVariants,
@@ -20,34 +21,34 @@ import {
   navbarUserIconVariants,
   navbarUserVariants,
   navbarVariants,
-} from '@/shared/styles/components/navbar'
-import { cn } from '@/shared/utils/className-builder'
+} from "@/shared/styles/components/navbar";
+import {cn} from "@/shared/utils/className-builder";
 
-type LinkProps = ComponentProps<typeof Link>
+type LinkProps = ComponentProps<typeof Link>;
 
 export type NavbarLogoData = {
-  src: string
-  alt: string
-  href?: string
-}
+  src: string;
+  alt: string;
+  href?: string;
+};
 
 /** Item de navegación; compartido por la barra y por el drawer de mobile. */
 export type NavbarLinkItem = {
-  href: string
-  label: string
-  showDot?: boolean
-}
+  href: string;
+  label: string;
+  showDot?: boolean;
+};
 
 export type NavbarUserData = {
-  name: string
-  menuLabel?: string
-}
+  name: string;
+  menuLabel?: string;
+};
 
 export type NavbarData = {
-  logo: NavbarLogoData
-  user?: NavbarUserData
+  logo: NavbarLogoData;
+  user?: NavbarUserData;
   /** Etiqueta accesible del <nav>. */
-  label?: string
+  label?: string;
   /**
    * Ruta activa, para marcar el link de la sección en la que estamos.
    *
@@ -56,160 +57,160 @@ export type NavbarData = {
    * layout, arriba de todas. Quien la usa decide si la resuelve y bajo qué
    * `<Suspense>` (ver `SiteNavbar`).
    */
-  activePath?: string | null
-}
+  activePath?: string | null;
+};
 
 type NavbarContextValue = {
-  data: NavbarData
-  activePath: string | null
-  isActive: (href: LinkProps['href']) => boolean
-}
+  data: NavbarData;
+  activePath: string | null;
+  isActive: (href: LinkProps["href"]) => boolean;
+};
 
-const NavbarContext = createContext<NavbarContextValue | null>(null)
+const NavbarContext = createContext<NavbarContextValue | null>(null);
 
 function useNavbarContext() {
-  const context = use(NavbarContext)
+  const context = use(NavbarContext);
 
   if (!context) {
-    throw new Error('Navbar compound parts must be used within <Navbar data={...}>')
+    throw new Error("Navbar compound parts must be used within <Navbar data={...}>");
   }
 
-  return context
+  return context;
 }
 
 function normalizePath(path: string) {
-  return path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path
+  return path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
 }
 
-type NavbarRootProps = Omit<ComponentProps<'header'>, 'children'> & {
-  data: NavbarData
-  children?: ReactNode
-}
+type NavbarRootProps = Omit<ComponentProps<"header">, "children"> & {
+  data: NavbarData;
+  children?: ReactNode;
+};
 
-function NavbarRoot({ className, data, children, ...props }: NavbarRootProps) {
-  const activePath = data.activePath ?? null
+function NavbarRoot({className, data, children, ...props}: NavbarRootProps) {
+  const activePath = data.activePath ?? null;
 
-  const isActive = (href: LinkProps['href']) => {
-    if (typeof href !== 'string' || !activePath) return false
+  const isActive = (href: LinkProps["href"]) => {
+    if (typeof href !== "string" || !activePath) return false;
 
-    return normalizePath(href) === normalizePath(activePath)
-  }
+    return normalizePath(href) === normalizePath(activePath);
+  };
 
   return (
-    <NavbarContext value={{ data, activePath, isActive }}>
-      <header data-slot="navbar" className={cn(navbarVariants(), className)} {...props}>
-        <nav aria-label={data.label ?? 'Principal'} className={navbarContainerVariants()}>
+    <NavbarContext value={{data, activePath, isActive}}>
+      <header className={cn(navbarVariants(), className)} data-slot="navbar" {...props}>
+        <nav aria-label={data.label ?? "Principal"} className={navbarContainerVariants()}>
           {children}
         </nav>
       </header>
     </NavbarContext>
-  )
+  );
 }
 
-type NavbarGroupProps = ComponentProps<'div'> & VariantProps<typeof navbarGroupVariants>
+type NavbarGroupProps = ComponentProps<"div"> & VariantProps<typeof navbarGroupVariants>;
 
-function NavbarGroup({ className, gap, visibility, children, ...props }: NavbarGroupProps) {
+function NavbarGroup({className, gap, visibility, children, ...props}: NavbarGroupProps) {
   return (
     <div
+      className={cn(navbarGroupVariants({gap, visibility}), className)}
       data-slot="navbar-group"
-      className={cn(navbarGroupVariants({ gap, visibility }), className)}
       {...props}
     >
       {children}
     </div>
-  )
+  );
 }
 
-type NavbarLogoProps = Omit<LinkProps, 'href' | 'children'>
+type NavbarLogoProps = Omit<LinkProps, "href" | "children">;
 
-function NavbarLogo({ className, ...props }: NavbarLogoProps) {
-  const { data } = useNavbarContext()
-  const { logo } = data
+function NavbarLogo({className, ...props}: NavbarLogoProps) {
+  const {data} = useNavbarContext();
+  const {logo} = data;
 
   return (
     <Link
       {...props}
-      data-slot="navbar-logo"
-      href={logo.href ?? '/'}
       aria-label={logo.alt}
       className={cn(navbarLogoVariants(), className)}
+      data-slot="navbar-logo"
+      href={logo.href ?? "/"}
     >
       <Image
-        src={logo.src}
-        alt={logo.alt}
-        width={48}
-        height={48}
         priority
+        alt={logo.alt}
         className={navbarLogoImageVariants()}
+        height={48}
+        src={logo.src}
+        width={48}
       />
     </Link>
-  )
+  );
 }
 
 function NavbarDot() {
-  return <span aria-hidden="true" data-slot="navbar-dot" className={navbarDotVariants()} />
+  return <span aria-hidden="true" className={navbarDotVariants()} data-slot="navbar-dot" />;
 }
 
 type NavbarLinkProps = LinkProps & {
   /** Fuerza el estado activo en lugar de derivarlo de la ruta. */
-  active?: boolean
+  active?: boolean;
   /** Antepone el punto indicador al contenido del link (ej. "Live"). */
-  showDot?: boolean
-}
+  showDot?: boolean;
+};
 
-function NavbarLink({ className, href, active, showDot, children, ...props }: NavbarLinkProps) {
-  const { isActive } = useNavbarContext()
-  const current = active ?? isActive(href)
+function NavbarLink({className, href, active, showDot, children, ...props}: NavbarLinkProps) {
+  const {isActive} = useNavbarContext();
+  const current = active ?? isActive(href);
 
   return (
     <Link
       {...props}
+      aria-current={current ? "page" : undefined}
+      className={cn(navbarLinkVariants({active: current}), className)}
       data-slot="navbar-link"
       href={href}
-      aria-current={current ? 'page' : undefined}
-      className={cn(navbarLinkVariants({ active: current }), className)}
     >
       {showDot && <NavbarDot />}
       {children}
     </Link>
-  )
+  );
 }
 
-type NavbarUserProps = Omit<ComponentProps<'button'>, 'children'>
+type NavbarUserProps = Omit<ComponentProps<"button">, "children">;
 
-function NavbarUser({ className, type = 'button', ...props }: NavbarUserProps) {
-  const { data } = useNavbarContext()
-  const { user } = data
-  const label = user?.menuLabel ?? (user ? `Abrir menú de ${user.name}` : 'Abrir menú de usuario')
+function NavbarUser({className, type = "button", ...props}: NavbarUserProps) {
+  const {data} = useNavbarContext();
+  const {user} = data;
+  const label = user?.menuLabel ?? (user ? `Abrir menú de ${user.name}` : "Abrir menú de usuario");
 
   return (
     <button
       {...props}
-      type={type}
-      data-slot="navbar-user"
       aria-label={label}
       className={cn(navbarUserVariants(), className)}
+      data-slot="navbar-user"
+      type={type}
     >
       <User className={navbarUserIconVariants()} />
     </button>
-  )
+  );
 }
 
-type NavbarMenuProps = Omit<ComponentProps<'button'>, 'children'>
+type NavbarMenuProps = Omit<ComponentProps<"button">, "children">;
 
 /** Disparador del menú de navegación en mobile; se oculta a partir de `md`. */
-function NavbarMenu({ className, type = 'button', ...props }: NavbarMenuProps) {
+function NavbarMenu({className, type = "button", ...props}: NavbarMenuProps) {
   return (
     <button
       {...props}
-      type={type}
-      data-slot="navbar-menu"
-      aria-label={props['aria-label'] ?? 'Abrir menú de navegación'}
+      aria-label={props["aria-label"] ?? "Abrir menú de navegación"}
       className={cn(navbarMenuVariants(), className)}
+      data-slot="navbar-menu"
+      type={type}
     >
       <Menu className={navbarMenuIconVariants()} />
     </button>
-  )
+  );
 }
 
 export const Navbar = Object.assign(NavbarRoot, {
@@ -218,6 +219,6 @@ export const Navbar = Object.assign(NavbarRoot, {
   Link: NavbarLink,
   Menu: NavbarMenu,
   User: NavbarUser,
-})
+});
 
-export type NavbarProps = NavbarRootProps
+export type NavbarProps = NavbarRootProps;

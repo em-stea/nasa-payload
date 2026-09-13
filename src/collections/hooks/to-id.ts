@@ -6,8 +6,8 @@
  * controlan esa profundidad, así que normalizan con esto.
  */
 export const toId = (value: unknown): string | undefined => {
-  if (!value) return undefined
-  if (typeof value === 'object') return String((value as { id: unknown }).id)
+  if (!value) return undefined;
+  if (typeof value === "object") return String((value as {id: unknown}).id);
 
-  return String(value)
-}
+  return String(value);
+};

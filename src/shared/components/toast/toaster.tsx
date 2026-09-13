@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useTheme } from 'next-themes'
-import { Toaster as Sonner, type ToasterProps } from 'sonner'
+import {useTheme} from "next-themes";
+import {Toaster as Sonner, type ToasterProps} from "sonner";
 
 /**
  * Toasts de la app (sonner, el toast de shadcn).
@@ -14,21 +14,21 @@ import { Toaster as Sonner, type ToasterProps } from 'sonner'
  * propia paleta.
  */
 export function Toaster(props: ToasterProps) {
-  const { resolvedTheme } = useTheme()
+  const {resolvedTheme} = useTheme();
 
   return (
     <Sonner
-      theme={resolvedTheme as ToasterProps['theme']}
-      position="bottom-right"
       toastOptions={{
         classNames: {
           toast:
-            'font-jetbrains-mono rounded-lg border border-border bg-card text-primary-foreground',
-          description: 'text-basic-500',
-          error: 'border-red-300',
+            "font-jetbrains-mono rounded-lg border border-border bg-card text-primary-foreground",
+          description: "text-basic-500",
+          error: "border-red-300",
         },
       }}
+      position="bottom-right"
+      theme={resolvedTheme as ToasterProps["theme"]}
       {...props}
     />
-  )
+  );
 }

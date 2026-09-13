@@ -1,5 +1,5 @@
-import { WorldMap } from '@/features/events/components/world-map'
-import { getEventMarkers } from '@/features/events/services/get-events'
+import {WorldMap} from "@/features/events/components/world-map";
+import {getEventMarkers} from "@/features/events/services/get-events";
 
 /**
  * Hero de la sección: el planisferio con todo lo que está pasando.
@@ -9,13 +9,13 @@ import { getEventMarkers } from '@/features/events/services/get-events'
  * hover y el foco tienen que mover las dos cosas a la vez.
  */
 export async function EventsHero() {
-  const events = await getEventMarkers()
+  const events = await getEventMarkers();
 
   return (
     <section aria-label="Mapa de eventos naturales" className="relative w-full">
       <WorldMap events={events} />
     </section>
-  )
+  );
 }
 
 /** Fallback del hero: misma caja y mismas medidas, sin marcadores. */
@@ -25,5 +25,5 @@ export function EventsHeroSkeleton() {
       aria-hidden="true"
       className="aspect-5/2 w-full animate-pulse border-b border-border bg-card"
     />
-  )
+  );
 }

@@ -4,4 +4,4 @@
  * transmitiendo en ese momento. Sirve para chequear el estado sin necesitar
  * una API key.
  */
-export const NASA_YOUTUBE_LIVE_URL = 'https://www.youtube.com/@NASA/live'
+export const NASA_YOUTUBE_LIVE_URL = "https://www.youtube.com/@NASA/live";

@@ -1,15 +1,16 @@
-import { cacheLife } from 'next/cache'
+import type {EonetEventsResponse, EventsPage, NaturalEvent} from "@/features/events/types/events";
+
+import {cacheLife} from "next/cache";
 
 import {
   EVENT_CATEGORIES,
   EVENT_FILTER_SLUGS,
   type EventCategorySlug,
-} from '@/features/events/constants/categories'
-import type { EonetEventsResponse, EventsPage, NaturalEvent } from '@/features/events/types/events'
-import { distanceKm } from '@/features/events/utils/geo'
-import { parseEvent } from '@/features/events/utils/parse-event'
-import { NASA_ENDPOINTS } from '@/shared/constants/nasa-endpoints'
-import { http } from '@/shared/services/http'
+} from "@/features/events/constants/categories";
+import {distanceKm} from "@/features/events/utils/geo";
+import {parseEvent} from "@/features/events/utils/parse-event";
+import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
+import {http} from "@/shared/services/http";
 
 /**
  * Eventos naturales en curso, de EONET.
@@ -35,23 +36,23 @@ import { http } from '@/shared/services/http'
  */
 
 /** Tres filas de tres, como el grid del diseño. */
-export const EVENTS_PER_PAGE = 9
+export const EVENTS_PER_PAGE = 9;
 
 /**
  * Cuántos eventos entran en la ventana. Diez páginas alcanzan para recorrer lo
  * que hay pasando en un momento dado sin volver la respuesta pesada: las
  * tormentas llegan con trazas de cientos de puntos.
  */
-const EVENTS_WINDOW = EVENTS_PER_PAGE * 10
+const EVENTS_WINDOW = EVENTS_PER_PAGE * 10;
 
 /**
  * Cuántos eventos se le piden a EONET por categoría. Sobra de más para que el
  * cupo y la separación geográfica tengan de dónde elegir.
  */
-const CATEGORY_FETCH_LIMIT = EVENTS_WINDOW * 6
+const CATEGORY_FETCH_LIMIT = EVENTS_WINDOW * 6;
 
 /** Ventana temporal de las categorías que se consultan por fecha (`recent`). */
-const RECENT_DAYS = 30
+const RECENT_DAYS = 30;
 
 /**
  * Distancia mínima entre dos eventos de la misma categoría.
@@ -63,7 +64,7 @@ const RECENT_DAYS = 30
  * magnitud de una provincia grande: junta lo que en el mapa sería un solo
  * punto y deja pasar lo que se lee como dos.
  */
-const MIN_SEPARATION_KM = 400
+const MIN_SEPARATION_KM = 400;
 
 /**
  * Los eventos de una categoría, parseados y del más reciente al más viejo.
@@ -73,28 +74,28 @@ const MIN_SEPARATION_KM = 400
  * está, así que navegar por los chips no dispara ninguna llamada nueva.
  */
 async function getCategoryPool(category: EventCategorySlug): Promise<NaturalEvent[]> {
-  'use cache'
+  "use cache";
   // EONET actualiza las trazas varias veces al día, nunca al segundo.
-  cacheLife('minutes')
+  cacheLife("minutes");
 
-  const now = Date.now()
-  const { feed } = EVENT_CATEGORIES[category]
+  const now = Date.now();
+  const {feed} = EVENT_CATEGORIES[category];
 
-  const { data } = await http.get<EonetEventsResponse>(`${NASA_ENDPOINTS.eonet}/events`, {
+  const {data} = await http.get<EonetEventsResponse>(`${NASA_ENDPOINTS.eonet}/events`, {
     searchParams: {
       category,
       limit: CATEGORY_FETCH_LIMIT,
-      status: feed === 'open' ? 'open' : 'all',
-      days: feed === 'recent' ? RECENT_DAYS : undefined,
+      status: feed === "open" ? "open" : "all",
+      days: feed === "recent" ? RECENT_DAYS : undefined,
     },
     // Las trazas de los ciclones hacen respuestas grandes.
     timeoutMs: 15_000,
-  })
+  });
 
   return data.events
     .map((event) => parseEvent(event, now))
     .filter((event): event is NaturalEvent => event !== null)
-    .sort((a, b) => Date.parse(b.position.date) - Date.parse(a.position.date))
+    .sort((a, b) => Date.parse(b.position.date) - Date.parse(a.position.date));
 }
 
 /**
@@ -106,27 +107,27 @@ async function getCategoryPool(category: EventCategorySlug): Promise<NaturalEven
  * lugares de las categorías chicas y la ventana queda corta.
  */
 function shareQuotas(available: readonly number[], total: number): number[] {
-  const quotas = available.map(() => 0)
-  let left = total
+  const quotas = available.map(() => 0);
+  let left = total;
 
   while (left > 0) {
-    const hungry = quotas.flatMap((quota, index) => (quota < available[index] ? [index] : []))
+    const hungry = quotas.flatMap((quota, index) => (quota < available[index] ? [index] : []));
 
-    if (hungry.length === 0) break
+    if (hungry.length === 0) break;
 
-    const share = Math.max(1, Math.floor(left / hungry.length))
+    const share = Math.max(1, Math.floor(left / hungry.length));
 
     for (const index of hungry) {
-      if (left <= 0) break
+      if (left <= 0) break;
 
-      const added = Math.min(share, available[index] - quotas[index], left)
+      const added = Math.min(share, available[index] - quotas[index], left);
 
-      quotas[index] += added
-      left -= added
+      quotas[index] += added;
+      left -= added;
     }
   }
 
-  return quotas
+  return quotas;
 }
 
 /**
@@ -135,21 +136,21 @@ function shareQuotas(available: readonly number[], total: number): number[] {
  * descartados: mejor un par de vecinos que una página a medio llenar.
  */
 function pickSpread(events: readonly NaturalEvent[], quota: number): NaturalEvent[] {
-  const picked: NaturalEvent[] = []
-  const crowded: NaturalEvent[] = []
+  const picked: NaturalEvent[] = [];
+  const crowded: NaturalEvent[] = [];
 
   for (const event of events) {
-    if (picked.length >= quota) break
+    if (picked.length >= quota) break;
 
     const overlaps = picked.some(
       (other) => distanceKm(other.position, event.position) < MIN_SEPARATION_KM,
-    )
+    );
 
-    if (overlaps) crowded.push(event)
-    else picked.push(event)
+    if (overlaps) crowded.push(event);
+    else picked.push(event);
   }
 
-  return picked.concat(crowded.slice(0, quota - picked.length))
+  return picked.concat(crowded.slice(0, quota - picked.length));
 }
 
 /**
@@ -160,40 +161,40 @@ function pickSpread(events: readonly NaturalEvent[], quota: number): NaturalEven
  * leyéndose como una línea de tiempo y no como cinco bloques pegados.
  */
 async function getEventWindow(category?: EventCategorySlug): Promise<NaturalEvent[]> {
-  if (category) return pickSpread(await getCategoryPool(category), EVENTS_WINDOW)
+  if (category) return pickSpread(await getCategoryPool(category), EVENTS_WINDOW);
 
-  const pools = await Promise.all(EVENT_FILTER_SLUGS.map((slug) => getCategoryPool(slug)))
+  const pools = await Promise.all(EVENT_FILTER_SLUGS.map((slug) => getCategoryPool(slug)));
   const quotas = shareQuotas(
     pools.map((pool) => pool.length),
     EVENTS_WINDOW,
-  )
+  );
 
   return pools
     .flatMap((pool, index) => pickSpread(pool, quotas[index]))
-    .sort((a, b) => Date.parse(b.position.date) - Date.parse(a.position.date))
+    .sort((a, b) => Date.parse(b.position.date) - Date.parse(a.position.date));
 }
 
 type GetEventsParams = {
-  page?: number
-  category?: EventCategorySlug
-}
+  page?: number;
+  category?: EventCategorySlug;
+};
 
-export async function getEvents({ page = 1, category }: GetEventsParams = {}): Promise<EventsPage> {
-  const events = await getEventWindow(category)
+export async function getEvents({page = 1, category}: GetEventsParams = {}): Promise<EventsPage> {
+  const events = await getEventWindow(category);
 
-  const totalPages = Math.max(Math.ceil(events.length / EVENTS_PER_PAGE), 1)
-  const safePage = Math.min(Math.max(Math.trunc(page) || 1, 1), totalPages)
-  const start = (safePage - 1) * EVENTS_PER_PAGE
+  const totalPages = Math.max(Math.ceil(events.length / EVENTS_PER_PAGE), 1);
+  const safePage = Math.min(Math.max(Math.trunc(page) || 1, 1), totalPages);
+  const start = (safePage - 1) * EVENTS_PER_PAGE;
 
   return {
     events: events.slice(start, start + EVENTS_PER_PAGE),
     page: safePage,
     totalPages,
     totalEvents: events.length,
-  }
+  };
 }
 
 /** Todos los eventos de la ventana, para los marcadores del planisferio. */
 export async function getEventMarkers(): Promise<NaturalEvent[]> {
-  return getEventWindow()
+  return getEventWindow();
 }

@@ -1,12 +1,13 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import type { ReactNode } from 'react'
-import { Dialog } from 'radix-ui'
+import type {NavbarLinkItem, NavbarLogoData} from "@/shared/components/navbar/navbar";
+import type {ReactNode} from "react";
 
-import { Cross } from '@/shared/components/icons/feedback/cross'
-import type { NavbarLinkItem, NavbarLogoData } from '@/shared/components/navbar/navbar'
+import Image from "next/image";
+import Link from "next/link";
+import {Dialog} from "radix-ui";
+
+import {Cross} from "@/shared/components/icons/feedback/cross";
 import {
   drawerBodyVariants,
   drawerCloseIconVariants,
@@ -21,38 +22,31 @@ import {
   drawerOverlayVariants,
   drawerSectionTitleVariants,
   drawerSectionVariants,
-} from '@/shared/styles/components/drawer'
-import { navbarDotVariants } from '@/shared/styles/components/navbar'
+} from "@/shared/styles/components/drawer";
+import {navbarDotVariants} from "@/shared/styles/components/navbar";
 
 function normalizePath(path: string) {
-  return path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path
+  return path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
 }
 
 export type NavDrawerProps = {
   /** Disparador del drawer (se renderiza con asChild). */
-  children: ReactNode
-  logo: NavbarLogoData
-  links: NavbarLinkItem[]
+  children: ReactNode;
+  logo: NavbarLogoData;
+  links: NavbarLinkItem[];
   /** Ruta activa; la resuelve `SiteNavbar`, ver el comentario en `Navbar`. */
-  activePath?: string | null
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-}
+  activePath?: string | null;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
 
 /**
  * Menú de navegación para mobile: replica los links del TopNavBar dentro del
  * mismo lenguaje visual del drawer de usuario.
  */
-export function NavDrawer({
-  children,
-  logo,
-  links,
-  activePath,
-  open,
-  onOpenChange,
-}: NavDrawerProps) {
+export function NavDrawer({children, logo, links, activePath, open, onOpenChange}: NavDrawerProps) {
   const isActive = (href: string) =>
-    !!activePath && normalizePath(href) === normalizePath(activePath)
+    !!activePath && normalizePath(href) === normalizePath(activePath);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -61,20 +55,20 @@ export function NavDrawer({
       <Dialog.Portal>
         <Dialog.Overlay className={drawerOverlayVariants()} />
 
-        <Dialog.Content data-slot="nav-drawer" className={drawerContentVariants()}>
+        <Dialog.Content className={drawerContentVariants()} data-slot="nav-drawer">
           <Dialog.Description className="sr-only">
             Navegación principal del sitio.
           </Dialog.Description>
 
-          <div data-slot="nav-drawer-header" className={drawerHeaderVariants()}>
+          <div className={drawerHeaderVariants()} data-slot="nav-drawer-header">
             <div className={drawerIdentityVariants()}>
               <span className={drawerLogoVariants()}>
                 <Image
-                  src={logo.src}
                   alt={logo.alt}
-                  width={40}
-                  height={40}
                   className={drawerLogoImageVariants()}
+                  height={40}
+                  src={logo.src}
+                  width={40}
                 />
               </span>
             </div>
@@ -84,25 +78,25 @@ export function NavDrawer({
             </Dialog.Close>
           </div>
 
-          <div data-slot="nav-drawer-body" className={drawerBodyVariants()}>
+          <div className={drawerBodyVariants()} data-slot="nav-drawer-body">
             <section className={drawerSectionVariants()}>
               <h4 className={drawerSectionTitleVariants()}>Explore</h4>
-              <nav className={drawerNavVariants()} aria-label="Principal">
-                {links.map(({ href, label, showDot }) => {
-                  const current = isActive(href)
+              <nav aria-label="Principal" className={drawerNavVariants()}>
+                {links.map(({href, label, showDot}) => {
+                  const current = isActive(href);
 
                   return (
-                    <Dialog.Close key={href} asChild>
+                    <Dialog.Close asChild key={href}>
                       <Link
+                        aria-current={current ? "page" : undefined}
+                        className={drawerNavLinkVariants({active: current})}
                         href={href}
-                        aria-current={current ? 'page' : undefined}
-                        className={drawerNavLinkVariants({ active: current })}
                       >
                         {showDot && <span aria-hidden="true" className={navbarDotVariants()} />}
                         {label}
                       </Link>
                     </Dialog.Close>
-                  )
+                  );
                 })}
               </nav>
             </section>
@@ -110,5 +104,5 @@ export function NavDrawer({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  )
+  );
 }

@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import { Card, type CardData } from '@/shared/components/card/card'
+import {Card, type CardData} from "@/shared/components/card/card";
 
 type MissionCardProps = {
-  data: CardData
-  className?: string
-}
+  data: CardData;
+  className?: string;
+};
 
-export function MissionCard({ data, className }: MissionCardProps) {
+export function MissionCard({data, className}: MissionCardProps) {
   return (
-    <Card data={data} className={className}>
+    <Card className={className} data={data}>
       <Card.Header>
         <Card.Image />
         <Card.Tag />
@@ -18,11 +18,11 @@ export function MissionCard({ data, className }: MissionCardProps) {
         <Card.Title />
         <Card.Description />
       </Card.Body>
-      <Card.Footer variant="stats" withSeparator>
+      <Card.Footer withSeparator variant="stats">
         {data.stats?.map((stat, index) => (
-          <Card.Stat key={stat.label} index={index} size="sm" />
+          <Card.Stat index={index} key={stat.label} size="sm" />
         ))}
       </Card.Footer>
     </Card>
-  )
+  );
 }

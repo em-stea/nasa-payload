@@ -1,33 +1,33 @@
-import { Badge } from '@/shared/components/badge/badge'
-import { Heading } from '@/shared/components/heading/heading'
-import { Text } from '@/shared/components/text/text'
+import {Badge} from "@/shared/components/badge/badge";
+import {Heading} from "@/shared/components/heading/heading";
+import {Text} from "@/shared/components/text/text";
 
-export const UpcomingLaunchBox = ({ nextUpcomingLaunch }: { nextUpcomingLaunch: any }) => {
-  const { name, date, status, location } = nextUpcomingLaunch
+export const UpcomingLaunchBox = ({nextUpcomingLaunch}: {nextUpcomingLaunch: any}) => {
+  const {name, date, status, location} = nextUpcomingLaunch;
 
   return (
-    <div className="w-full md:w-80 relative lg:absolute top-0 right-0 lg:right-6 mx-auto lg:mx-0 mb-6 lg:mb-0 z-10 rounded-lg p-px overflow-hidden">
+    <div className="relative top-0 right-0 z-10 mx-auto mb-6 w-full overflow-hidden rounded-lg p-px md:w-80 lg:absolute lg:right-6 lg:mx-0 lg:mb-0">
       <span
-        className="absolute -inset-full w-[300%] h-[300%] -left-full -top-full"
         style={{
           background:
-            'conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 340deg, rgba(147, 197, 253, 0.8) 355deg, transparent 360deg)',
-          animation: 'spin 6s linear infinite',
+            "conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 340deg, rgba(147, 197, 253, 0.8) 355deg, transparent 360deg)",
+          animation: "spin 6s linear infinite",
         }}
+        className="absolute -inset-full -top-full -left-full h-[300%] w-[300%]"
       />
 
-      <div className="relative flex flex-col gap-2 py-6 px-6 rounded-[7px] bg-basic-960-90 border border-blue-200-20 backdrop-blur-md w-full">
+      <div className="border-blue-200-20 relative flex w-full flex-col gap-2 rounded-[7px] border bg-basic-960-90 px-6 py-6 backdrop-blur-md">
         <Badge hasDot>UPCOMING // {date}</Badge>
-        <Heading variant="title.4" className="uppercase my-2">
+        <Heading className="my-2 uppercase" variant="title.4">
           Mission Status: {status?.name || status}
         </Heading>
-        <Text variant="meta.1" color="blue-200">
+        <Text color="blue-200" variant="meta.1">
           NAME: {name}
         </Text>
-        <Text variant="meta.1" color="blue-200">
+        <Text color="blue-200" variant="meta.1">
           LOCATION: {location}
         </Text>
       </div>
     </div>
-  )
-}
+  );
+};

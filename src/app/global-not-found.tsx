@@ -1,8 +1,9 @@
-import type { Metadata } from 'next'
+import type {Metadata} from "next";
 
-import { NotFoundScreen } from '@/features/not-found/components/not-found-screen'
-import { JetBrainsMono, SpaceGrotesk } from '@/shared/styles/foundations/fonts'
-import '@styles/globals.css'
+import {NotFoundScreen} from "@/features/not-found/components/not-found-screen";
+import {JetBrainsMono, SpaceGrotesk} from "@/shared/styles/foundations/fonts";
+
+import "@styles/globals.css";
 
 /**
  * El 404 de las URLs que no matchean ninguna ruta.
@@ -18,12 +19,12 @@ import '@styles/globals.css'
  */
 
 export const metadata: Metadata = {
-  description: 'Estas coordenadas no existen. La página que buscabas no está acá.',
-  title: '404 — Off the star chart',
-}
+  description: "Estas coordenadas no existen. La página que buscabas no está acá.",
+  title: "404 — Off the star chart",
+};
 
 export default function GlobalNotFound() {
-  const fonts = `${SpaceGrotesk.variable} ${JetBrainsMono.variable}`
+  const fonts = `${SpaceGrotesk.variable} ${JetBrainsMono.variable}`;
 
   return (
     <html className={fonts} data-theme="dark" lang="es">
@@ -31,5 +32,5 @@ export default function GlobalNotFound() {
         <NotFoundScreen />
       </body>
     </html>
-  )
+  );
 }

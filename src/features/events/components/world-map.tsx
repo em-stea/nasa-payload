@@ -1,16 +1,17 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
+import type {NaturalEvent} from "@/features/events/types/events";
 
-import { CategoryIcon } from '@/features/events/components/category-icon'
-import { TONE_TEXT, type EventTone } from '@/features/events/constants/categories'
-import type { NaturalEvent } from '@/features/events/types/events'
-import { toMapPosition } from '@/features/events/utils/geo'
-import { Text } from '@/shared/components/text/text'
-import { textVariants } from '@/shared/styles/components/text'
-import { cn } from '@/shared/utils/className-builder'
+import Image from "next/image";
+import Link from "next/link";
+import {useState} from "react";
+
+import {CategoryIcon} from "@/features/events/components/category-icon";
+import {type EventTone, TONE_TEXT} from "@/features/events/constants/categories";
+import {toMapPosition} from "@/features/events/utils/geo";
+import {Text} from "@/shared/components/text/text";
+import {textVariants} from "@/shared/styles/components/text";
+import {cn} from "@/shared/utils/className-builder";
 
 /**
  * Planisferio con un marcador por evento de la ventana.
@@ -33,7 +34,7 @@ import { cn } from '@/shared/utils/className-builder'
  * pantalla, y sigue siendo navegación, no adorno.
  */
 
-const EARTH_TEXTURE = 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg'
+const EARTH_TEXTURE = "https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg";
 
 /**
  * Hasta qué latitud se muestra.
@@ -46,44 +47,44 @@ const EARTH_TEXTURE = 'https://cdn.jsdelivr.net/npm/three-globe/example/img/eart
  * Los marcadores viven dentro de la misma caja agrandada, así que siguen
  * alineados con el mapa sin tener que corregirlos por el recorte.
  */
-const LAT_LIMIT = 72
+const LAT_LIMIT = 72;
 
 /** Alto de la textura como porcentaje de la caja, y cuánto sobresale arriba. */
-const INNER_HEIGHT = (180 / (2 * LAT_LIMIT)) * 100
-const INNER_TOP = -((90 - LAT_LIMIT) / 180) * INNER_HEIGHT
+const INNER_HEIGHT = (180 / (2 * LAT_LIMIT)) * 100;
+const INNER_TOP = -((90 - LAT_LIMIT) / 180) * INNER_HEIGHT;
 
 /** Meridianos y paralelos cada 30°, como la grilla del diseño. */
 function Graticule() {
   return (
     <svg
       aria-hidden="true"
-      viewBox="0 0 360 180"
-      preserveAspectRatio="none"
       className="absolute inset-0 size-full text-basic-500/15"
+      preserveAspectRatio="none"
+      viewBox="0 0 360 180"
     >
       {[30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((x) => (
-        <line key={x} x1={x} y1="0" x2={x} y2="180" stroke="currentColor" strokeWidth="0.3" />
+        <line key={x} stroke="currentColor" strokeWidth="0.3" x1={x} x2={x} y1="0" y2="180" />
       ))}
       {[30, 60, 90, 120, 150].map((y) => (
-        <line key={y} x1="0" y1={y} x2="360" y2={y} stroke="currentColor" strokeWidth="0.3" />
+        <line key={y} stroke="currentColor" strokeWidth="0.3" x1="0" x2="360" y1={y} y2={y} />
       ))}
       {/* El ecuador, un punto más marcado que el resto. */}
-      <line x1="0" y1="90" x2="360" y2="90" stroke="currentColor" strokeWidth="0.7" />
+      <line stroke="currentColor" strokeWidth="0.7" x1="0" x2="360" y1="90" y2="90" />
     </svg>
-  )
+  );
 }
 
 const MARKER_TONE = {
-  orange: 'bg-orange-200',
-  blue: 'bg-foreground',
-  neutral: 'bg-basic-300',
-} as const satisfies Record<EventTone, string>
+  orange: "bg-orange-200",
+  blue: "bg-foreground",
+  neutral: "bg-basic-300",
+} as const satisfies Record<EventTone, string>;
 
 const BORDER_TONE = {
-  orange: 'border-orange-200',
-  blue: 'border-foreground',
-  neutral: 'border-basic-300',
-} as const satisfies Record<EventTone, string>
+  orange: "border-orange-200",
+  blue: "border-foreground",
+  neutral: "border-basic-300",
+} as const satisfies Record<EventTone, string>;
 
 /**
  * Rótulo del marcador apuntado.
@@ -92,98 +93,98 @@ const BORDER_TONE = {
  * hacia la izquierda. Va con `w-max` y tope, así que la caja se ajusta al
  * texto y un título largo se corta en vez de estirarse fuera del marco.
  */
-function MarkerLabel({ event, flip }: { event: NaturalEvent; flip: boolean }) {
+function MarkerLabel({event, flip}: {event: NaturalEvent; flip: boolean}) {
   return (
     <span
-      aria-hidden="true"
       className={cn(
-        'pointer-events-none absolute top-1/2 flex w-max max-w-56 -translate-y-1/2 items-center gap-2 rounded-lg border border-border bg-background/90 px-2 py-1.5 backdrop-blur-xs',
-        flip ? 'right-full mr-3' : 'left-full ml-3',
+        "pointer-events-none absolute top-1/2 flex w-max max-w-56 -translate-y-1/2 items-center gap-2 rounded-lg border border-border bg-background/90 px-2 py-1.5 backdrop-blur-xs",
+        flip ? "right-full mr-3" : "left-full ml-3",
       )}
+      aria-hidden="true"
     >
       <CategoryIcon
         category={event.category}
-        className={cn('size-3.5 shrink-0', TONE_TEXT[event.category.tone])}
+        className={cn("size-3.5 shrink-0", TONE_TEXT[event.category.tone])}
       />
 
       <span className="flex min-w-0 flex-col">
-        <Text variant="meta.2" className="truncate text-primary-foreground">
+        <Text className="truncate text-primary-foreground" variant="meta.2">
           {event.title}
         </Text>
-        <Text variant="meta.1" className="truncate text-basic-500">
+        <Text className="truncate text-basic-500" variant="meta.1">
           {event.severity}
         </Text>
       </span>
     </span>
-  )
+  );
 }
 
 type MarkerProps = {
-  event: NaturalEvent
-  active: boolean
-  dimmed: boolean
-  onActivate: (id: string | null) => void
-}
+  event: NaturalEvent;
+  active: boolean;
+  dimmed: boolean;
+  onActivate: (id: string | null) => void;
+};
 
-function Marker({ event, active, dimmed, onActivate }: MarkerProps) {
-  const { left, top } = toMapPosition(event.position.lat, event.position.lng)
-  const tone = MARKER_TONE[event.category.tone]
+function Marker({event, active, dimmed, onActivate}: MarkerProps) {
+  const {left, top} = toMapPosition(event.position.lat, event.position.lng);
+  const tone = MARKER_TONE[event.category.tone];
 
   return (
     <Link
-      href={event.href}
-      style={{ left: `${left}%`, top: `${top}%` }}
-      onPointerEnter={() => onActivate(event.id)}
-      onPointerLeave={() => onActivate(null)}
-      onFocus={() => onActivate(event.id)}
-      onBlur={() => onActivate(null)}
       className={cn(
-        'group absolute size-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-200',
-        active && 'z-20',
-        dimmed && 'opacity-35',
+        "group absolute size-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-200",
+        active && "z-20",
+        dimmed && "opacity-35",
       )}
       aria-label={`${event.title} — ${event.coords}`}
+      href={event.href}
+      style={{left: `${left}%`, top: `${top}%`}}
+      onBlur={() => onActivate(null)}
+      onFocus={() => onActivate(event.id)}
+      onPointerEnter={() => onActivate(event.id)}
+      onPointerLeave={() => onActivate(null)}
     >
       <span className="sr-only">{event.title}</span>
 
       {/* Halo: marca la posición sin tapar el mapa. */}
-      <span aria-hidden="true" className={cn('absolute inset-0 rounded-full opacity-25', tone)} />
+      <span aria-hidden="true" className={cn("absolute inset-0 rounded-full opacity-25", tone)} />
       <span
-        aria-hidden="true"
         className={cn(
-          'absolute inset-1 rounded-full transition-transform duration-200 group-hover:scale-150',
-          active && 'scale-150',
+          "absolute inset-1 rounded-full transition-transform duration-200 group-hover:scale-150",
+          active && "scale-150",
           tone,
         )}
+        aria-hidden="true"
       />
 
       {/* Cerco de enganche, como el del radar: confirma cuál está apuntado
           cuando hay varios marcadores encimados. */}
       {active && (
         <span
-          aria-hidden="true"
           className={cn(
-            'absolute -inset-1.5 rounded-full border',
+            "absolute -inset-1.5 rounded-full border",
             BORDER_TONE[event.category.tone],
           )}
+          aria-hidden="true"
         />
       )}
 
       {active && <MarkerLabel event={event} flip={left > 50} />}
     </Link>
-  )
+  );
 }
 
 /** Fila del panel de lectura, con el mismo formato que las cards del grid. */
-function ReadoutRow({ label, value, accent }: { label: string; value: string; accent?: string }) {
-  const base = textVariants({ variant: 'meta.1' })
+function ReadoutRow({label, value, accent}: {label: string; value: string; accent?: string}) {
+  const base = textVariants({variant: "meta.1"});
 
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <dt className={cn(base, 'shrink-0 text-basic-500')}>{label}</dt>
-      <dd className={cn(base, 'truncate text-primary-foreground', accent)}>{value}</dd>
+      <dt className={cn(base, "shrink-0 text-basic-500")}>{label}</dt>
+      <dd className={cn(base, "truncate text-primary-foreground", accent)}>{value}</dd>
     </div>
-  )
+  );
 }
 
 /**
@@ -197,8 +198,8 @@ function ReadoutRow({ label, value, accent }: { label: string; value: string; ac
  * En mobile no se muestra: no hay hover que la active y el mapa es demasiado
  * bajo para dos paneles sin que se encimen.
  */
-function EventReadout({ event, locked }: { event: NaturalEvent; locked: boolean }) {
-  const accent = TONE_TEXT[event.category.tone]
+function EventReadout({event, locked}: {event: NaturalEvent; locked: boolean}) {
+  const accent = TONE_TEXT[event.category.tone];
 
   return (
     <div className="absolute bottom-4 left-4 hidden w-fit max-w-64 sm:bottom-6 sm:left-6 sm:block">
@@ -206,30 +207,30 @@ function EventReadout({ event, locked }: { event: NaturalEvent; locked: boolean 
         <div className="flex items-center gap-1.5">
           <span
             aria-hidden="true"
-            className={cn('size-1.5 shrink-0 rounded-full', MARKER_TONE[event.category.tone])}
+            className={cn("size-1.5 shrink-0 rounded-full", MARKER_TONE[event.category.tone])}
           />
-          <Text variant="meta.1" className="whitespace-nowrap text-basic-500">
-            [{locked ? 'event lock' : 'latest fix'}]
+          <Text className="whitespace-nowrap text-basic-500" variant="meta.1">
+            [{locked ? "event lock" : "latest fix"}]
           </Text>
         </div>
 
-        <Text variant="meta.2" className="truncate text-primary-foreground">
+        <Text className="truncate text-primary-foreground" variant="meta.2">
           {event.title}
         </Text>
 
         <dl className="flex flex-col gap-0.5">
           <ReadoutRow label="Coord" value={event.coords} />
-          <ReadoutRow label="Severity" value={event.severity} accent={accent} />
+          <ReadoutRow accent={accent} label="Severity" value={event.severity} />
           <ReadoutRow label="T-Stamp" value={event.position.date} />
           <ReadoutRow
+            accent={event.metric.accent ? accent : undefined}
             label={event.metric.label}
             value={event.metric.value}
-            accent={event.metric.accent ? accent : undefined}
           />
         </dl>
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -239,32 +240,32 @@ function EventReadout({ event, locked }: { event: NaturalEvent; locked: boolean 
  * siguiendo y cuándo se actualizó la traza más reciente— y no telemetría de un
  * satélite, que sería un número inventado sobre un mapa de datos reales.
  */
-function TelemetryPanel({ events, latest }: { events: NaturalEvent[]; latest?: NaturalEvent }) {
+function TelemetryPanel({events, latest}: {events: NaturalEvent[]; latest?: NaturalEvent}) {
   return (
     <div className="absolute top-4 left-4 rounded-lg border border-border bg-background/80 px-4 py-3 backdrop-blur-xs sm:top-6 sm:left-6">
-      <Text variant="body.4" className="text-foreground">
+      <Text className="text-foreground" variant="body.4">
         Live_telemetry
       </Text>
 
       <dl className="mt-2 flex flex-col gap-1">
         <div className="flex items-baseline gap-2">
           <dt className="sr-only">Eventos monitoreados</dt>
-          <dd className="font-jetbrains-mono text-3 leading-4.2 text-primary-foreground">
-            TRACKED: {String(events.length).padStart(3, '0')}
+          <dd className="leading-4.2 font-jetbrains-mono text-3 text-primary-foreground">
+            TRACKED: {String(events.length).padStart(3, "0")}
           </dd>
         </div>
 
         {latest && (
           <div className="flex items-baseline gap-2">
             <dt className="sr-only">Última actualización</dt>
-            <dd className="font-jetbrains-mono text-3 leading-4.2 text-basic-500">
+            <dd className="leading-4.2 font-jetbrains-mono text-3 text-basic-500">
               <time dateTime={latest.position.date}>UPDATED: {latest.position.date}</time>
             </dd>
           </div>
         )}
       </dl>
     </div>
-  )
+  );
 }
 
 /** El evento con el punto más nuevo de todo el conjunto. */
@@ -275,39 +276,39 @@ function toLatest(events: NaturalEvent[]) {
         ? event
         : latest,
     undefined,
-  )
+  );
 }
 
-export function WorldMap({ events }: { events: NaturalEvent[] }) {
-  const [activeId, setActiveId] = useState<string | null>(null)
+export function WorldMap({events}: {events: NaturalEvent[]}) {
+  const [activeId, setActiveId] = useState<string | null>(null);
 
-  const latest = toLatest(events)
-  const locked = events.find((event) => event.id === activeId)
-  const readout = locked ?? latest
+  const latest = toLatest(events);
+  const locked = events.find((event) => event.id === activeId);
+  const readout = locked ?? latest;
 
   return (
     <div className="relative aspect-5/2 w-full overflow-hidden border-b border-border bg-background">
       <div
         className="absolute inset-x-0"
-        style={{ height: `${INNER_HEIGHT}%`, top: `${INNER_TOP}%` }}
+        style={{height: `${INNER_HEIGHT}%`, top: `${INNER_TOP}%`}}
       >
         <Image
-          src={EARTH_TEXTURE}
-          alt=""
           fill
-          sizes="100vw"
           priority
-          className="object-fill opacity-25 grayscale contrast-125 invert dark:opacity-30 dark:brightness-75 dark:invert-0"
+          alt=""
+          className="object-fill opacity-25 contrast-125 grayscale invert dark:opacity-30 dark:brightness-75 dark:invert-0"
+          sizes="100vw"
+          src={EARTH_TEXTURE}
         />
 
         <Graticule />
 
         {events.map((event) => (
           <Marker
-            key={event.id}
-            event={event}
             active={event.id === activeId}
             dimmed={activeId !== null && event.id !== activeId}
+            event={event}
+            key={event.id}
             onActivate={setActiveId}
           />
         ))}
@@ -317,14 +318,11 @@ export function WorldMap({ events }: { events: NaturalEvent[] }) {
 
       {/* La pista del hover no va en mobile: no hay hover, y contra el panel de
           telemetría de enfrente no queda ancho para las dos. */}
-      <Text
-        variant="meta.1"
-        className="absolute top-6 right-6 hidden text-basic-500 sm:block"
-      >
+      <Text className="absolute top-6 right-6 hidden text-basic-500 sm:block" variant="meta.1">
         [pick an event]
       </Text>
 
       {readout && <EventReadout event={readout} locked={locked !== undefined} />}
     </div>
-  )
+  );
 }

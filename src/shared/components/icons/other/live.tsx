@@ -1,10 +1,10 @@
-export function Live({ ...props }) {
+export function Live({...props}) {
   return (
     <svg
-      width="24"
+      fill="none"
       height="24"
       viewBox="0 0 12 9"
-      fill="none"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
@@ -13,5 +13,5 @@ export function Live({ ...props }) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }

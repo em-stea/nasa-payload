@@ -1,8 +1,3 @@
-import {
-  resolveEventCategory,
-  type EventCategory,
-  type EventMetricKind,
-} from '@/features/events/constants/categories'
 import type {
   EonetEvent,
   EonetGeometry,
@@ -11,8 +6,14 @@ import type {
   EventStatus,
   NaturalEvent,
   NaturalEventDetail,
-} from '@/features/events/types/events'
-import { bearingLabel, distanceKm, formatCoords, hoursBetween } from '@/features/events/utils/geo'
+} from "@/features/events/types/events";
+
+import {
+  type EventCategory,
+  type EventMetricKind,
+  resolveEventCategory,
+} from "@/features/events/constants/categories";
+import {bearingLabel, distanceKm, formatCoords, hoursBetween} from "@/features/events/utils/geo";
 
 /**
  * Baja un evento de EONET a lo que pinta la UI.
@@ -28,42 +29,42 @@ import { bearingLabel, distanceKm, formatCoords, hoursBetween } from '@/features
  * resto de la entrada de cache.
  */
 
-const KNOTS_TO_KMH = 1.852
-const ACRES_TO_HECTARES = 0.404686
+const KNOTS_TO_KMH = 1.852;
+const ACRES_TO_HECTARES = 0.404686;
 
 /** Horas desde la última actualización para considerar al evento en curso. */
-const CRITICAL_HOURS = 24
-const ELEVATED_HOURS = 72
+const CRITICAL_HOURS = 24;
+const ELEVATED_HOURS = 72;
 
 /** Escala Saffir-Simpson, que es la unidad con la que EONET reporta ciclones. */
-const HURRICANE_KNOTS = 64
-const TROPICAL_STORM_KNOTS = 34
+const HURRICANE_KNOTS = 64;
+const TROPICAL_STORM_KNOTS = 34;
 
 /** Parte numérica del id de EONET: `EONET_24184` -> `24184`. */
 export function toEventRef(id: string) {
-  return id.replace(/^EONET_/, '')
+  return id.replace(/^EONET_/, "");
 }
 
 /** Id completo a partir de lo que viaja en la URL. */
 export function toEventId(ref: string) {
-  return `EONET_${ref}`
+  return `EONET_${ref}`;
 }
 
 /** Ruta del detalle dentro del sitio. */
 export function buildEventHref(ref: string) {
-  return `/events/${ref}`
+  return `/events/${ref}`;
 }
 
 /** Etiqueta del diseño: `EVT.ID.24184.WF`. */
 export function buildEventCode(ref: string, category: EventCategory) {
-  return `EVT.ID.${ref}.${category.code}`
+  return `EVT.ID.${ref}.${category.code}`;
 }
 
 function formatNumber(value: number, fractionDigits = 0) {
-  return value.toLocaleString('en-US', {
+  return value.toLocaleString("en-US", {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
-  })
+  });
 }
 
 /**
@@ -83,41 +84,41 @@ function formatNumber(value: number, fractionDigits = 0) {
  * Cuando los dos entran —un evento cerca del ecuador y del meridiano cero— se
  * asume `[lat, lng]`, que es como EONET publica todos los polígonos que tiene.
  */
-function toCenter(geometry: EonetGeometry): { lat: number; lng: number } | null {
-  if (geometry.type === 'Point') {
-    const [lng, lat] = geometry.coordinates as number[]
+function toCenter(geometry: EonetGeometry): {lat: number; lng: number} | null {
+  if (geometry.type === "Point") {
+    const [lng, lat] = geometry.coordinates as number[];
 
-    return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null
+    return Number.isFinite(lat) && Number.isFinite(lng) ? {lat, lng} : null;
   }
 
-  const ring = (geometry.coordinates as number[][][])[0]
+  const ring = (geometry.coordinates as number[][][])[0];
 
-  if (!Array.isArray(ring) || ring.length === 0) return null
+  if (!Array.isArray(ring) || ring.length === 0) return null;
 
-  const first = ring.map(([value]) => value).filter(Number.isFinite)
-  const second = ring.map(([, value]) => value).filter(Number.isFinite)
+  const first = ring.map(([value]) => value).filter(Number.isFinite);
+  const second = ring.map(([, value]) => value).filter(Number.isFinite);
 
-  if (first.length === 0 || second.length === 0) return null
+  if (first.length === 0 || second.length === 0) return null;
 
-  const center = (values: number[]) => (Math.min(...values) + Math.max(...values)) / 2
-  const exceedsLatRange = (values: number[]) => values.some((value) => Math.abs(value) > 90)
+  const center = (values: number[]) => (Math.min(...values) + Math.max(...values)) / 2;
+  const exceedsLatRange = (values: number[]) => values.some((value) => Math.abs(value) > 90);
 
   return exceedsLatRange(second) || !exceedsLatRange(first)
-    ? { lat: center(first), lng: center(second) }
-    : { lat: center(second), lng: center(first) }
+    ? {lat: center(first), lng: center(second)}
+    : {lat: center(second), lng: center(first)};
 }
 
 function toEventPoint(geometry: EonetGeometry): EventPoint | null {
-  const center = toCenter(geometry)
+  const center = toCenter(geometry);
 
-  if (!center) return null
+  if (!center) return null;
 
   return {
     ...center,
     date: geometry.date,
     magnitude: geometry.magnitudeValue,
     magnitudeUnit: geometry.magnitudeUnit,
-  }
+  };
 }
 
 /** La traza completa, ordenada del punto más viejo al más nuevo. */
@@ -125,7 +126,7 @@ function toTrack(geometry: EonetGeometry[]): EventPoint[] {
   return geometry
     .map(toEventPoint)
     .filter((point): point is EventPoint => point !== null)
-    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 }
 
 /**
@@ -137,21 +138,21 @@ function toTrack(geometry: EonetGeometry[]): EventPoint[] {
  * magnitud: ya no está pasando.
  */
 function resolveStatus(event: EonetEvent, last: EventPoint, now: number): EventStatus {
-  if (event.closed) return 'monitoring'
+  if (event.closed) return "monitoring";
 
-  if (last.magnitudeUnit === 'kts' && last.magnitude !== null) {
-    if (last.magnitude >= HURRICANE_KNOTS) return 'critical'
-    if (last.magnitude >= TROPICAL_STORM_KNOTS) return 'elevated'
+  if (last.magnitudeUnit === "kts" && last.magnitude !== null) {
+    if (last.magnitude >= HURRICANE_KNOTS) return "critical";
+    if (last.magnitude >= TROPICAL_STORM_KNOTS) return "elevated";
 
-    return 'monitoring'
+    return "monitoring";
   }
 
-  const age = hoursBetween(last.date, new Date(now).toISOString())
+  const age = hoursBetween(last.date, new Date(now).toISOString());
 
-  if (age <= CRITICAL_HOURS) return 'critical'
-  if (age <= ELEVATED_HOURS) return 'elevated'
+  if (age <= CRITICAL_HOURS) return "critical";
+  if (age <= ELEVATED_HOURS) return "elevated";
 
-  return 'monitoring'
+  return "monitoring";
 }
 
 /**
@@ -163,13 +164,13 @@ function resolveStatus(event: EonetEvent, last: EventPoint, now: number): EventS
  * derecho en mayúsculas, que es lo correcto para `ACRES` o `KTS`.
  */
 const UNIT_LABELS: Record<string, string> = {
-  hectare: 'HA',
-  hectares: 'HA',
-  'nm^2': 'NM²',
-}
+  hectare: "HA",
+  hectares: "HA",
+  "nm^2": "NM²",
+};
 
 function formatUnit(unit: string) {
-  return UNIT_LABELS[unit.toLowerCase()] ?? unit.toUpperCase()
+  return UNIT_LABELS[unit.toLowerCase()] ?? unit.toUpperCase();
 }
 
 /**
@@ -180,24 +181,24 @@ function formatUnit(unit: string) {
  * normaliza en vez de mostrar `—` para la mitad del catálogo.
  */
 function toHectares(last: EventPoint) {
-  if (last.magnitude === null) return null
+  if (last.magnitude === null) return null;
 
   switch (last.magnitudeUnit?.toLowerCase()) {
-    case 'acres':
-      return last.magnitude * ACRES_TO_HECTARES
-    case 'hectare':
-    case 'hectares':
-      return last.magnitude
+    case "acres":
+      return last.magnitude * ACRES_TO_HECTARES;
+    case "hectare":
+    case "hectares":
+      return last.magnitude;
     default:
-      return null
+      return null;
   }
 }
 
 /** Magnitud tal como la publica EONET: `55 KTS`, `12,000 HA`. */
 function formatSeverity(last: EventPoint) {
-  if (last.magnitude === null || !last.magnitudeUnit) return 'UNRATED'
+  if (last.magnitude === null || !last.magnitudeUnit) return "UNRATED";
 
-  return `${formatNumber(last.magnitude)} ${formatUnit(last.magnitudeUnit)}`
+  return `${formatNumber(last.magnitude)} ${formatUnit(last.magnitudeUnit)}`;
 }
 
 /**
@@ -205,57 +206,57 @@ function formatSeverity(last: EventPoint) {
  * Si EONET no lo publica para ese evento, va `—`.
  */
 function buildMetric(kind: EventMetricKind, event: EonetEvent, track: EventPoint[]): EventStat {
-  const last = track[track.length - 1]
-  const previous = track[track.length - 2]
+  const last = track[track.length - 1];
+  const previous = track[track.length - 2];
 
   switch (kind) {
-    case 'wind':
+    case "wind":
       return {
-        label: 'Wind',
+        label: "Wind",
         value:
-          last.magnitudeUnit === 'kts' && last.magnitude !== null
+          last.magnitudeUnit === "kts" && last.magnitude !== null
             ? `${formatNumber(last.magnitude * KNOTS_TO_KMH)} KM/H`
-            : '—',
+            : "—",
         accent: true,
-      }
+      };
 
-    case 'area': {
-      const hectares = toHectares(last)
-
-      return {
-        label: 'Area',
-        value: hectares === null ? '—' : `${formatNumber(hectares)} HA`,
-      }
-    }
-
-    case 'status':
-      return { label: 'Status', value: event.closed ? 'DORMANT' : 'ACTIVE', accent: !event.closed }
-
-    case 'drift': {
-      if (!previous) return { label: 'Drift', value: '—' }
-
-      const hours = hoursBetween(previous.date, last.date)
+    case "area": {
+      const hectares = toHectares(last);
 
       return {
-        label: 'Drift',
-        value: hours > 0 ? `${(distanceKm(previous, last) / hours).toFixed(1)} KM/H` : '—',
-      }
+        label: "Area",
+        value: hectares === null ? "—" : `${formatNumber(hectares)} HA`,
+      };
     }
 
-    case 'updated':
-      return { label: 'Track', value: `${String(track.length).padStart(2, '0')} PTS` }
+    case "status":
+      return {label: "Status", value: event.closed ? "DORMANT" : "ACTIVE", accent: !event.closed};
+
+    case "drift": {
+      if (!previous) return {label: "Drift", value: "—"};
+
+      const hours = hoursBetween(previous.date, last.date);
+
+      return {
+        label: "Drift",
+        value: hours > 0 ? `${(distanceKm(previous, last) / hours).toFixed(1)} KM/H` : "—",
+      };
+    }
+
+    case "updated":
+      return {label: "Track", value: `${String(track.length).padStart(2, "0")} PTS`};
   }
 }
 
 export function parseEvent(event: EonetEvent, now: number): NaturalEvent | null {
-  const track = toTrack(event.geometry)
-  const last = track[track.length - 1]
+  const track = toTrack(event.geometry);
+  const last = track[track.length - 1];
 
   // Sin una posición válida no hay card que pintar ni marcador que ubicar.
-  if (!last) return null
+  if (!last) return null;
 
-  const category = resolveEventCategory(event.categories.map(({ id }) => id))
-  const ref = toEventRef(event.id)
+  const category = resolveEventCategory(event.categories.map(({id}) => id));
+  const ref = toEventRef(event.id);
 
   return {
     id: event.id,
@@ -269,13 +270,13 @@ export function parseEvent(event: EonetEvent, now: number): NaturalEvent | null 
     coords: formatCoords(last.lat, last.lng),
     severity: formatSeverity(last),
     metric: buildMetric(category.metric, event, track),
-  }
+  };
 }
 
 export function parseEventDetail(event: EonetEvent, now: number): NaturalEventDetail | null {
-  const base = parseEvent(event, now)
+  const base = parseEvent(event, now);
 
-  if (!base) return null
+  if (!base) return null;
 
   return {
     ...base,
@@ -284,15 +285,15 @@ export function parseEventDetail(event: EonetEvent, now: number): NaturalEventDe
     sources: event.sources,
     track: toTrack(event.geometry),
     closed: event.closed,
-  }
+  };
 }
 
 /** Rumbo del tramo final de la traza; `null` si el evento no se movió. */
 export function resolveHeading(track: EventPoint[]) {
-  const last = track[track.length - 1]
-  const previous = track[track.length - 2]
+  const last = track[track.length - 1];
+  const previous = track[track.length - 2];
 
-  if (!previous || !last) return null
+  if (!previous || !last) return null;
 
-  return bearingLabel(previous, last)
+  return bearingLabel(previous, last);
 }

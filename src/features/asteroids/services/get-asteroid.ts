@@ -1,10 +1,11 @@
-import { cacheLife, cacheTag } from 'next/cache'
+import type {AsteroidDetail, NeoObject} from "@/features/asteroids/types/asteroid";
 
-import type { AsteroidDetail, NeoObject } from '@/features/asteroids/types/asteroid'
-import { parseAsteroidDetail } from '@/features/asteroids/utils/parse-asteroid'
-import { NASA_ENDPOINTS } from '@/shared/constants/nasa-endpoints'
-import { HttpError, http } from '@/shared/services/http'
-import { getNasaApiKey } from '@/shared/services/nasa-api-key'
+import {cacheLife, cacheTag} from "next/cache";
+
+import {parseAsteroidDetail} from "@/features/asteroids/utils/parse-asteroid";
+import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
+import {http, HttpError} from "@/shared/services/http";
+import {getNasaApiKey} from "@/shared/services/nasa-api-key";
 
 /**
  * Un objeto del catálogo, pedido por su id de NeoWs.
@@ -15,29 +16,29 @@ import { getNasaApiKey } from '@/shared/services/nasa-api-key'
  * listado.
  */
 
-const TIMEOUT_MS = 15_000
+const TIMEOUT_MS = 15_000;
 
 export async function getAsteroid(id: string): Promise<AsteroidDetail | null> {
-  'use cache'
+  "use cache";
   // Los elementos orbitales se recalculan cuando entra una observación nueva,
   // que para la enorme mayoría de los objetos es cuestión de meses.
-  cacheLife('hours')
-  cacheTag(`asteroid-${id}`)
+  cacheLife("hours");
+  cacheTag(`asteroid-${id}`);
 
   try {
-    const { data } = await http.get<NeoObject>(`${NASA_ENDPOINTS.neo}/neo/${id}`, {
-      searchParams: { api_key: getNasaApiKey() },
+    const {data} = await http.get<NeoObject>(`${NASA_ENDPOINTS.neo}/neo/${id}`, {
+      searchParams: {api_key: getNasaApiKey()},
       timeoutMs: TIMEOUT_MS,
-    })
+    });
 
-    return parseAsteroidDetail(data, Date.now())
+    return parseAsteroidDetail(data, Date.now());
   } catch (error) {
     // 404 es un id que no existe en el catálogo: la página resuelve el
     // not-found, no un error.
     if (error instanceof HttpError && error.status === 404) {
-      return null
+      return null;
     }
 
-    throw error
+    throw error;
   }
 }

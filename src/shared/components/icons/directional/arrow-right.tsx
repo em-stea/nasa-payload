@@ -1,4 +1,4 @@
-export function ArrowRight({ ...props }) {
+export function ArrowRight({...props}) {
   return (
     <svg
       fill="none"
@@ -13,5 +13,5 @@ export function ArrowRight({ ...props }) {
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }

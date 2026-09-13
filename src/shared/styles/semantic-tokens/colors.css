@@ -18,7 +18,7 @@
 /* -------------------------------------------------------------------------- */
 
 :root,
-[data-theme='light'] {
+[data-theme="light"] {
   --background: var(--basic-00);
   --foreground: var(--blue-900);
 
@@ -54,7 +54,7 @@
   --live-dot: var(--red-700);
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --background: var(--basic-960);
   --foreground: var(--blue-200);
 

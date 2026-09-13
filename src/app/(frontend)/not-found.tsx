@@ -1,4 +1,4 @@
-import { NotFoundScreen } from '@/features/not-found/components/not-found-screen'
+import {NotFoundScreen} from "@/features/not-found/components/not-found-screen";
 
 /**
  * El 404 de las rutas del sitio: las que existen pero no encontraron su dato y
@@ -9,5 +9,5 @@ import { NotFoundScreen } from '@/features/not-found/components/not-found-screen
  * ninguna ruta no pasan por este archivo: las atiende `global-not-found`.
  */
 export default function NotFound() {
-  return <NotFoundScreen className="min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]" />
+  return <NotFoundScreen className="min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]" />;
 }

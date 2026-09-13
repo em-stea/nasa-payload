@@ -1,6 +1,6 @@
-import type { CollectionConfig } from 'payload'
+import type {CollectionConfig} from "payload";
 
-import { authenticated } from '../access'
+import {authenticated} from "../access";
 
 /**
  * Guardados de un lector.
@@ -14,16 +14,16 @@ import { authenticated } from '../access'
  * (user, kind, itemId).
  */
 export const Favorites: CollectionConfig = {
-  slug: 'favorites',
+  slug: "favorites",
   labels: {
-    singular: 'Favorito',
-    plural: 'Favoritos',
+    singular: "Favorito",
+    plural: "Favoritos",
   },
   admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['title', 'kind', 'user', 'createdAt'],
-    listSearchableFields: ['title', 'itemId'],
-    group: 'Comunidad',
+    useAsTitle: "title",
+    defaultColumns: ["title", "kind", "user", "createdAt"],
+    listSearchableFields: ["title", "itemId"],
+    group: "Comunidad",
   },
   access: {
     create: authenticated,
@@ -33,92 +33,92 @@ export const Favorites: CollectionConfig = {
   },
   fields: [
     {
-      name: 'user',
-      type: 'relationship',
-      label: 'Lector',
-      relationTo: 'site-users',
+      name: "user",
+      type: "relationship",
+      label: "Lector",
+      relationTo: "site-users",
       hasMany: false,
       required: true,
       index: true,
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'kind',
-          type: 'select',
-          label: 'Tipo',
+          name: "kind",
+          type: "select",
+          label: "Tipo",
           required: true,
-          defaultValue: 'news',
+          defaultValue: "news",
           index: true,
           options: [
-            { label: 'Noticia', value: 'news' },
-            { label: 'APOD', value: 'apod' },
+            {label: "Noticia", value: "news"},
+            {label: "APOD", value: "apod"},
           ],
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
         {
-          name: 'itemId',
-          type: 'text',
-          label: 'ID del item',
+          name: "itemId",
+          type: "text",
+          label: "ID del item",
           required: true,
           index: true,
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
       ],
     },
     {
-      name: 'title',
-      type: 'text',
-      label: 'Título',
+      name: "title",
+      type: "text",
+      label: "Título",
       required: true,
     },
     {
-      name: 'description',
-      type: 'textarea',
-      label: 'Bajada',
+      name: "description",
+      type: "textarea",
+      label: "Bajada",
       maxLength: 500,
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'image',
-          type: 'text',
-          label: 'Imagen (URL)',
-          admin: { width: '50%' },
+          name: "image",
+          type: "text",
+          label: "Imagen (URL)",
+          admin: {width: "50%"},
         },
         {
-          name: 'href',
-          type: 'text',
-          label: 'Link interno',
-          admin: { width: '50%' },
+          name: "href",
+          type: "text",
+          label: "Link interno",
+          admin: {width: "50%"},
         },
       ],
     },
     {
-      type: 'row',
+      type: "row",
       fields: [
         {
-          name: 'tag',
-          type: 'text',
-          label: 'Tag',
-          admin: { width: '50%' },
+          name: "tag",
+          type: "text",
+          label: "Tag",
+          admin: {width: "50%"},
         },
         {
-          name: 'tone',
-          type: 'select',
-          label: 'Color del tag',
-          defaultValue: 'blue',
+          name: "tone",
+          type: "select",
+          label: "Color del tag",
+          defaultValue: "blue",
           options: [
-            { label: 'Blue', value: 'blue' },
-            { label: 'Red', value: 'red' },
-            { label: 'Orange', value: 'orange' },
+            {label: "Blue", value: "blue"},
+            {label: "Red", value: "red"},
+            {label: "Orange", value: "orange"},
           ],
-          admin: { width: '50%' },
+          admin: {width: "50%"},
         },
       ],
     },
   ],
   timestamps: true,
-}
+};

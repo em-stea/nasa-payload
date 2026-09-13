@@ -1,12 +1,13 @@
-import { cacheLife, cacheTag } from 'next/cache'
+import type {NasaPostDetail, NewsArticleDetail} from "@/features/news/types/news";
 
-import { resolveNewsCategory } from '@/features/news/constants/categories'
-import type { NasaPostDetail, NewsArticleDetail } from '@/features/news/types/news'
-import { toPlainText } from '@/features/news/utils/html-text'
-import { parseArticleContent } from '@/features/news/utils/parse-article-content'
-import { toCardImage } from '@/features/news/utils/parse-post'
-import { NASA_ENDPOINTS } from '@/shared/constants/nasa-endpoints'
-import { HttpError, http } from '@/shared/services/http'
+import {cacheLife, cacheTag} from "next/cache";
+
+import {resolveNewsCategory} from "@/features/news/constants/categories";
+import {toPlainText} from "@/features/news/utils/html-text";
+import {parseArticleContent} from "@/features/news/utils/parse-article-content";
+import {toCardImage} from "@/features/news/utils/parse-post";
+import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
+import {http, HttpError} from "@/shared/services/http";
 
 /**
  * Una noticia completa de nasa.gov.
@@ -17,33 +18,33 @@ import { HttpError, http } from '@/shared/services/http'
  */
 
 const POST_FIELDS = [
-  'id',
-  'date',
-  'link',
-  'title',
-  'excerpt',
-  'content',
-  'categories',
-  'time_ago',
-  'featured_image_url',
-].join(',')
+  "id",
+  "date",
+  "link",
+  "title",
+  "excerpt",
+  "content",
+  "categories",
+  "time_ago",
+  "featured_image_url",
+].join(",");
 
 export async function getNewsArticle(id: number): Promise<NewsArticleDetail | null> {
-  'use cache'
+  "use cache";
   // El cuerpo de una nota publicada no se mueve; lo que puede cambiar es una
   // corrección editorial, y para eso alcanza con revisar cada tanto.
-  cacheLife('hours')
-  cacheTag(`news-article-${id}`)
+  cacheLife("hours");
+  cacheTag(`news-article-${id}`);
 
   try {
-    const { data } = await http.get<NasaPostDetail>(`${NASA_ENDPOINTS.news}/posts/${id}`, {
-      searchParams: { _fields: POST_FIELDS },
+    const {data} = await http.get<NasaPostDetail>(`${NASA_ENDPOINTS.news}/posts/${id}`, {
+      searchParams: {_fields: POST_FIELDS},
       // El cuerpo completo pesa bastante más que una página del listado.
       timeoutMs: 15_000,
-    })
+    });
 
-    const category = resolveNewsCategory(data.categories)
-    const { blocks, figures, readingTime } = parseArticleContent(data.content.rendered)
+    const category = resolveNewsCategory(data.categories);
+    const {blocks, figures, readingTime} = parseArticleContent(data.content.rendered);
 
     return {
       id: data.id,
@@ -58,14 +59,14 @@ export async function getNewsArticle(id: number): Promise<NewsArticleDetail | nu
       readingTime,
       blocks,
       figures,
-    }
+    };
   } catch (error) {
     // 404 es un id que no existe y 401 un post que dejó de ser público: en los
     // dos casos la página resuelve el not-found, no un error.
     if (error instanceof HttpError && (error.status === 404 || error.status === 401)) {
-      return null
+      return null;
     }
 
-    throw error
+    throw error;
   }
 }

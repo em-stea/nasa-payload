@@ -1,8 +1,9 @@
-import { getEPIC3DImages } from '@/features/home/services/get-epic-3d-images'
-import { Container } from '@/shared/components/container/container'
-import { HeaderGroup } from '@/shared/components/header-group/header-group'
-import { Live } from '@/shared/components/icons/other/live'
-import { EpicExplorer } from './epic-explorer'
+import {getEPIC3DImages} from "@/features/home/services/get-epic-3d-images";
+import {Container} from "@/shared/components/container/container";
+import {HeaderGroup} from "@/shared/components/header-group/header-group";
+import {Live} from "@/shared/components/icons/other/live";
+
+import {EpicExplorer} from "./epic-explorer";
 
 /**
  * El globo y las fotos del EPIC son la misma escena: cada toma del día queda
@@ -11,7 +12,7 @@ import { EpicExplorer } from './epic-explorer'
  * —vive en `EpicExplorer`—; acá sólo se resuelve el fetch y la bajada.
  */
 export default async function ThreeDEarth() {
-  const captures = await getEPIC3DImages()
+  const captures = await getEPIC3DImages();
 
   return (
     <section className="relative my-10 w-full overflow-hidden bg-basic-950 py-12">
@@ -24,12 +25,12 @@ export default async function ThreeDEarth() {
       <Container>
         <EpicExplorer captures={captures}>
           <HeaderGroup
-            title="Earth EPIC 3D"
+            badge={{text: "LIVE TELEMETRY", icon: <Live className="size-5" />}}
             description="Earth Polychromatic Imaging Camera (EPIC). Positioned at the Earth-Sun Lagrange point 1, capturing daily, full-disc imagery of our home planet from deep space."
-            badge={{ text: 'LIVE TELEMETRY', icon: <Live className="size-5" /> }}
+            title="Earth EPIC 3D"
           />
         </EpicExplorer>
       </Container>
     </section>
-  )
+  );
 }

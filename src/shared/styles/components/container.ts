@@ -1,12 +1,12 @@
-import { cva } from 'class-variance-authority'
+import {cva} from "class-variance-authority";
 
-export const containerVariants = cva(['mx-auto', 'w-full'], {
+export const containerVariants = cva(["mx-auto", "w-full"], {
   variants: {
     variant: {
-      default: 'px-4 md:px-6 max-w-1400',
+      default: "max-w-1400 px-4 md:px-6",
     },
   },
   defaultVariants: {
-    variant: 'default',
+    variant: "default",
   },
-})
+});

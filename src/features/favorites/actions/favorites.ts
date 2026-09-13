@@ -1,21 +1,22 @@
-'use server'
+"use server";
 
-import type { Where } from 'payload'
-import { z } from 'zod'
+import type {Where} from "payload";
 
-import { requireSiteUser } from '@/features/account/services/site-user'
-import { getPayloadClient } from '@/shared/services/payload'
+import {z} from "zod";
+
+import {requireSiteUser} from "@/features/account/services/site-user";
+import {getPayloadClient} from "@/shared/services/payload";
 
 export type FavoriteState = {
-  saved: boolean
-  status: 'idle' | 'error'
-  message?: string
-}
+  saved: boolean;
+  status: "idle" | "error";
+  message?: string;
+};
 
-const toneSchema = z.enum(['blue', 'red', 'orange'])
+const toneSchema = z.enum(["blue", "red", "orange"]);
 
 const favoriteSchema = z.object({
-  kind: z.enum(['news', 'apod']),
+  kind: z.enum(["news", "apod"]),
   itemId: z.string().min(1),
   title: z.string().min(1),
   description: z.string().optional(),
@@ -23,7 +24,7 @@ const favoriteSchema = z.object({
   href: z.string().optional(),
   tag: z.string().optional(),
   tone: toneSchema.optional(),
-})
+});
 
 /**
  * Guarda o saca un item de favoritos según cómo esté ahora.
@@ -39,51 +40,47 @@ const favoriteSchema = z.object({
  * al guardar. El botón se pinta solo, con su propio estado.
  */
 export async function toggleFavorite(item: unknown): Promise<FavoriteState> {
-  const parsed = favoriteSchema.safeParse(item)
+  const parsed = favoriteSchema.safeParse(item);
 
   if (!parsed.success) {
-    return { saved: false, status: 'error', message: 'No pudimos identificar el item.' }
+    return {saved: false, status: "error", message: "No pudimos identificar el item."};
   }
 
-  let siteUser
+  let siteUser;
 
   try {
-    siteUser = await requireSiteUser()
+    siteUser = await requireSiteUser();
   } catch {
-    return { saved: false, status: 'error', message: 'Necesitás iniciar sesión.' }
+    return {saved: false, status: "error", message: "Necesitás iniciar sesión."};
   }
 
-  const payload = await getPayloadClient()
-  const { kind, itemId, ...card } = parsed.data
+  const payload = await getPayloadClient();
+  const {kind, itemId, ...card} = parsed.data;
 
   const where: Where = {
-    and: [
-      { user: { equals: siteUser.id } },
-      { kind: { equals: kind } },
-      { itemId: { equals: itemId } },
-    ],
-  }
+    and: [{user: {equals: siteUser.id}}, {kind: {equals: kind}}, {itemId: {equals: itemId}}],
+  };
 
   try {
-    const { docs } = await payload.find({ collection: 'favorites', where, limit: 1, depth: 0 })
-    const existing = docs[0]
+    const {docs} = await payload.find({collection: "favorites", where, limit: 1, depth: 0});
+    const existing = docs[0];
 
     if (existing) {
-      await payload.delete({ collection: 'favorites', id: existing.id, depth: 0 })
+      await payload.delete({collection: "favorites", id: existing.id, depth: 0});
 
-      return { saved: false, status: 'idle' }
+      return {saved: false, status: "idle"};
     }
 
     await payload.create({
-      collection: 'favorites',
-      data: { user: siteUser.id, kind, itemId, ...card },
+      collection: "favorites",
+      data: {user: siteUser.id, kind, itemId, ...card},
       depth: 0,
-    })
+    });
 
-    return { saved: true, status: 'idle' }
+    return {saved: true, status: "idle"};
   } catch (error) {
-    payload.logger.error({ err: error, msg: 'No se pudo actualizar el favorito' })
+    payload.logger.error({err: error, msg: "No se pudo actualizar el favorito"});
 
-    return { saved: false, status: 'error', message: 'No pudimos guardar el cambio.' }
+    return {saved: false, status: "error", message: "No pudimos guardar el cambio."};
   }
 }

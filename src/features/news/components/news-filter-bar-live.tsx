@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { useSearchParams } from 'next/navigation'
+import {useSearchParams} from "next/navigation";
 
-import { NewsFilterBar } from '@/features/news/components/news-filter-bar'
-import { isNewsCategorySlug } from '@/features/news/constants/categories'
+import {NewsFilterBar} from "@/features/news/components/news-filter-bar";
+import {isNewsCategorySlug} from "@/features/news/constants/categories";
 
 /**
  * La barra de filtros conectada a la URL.
@@ -16,7 +16,7 @@ import { isNewsCategorySlug } from '@/features/news/constants/categories'
  * sin chip activo, con las mismas medidas.
  */
 export function NewsFilterBarLive() {
-  const category = useSearchParams().get('category')
+  const category = useSearchParams().get("category");
 
-  return <NewsFilterBar active={isNewsCategorySlug(category) ? category : undefined} />
+  return <NewsFilterBar active={isNewsCategorySlug(category) ? category : undefined} />;
 }

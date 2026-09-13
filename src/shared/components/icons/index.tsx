@@ -19,6 +19,10 @@ import { Account } from './other/account'
 import { Menu } from './other/menu'
 import { Live } from './other/live'
 import { Share } from './other/share'
+import { ChartLine } from './other/chart-line'
+import { Cube } from './other/cube'
+import { Target } from './other/target'
+import { WarningTriangle } from './feedback/warning-triangle'
 
 const IconsType = {
   directional: {
@@ -41,10 +45,14 @@ const IconsType = {
     menu: Menu,
     share: Share,
     live: Live,
+    chartLine: ChartLine,
+    cube: Cube,
+    target: Target,
   },
   feedback: {
     cross: Cross,
     checkCircle: CheckCircle,
+    warningTriangle: WarningTriangle,
   },
   socialMedia: {
     google: Google,

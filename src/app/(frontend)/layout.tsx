@@ -3,6 +3,7 @@ import React from 'react'
 
 import { SiteFooter } from '@/shared/components/footer/site-footer'
 import { SiteNavbar } from '@/shared/components/navbar/site-navbar'
+import { Toaster } from '@/shared/components/toast/toaster'
 import { SpaceGrotesk, JetBrainsMono } from '@/shared/styles/foundations/fonts'
 import '@styles/globals.css'
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SiteNavbar />
             {children}
             <SiteFooter />
+            <Toaster />
           </SessionProvider>
         </ThemeProvider>
       </body>

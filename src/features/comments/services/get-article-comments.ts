@@ -1,3 +1,5 @@
+import { connection } from 'next/server'
+
 import type { CommentView } from '@/features/comments/types/comment'
 import { toCommentHandle, toCommentTone } from '@/features/comments/utils/comment-view'
 import type { Comment, SiteUser } from '@/payload-types'
@@ -75,6 +77,11 @@ function buildThread(comments: Comment[]): CommentView[] {
  * marcó como rechazado o spam no sale del backoffice.
  */
 export async function getArticleComments(articleId: string): Promise<CommentView[]> {
+  // Siempre a pedido: los comentarios cambian entre visitas y el componente
+  // ya cuelga de un <Suspense> en la página, así que sacarlo del shell
+  // estático no cuesta nada.
+  await connection()
+
   const payload = await getPayloadClient()
 
   const { docs } = await payload.find({

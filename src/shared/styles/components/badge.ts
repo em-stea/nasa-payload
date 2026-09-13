@@ -75,3 +75,27 @@ export const badgeVariants = cva(commonClassnames, {
     variant: 'default',
   },
 })
+
+export const badgeDotVariants = cva('size-2 shrink-0 rounded-full', {
+  variants: {
+    variant: {
+      default: 'bg-blue-200',
+      media: '',
+      destructive: 'bg-destructive text-destructive-foreground',
+      alert: 'bg-red-200-30',
+    },
+    tone: {
+      blue: 'bg-blue-200',
+      red: 'bg-red-300',
+      orange: 'bg-orange-200',
+    },
+  },
+  compoundVariants: [
+    { variant: 'media', tone: 'blue', class: 'bg-blue-200' },
+    { variant: 'media', tone: 'red', class: 'bg-red-300' },
+    { variant: 'media', tone: 'orange', class: 'bg-orange-200' },
+  ],
+  defaultVariants: {
+    variant: 'default',
+  },
+})

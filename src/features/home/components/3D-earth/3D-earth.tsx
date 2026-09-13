@@ -9,7 +9,7 @@ export default async function ThreeDEarth() {
   console.log(epic3dImage)
 
   return (
-    <div className="w-full my-8 bg-basic-940 grid grid-cols-2 py-3">
+    <div className="w-full my-8 bg-basic-940 grid gap-10 md:gap-0 grid-cols-1 md:grid-cols-2 py-16 lg:py-8">
       <HeaderGroup
         title="Earth EPIC 3D"
         description="Earth Polychromatic Imaging Camera (EPIC). Positioned at the Earth-Sun Lagrange point 1, capturing daily, full-disc imagery of our home planet from deep space."
@@ -19,7 +19,7 @@ export default async function ThreeDEarth() {
         }}
       />
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center pt-8 lg:pt-0">
         <div className="relative size-80 sm:size-96 rounded-full p-2.5 border border-red-300/10 bg-neutral-900/60 shadow-[0_0_25px_rgba(255,255,255,0.07)]">
           <div className="w-full h-full rounded-full p-2.5 border border-red-300/30 bg-black/40">
             <div className="w-full h-full rounded-full overflow-hidden border border-blue-50/10 bg-black relative flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">

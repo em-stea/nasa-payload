@@ -5,6 +5,12 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  experimental: {
+    // Los dos root layouts (sitio y Payload) dejan sin lugar al `not-found`
+    // global: sin esto, una URL que no matchea ninguna ruta cae en el 404 por
+    // defecto de Next en vez de en `app/global-not-found.tsx`.
+    globalNotFound: true,
+  },
   partialPrefetching: true,
   images: {
     dangerouslyAllowSVG: true,
@@ -40,6 +46,13 @@ const nextConfig: NextConfig = {
         hostname: 'avatars.githubusercontent.com',
         port: '',
         pathname: '/**',
+      },
+      // Texturas de la Tierra: las mismas que ya carga el globo de la home,
+      // reusadas como planisferio en el hero de eventos.
+      {
+        protocol: 'https',
+        hostname: 'cdn.jsdelivr.net',
+        pathname: '/npm/**',
       },
     ],
   },

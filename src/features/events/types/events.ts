@@ -15,7 +15,11 @@ export type EonetGeometry = {
   magnitudeUnit: string | null
   date: string
   type: 'Point' | 'Polygon'
-  /** `Point` trae `[lng, lat]`; `Polygon`, anillos de `[lng, lat]`. */
+  /**
+   * `Point` trae `[lng, lat]`, como manda GeoJSON. Los `Polygon` de GDACS —las
+   * inundaciones— traen anillos de `[lat, lng]`, al revés; `toCenter` lo
+   * detecta y lo corrige.
+   */
   coordinates: number[] | number[][][]
 }
 

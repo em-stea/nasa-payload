@@ -69,9 +69,19 @@ function formatNumber(value: number, fractionDigits = 0) {
 /**
  * Centro de una geometría.
  *
- * Casi todas son `Point`, pero los incendios grandes llegan como `Polygon`: de
- * esos tomamos el centro de la caja que los contiene, que es lo que hay que
- * clavar en el mapa.
+ * Casi todas son `Point`. Las que no, son las inundaciones: GDACS las publica
+ * como `Polygon` y de ahí sale el centro de la caja que las contiene, que es
+ * lo que hay que clavar en el mapa.
+ *
+ * Y ahí está la trampa: esos anillos vienen `[lat, lng]`, al revés del orden
+ * que manda GeoJSON y que usan los `Point` de la misma API. Leídos al derecho,
+ * la inundación de Perú aterriza en la Antártida y la de Japón ni siquiera da
+ * una latitud válida.
+ *
+ * En vez de confiar en la fuente se deduce del propio anillo: una latitud no
+ * puede pasar de 90°, así que el eje que se sale de ese rango es la longitud.
+ * Cuando los dos entran —un evento cerca del ecuador y del meridiano cero— se
+ * asume `[lat, lng]`, que es como EONET publica todos los polígonos que tiene.
  */
 function toCenter(geometry: EonetGeometry): { lat: number; lng: number } | null {
   if (geometry.type === 'Point') {
@@ -84,13 +94,17 @@ function toCenter(geometry: EonetGeometry): { lat: number; lng: number } | null 
 
   if (!Array.isArray(ring) || ring.length === 0) return null
 
-  const lngs = ring.map(([lng]) => lng)
-  const lats = ring.map(([, lat]) => lat)
+  const first = ring.map(([value]) => value).filter(Number.isFinite)
+  const second = ring.map(([, value]) => value).filter(Number.isFinite)
 
-  return {
-    lat: (Math.min(...lats) + Math.max(...lats)) / 2,
-    lng: (Math.min(...lngs) + Math.max(...lngs)) / 2,
-  }
+  if (first.length === 0 || second.length === 0) return null
+
+  const center = (values: number[]) => (Math.min(...values) + Math.max(...values)) / 2
+  const exceedsLatRange = (values: number[]) => values.some((value) => Math.abs(value) > 90)
+
+  return exceedsLatRange(second) || !exceedsLatRange(first)
+    ? { lat: center(first), lng: center(second) }
+    : { lat: center(second), lng: center(first) }
 }
 
 function toEventPoint(geometry: EonetGeometry): EventPoint | null {
@@ -140,11 +154,50 @@ function resolveStatus(event: EonetEvent, last: EventPoint, now: number): EventS
   return 'monitoring'
 }
 
-/** Magnitud tal como la publica EONET: `55 KTS`, `12,000 ACRES`. */
+/**
+ * Rótulo de la unidad.
+ *
+ * EONET arrastra la notación de cada fuente: los nudos en minúscula, las
+ * hectáreas en singular, las millas náuticas cuadradas con acento circunflejo.
+ * En mayúsculas quedaban como `HECTARE` y `NM^2`; lo que no está acá pasa
+ * derecho en mayúsculas, que es lo correcto para `ACRES` o `KTS`.
+ */
+const UNIT_LABELS: Record<string, string> = {
+  hectare: 'HA',
+  hectares: 'HA',
+  'nm^2': 'NM²',
+}
+
+function formatUnit(unit: string) {
+  return UNIT_LABELS[unit.toLowerCase()] ?? unit.toUpperCase()
+}
+
+/**
+ * Superficie del incendio en hectáreas.
+ *
+ * Las dos fuentes de incendios no publican en la misma unidad: IRWIN manda
+ * acres y GDACS ya manda hectáreas. La card muestra una sola, así que acá se
+ * normaliza en vez de mostrar `—` para la mitad del catálogo.
+ */
+function toHectares(last: EventPoint) {
+  if (last.magnitude === null) return null
+
+  switch (last.magnitudeUnit?.toLowerCase()) {
+    case 'acres':
+      return last.magnitude * ACRES_TO_HECTARES
+    case 'hectare':
+    case 'hectares':
+      return last.magnitude
+    default:
+      return null
+  }
+}
+
+/** Magnitud tal como la publica EONET: `55 KTS`, `12,000 HA`. */
 function formatSeverity(last: EventPoint) {
   if (last.magnitude === null || !last.magnitudeUnit) return 'UNRATED'
 
-  return `${formatNumber(last.magnitude)} ${last.magnitudeUnit.toUpperCase()}`
+  return `${formatNumber(last.magnitude)} ${formatUnit(last.magnitudeUnit)}`
 }
 
 /**
@@ -166,14 +219,14 @@ function buildMetric(kind: EventMetricKind, event: EonetEvent, track: EventPoint
         accent: true,
       }
 
-    case 'area':
+    case 'area': {
+      const hectares = toHectares(last)
+
       return {
         label: 'Area',
-        value:
-          last.magnitudeUnit?.toLowerCase() === 'acres' && last.magnitude !== null
-            ? `${formatNumber(last.magnitude * ACRES_TO_HECTARES)} HA`
-            : '—',
+        value: hectares === null ? '—' : `${formatNumber(hectares)} HA`,
       }
+    }
 
     case 'status':
       return { label: 'Status', value: event.closed ? 'DORMANT' : 'ACTIVE', accent: !event.closed }

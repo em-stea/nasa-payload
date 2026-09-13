@@ -1,4 +1,5 @@
 import { MissionCard } from '@/shared/components/card/mission-card'
+import { Container } from '@/shared/components/container/container'
 import { HeaderGroup } from '@/shared/components/header-group/header-group'
 import { getProjectMedia } from '../../services/get-project-media'
 import { getTechPortProjectById } from '../../services/get-techport-project-by-id'
@@ -48,6 +49,6 @@ export async function FeaturedMissions() {
           ))}
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

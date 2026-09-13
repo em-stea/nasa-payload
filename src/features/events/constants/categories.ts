@@ -2,9 +2,10 @@
  * Categorías de EONET que ofrece la sección.
  *
  * EONET tiene trece categorías, pero el diseño muestra cinco chips y son las
- * que tienen masa crítica de eventos abiertos: incendios, inundaciones,
- * tormentas, volcanes y hielo. El resto (sequía, terremotos, deslizamientos…)
- * entra igual al listado sin filtro, con el color y el ícono neutros.
+ * únicas con eventos: incendios, inundaciones, tormentas, volcanes y hielo.
+ * Las otras ocho (sequía, terremotos, deslizamientos…) están declaradas en la
+ * API pero hoy no publican nada, ni reciente ni abierto, así que no se
+ * consultan; `EVENT_FALLBACK_CATEGORY` queda igual por si vuelven a poblarse.
  *
  * `code` es el sufijo del identificador del diseño (`EVT.ID.24184.WF`) y
  * `tone` el color con el que se pintan el ícono, la magnitud y el marcador del
@@ -20,6 +21,23 @@ export type EventTone = 'orange' | 'blue' | 'neutral'
  */
 export type EventMetricKind = 'wind' | 'area' | 'status' | 'drift' | 'updated'
 
+/**
+ * Cómo hay que pedirle a EONET los eventos de cada categoría.
+ *
+ * El catálogo no es homogéneo y esto no es un detalle de implementación: es la
+ * diferencia entre un mapa global y uno que muestra solo Estados Unidos.
+ *
+ * - `recent`: la fuente cierra los eventos a los pocos días (GDACS reporta y
+ *   da por terminado cada foco). Pedir `status=open` deja afuera todo lo que
+ *   publica —o sea, casi todo el planeta— y solo sobreviven los incendios de
+ *   IRWIN, que es el sistema interagencial estadounidense y únicamente cubre
+ *   ese país. Se consultan entonces por ventana de días, sin filtrar estado.
+ * - `open`: la fuente mantiene el evento abierto durante meses (un volcán en
+ *   erupción, un témpano a la deriva) y actualiza la traza de a saltos. Estos
+ *   se caen de cualquier ventana de días, así que van por `status=open`.
+ */
+export type EventFeed = 'recent' | 'open'
+
 export type EventCategory = {
   /** Id de la categoría en EONET; es el valor de `?category=` en la URL. */
   id: string
@@ -27,6 +45,7 @@ export type EventCategory = {
   code: string
   tone: EventTone
   metric: EventMetricKind
+  feed: EventFeed
 }
 
 export const EVENT_CATEGORIES = {
@@ -36,6 +55,7 @@ export const EVENT_CATEGORIES = {
     code: 'WF',
     tone: 'orange',
     metric: 'area',
+    feed: 'recent',
   },
   floods: {
     id: 'floods',
@@ -43,6 +63,7 @@ export const EVENT_CATEGORIES = {
     code: 'FL',
     tone: 'blue',
     metric: 'updated',
+    feed: 'recent',
   },
   severeStorms: {
     id: 'severeStorms',
@@ -50,6 +71,7 @@ export const EVENT_CATEGORIES = {
     code: 'ST',
     tone: 'blue',
     metric: 'wind',
+    feed: 'recent',
   },
   volcanoes: {
     id: 'volcanoes',
@@ -57,6 +79,7 @@ export const EVENT_CATEGORIES = {
     code: 'VL',
     tone: 'orange',
     metric: 'status',
+    feed: 'open',
   },
   seaLakeIce: {
     id: 'seaLakeIce',
@@ -64,6 +87,7 @@ export const EVENT_CATEGORIES = {
     code: 'IC',
     tone: 'neutral',
     metric: 'drift',
+    feed: 'open',
   },
 } as const satisfies Record<string, EventCategory>
 
@@ -85,6 +109,7 @@ export const EVENT_FALLBACK_CATEGORY: EventCategory = {
   code: 'EV',
   tone: 'blue',
   metric: 'updated',
+  feed: 'recent',
 }
 
 export function isEventCategorySlug(value: string | null | undefined): value is EventCategorySlug {

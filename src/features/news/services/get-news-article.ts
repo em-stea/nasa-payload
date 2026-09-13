@@ -5,6 +5,7 @@ import type { NasaPostDetail, NewsArticleDetail } from '@/features/news/types/ne
 import { toPlainText } from '@/features/news/utils/html-text'
 import { parseArticleContent } from '@/features/news/utils/parse-article-content'
 import { toCardImage } from '@/features/news/utils/parse-post'
+import { NASA_ENDPOINTS } from '@/shared/constants/nasa-endpoints'
 import { HttpError, http } from '@/shared/services/http'
 
 /**
@@ -14,8 +15,6 @@ import { HttpError, http } from '@/shared/services/http'
  * `content` incluido: el listado se queda en el excerpt porque traer el cuerpo
  * de nueve notas a la vez multiplica por veinte el peso de la respuesta.
  */
-
-const NASA_POSTS_URL = 'https://www.nasa.gov/wp-json/wp/v2/posts'
 
 const POST_FIELDS = [
   'id',
@@ -37,7 +36,7 @@ export async function getNewsArticle(id: number): Promise<NewsArticleDetail | nu
   cacheTag(`news-article-${id}`)
 
   try {
-    const { data } = await http.get<NasaPostDetail>(`${NASA_POSTS_URL}/${id}`, {
+    const { data } = await http.get<NasaPostDetail>(`${NASA_ENDPOINTS.news}/posts/${id}`, {
       searchParams: { _fields: POST_FIELDS },
       // El cuerpo completo pesa bastante más que una página del listado.
       timeoutMs: 15_000,

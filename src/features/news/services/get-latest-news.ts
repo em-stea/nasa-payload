@@ -8,6 +8,7 @@ import {
 } from '@/features/news/constants/categories'
 import type { NasaPost, NewsPage } from '@/features/news/types/news'
 import { parsePost } from '@/features/news/utils/parse-post'
+import { NASA_ENDPOINTS } from '@/shared/constants/nasa-endpoints'
 import { HttpError, http } from '@/shared/services/http'
 
 /**
@@ -18,8 +19,6 @@ import { HttpError, http } from '@/shared/services/http'
  * imagen destacada, antigüedad y las categorías con las que armamos los
  * filtros. `api.nasa.gov` sirve datasets (APOD, NeoWs, EPIC), no noticias.
  */
-
-const NASA_POSTS_URL = 'https://www.nasa.gov/wp-json/wp/v2/posts'
 
 /** Tres filas de tres, como el grid del diseño. */
 export const NEWS_PER_PAGE = 9
@@ -85,7 +84,7 @@ export async function getLatestNews({
   const safePage = Math.min(Math.max(Math.trunc(page) || 1, 1), MAX_PAGES)
 
   try {
-    const { data, headers } = await http.get<NasaPost[]>(NASA_POSTS_URL, {
+    const { data, headers } = await http.get<NasaPost[]>(`${NASA_ENDPOINTS.news}/posts`, {
       searchParams: {
         page: safePage,
         per_page: NEWS_PER_PAGE * OVERFETCH_FACTOR,

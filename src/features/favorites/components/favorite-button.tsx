@@ -1,9 +1,9 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
-import { useActionState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
-import { toggleFavorite, type FavoriteState } from '@/features/favorites/actions/favorites'
+import { toggleFavorite } from '@/features/favorites/actions/favorites'
 import { Heart } from '@/shared/components/icons/other/heart'
 import { Text } from '@/shared/components/text/text'
 import { cn } from '@/shared/utils/className-builder'
@@ -23,71 +23,119 @@ type FavoriteButtonProps = {
   item: FavoriteItem
   /** Estado en la base al renderizar; lo resuelve el server. */
   saved: boolean
-  /** Sin sesión el botón invita a entrar en vez de guardar. */
+  /** Sin sesión el botón no se muestra. */
   canSave: boolean
+  /** Avisa al padre el estado optimista, para listas que necesitan reaccionar (ej. sacar la card al desguardar). */
+  onSavedChange?: (saved: boolean) => void
 }
 
 const ICON_CLASSNAME = 'size-5 shrink-0'
 
+/** Reserva el ancho de "Saved" (la más larga) para que el toggle no mueva el layout. */
+function ReservedLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="relative hidden sm:inline-grid">
+      <Text
+        variant="meta.3"
+        aria-hidden="true"
+        className="invisible col-start-1 row-start-1 uppercase"
+      >
+        Saved
+      </Text>
+      <Text variant="meta.3" className="col-start-1 row-start-1 uppercase">
+        {children}
+      </Text>
+    </span>
+  )
+}
+
+/**
+ * Mismo lugar exacto que el botón (ícono + label), pero invisible y sin
+ * interacción.
+ *
+ * La usan tanto el fallback del `Suspense` que envuelve a `FavoriteButton`
+ * como el propio botón cuando no hay sesión: así el tamaño de la fila de
+ * acciones del artículo nunca cambia al resolverse la sesión.
+ */
+export function FavoriteButtonPlaceholder() {
+  return (
+    <span className="invisible flex items-center gap-2" aria-hidden="true">
+      <Heart className={ICON_CLASSNAME} />
+      <ReservedLabel>Save</ReservedLabel>
+    </span>
+  )
+}
+
 /**
  * Guarda la noticia en favoritos.
  *
- * Mientras la acción viaja, el ícono ya muestra el estado al que va: la
- * respuesta del server lo confirma o lo devuelve a donde estaba, que es lo que
- * pasa si la operación falla.
+ * El corazón es optimista y vive en estado local: se pinta apenas hacés click y
+ * la acción viaja en segundo plano. Si falla, vuelve a como estaba y avisa por
+ * toast.
+ *
+ * Es a propósito que la acción **no** se dispare dentro de una transición
+ * (nada de `useActionState` ni `startTransition`): el árbol tiene un
+ * `<ViewTransition>` en el hero, y cualquier commit en transición hace que
+ * React arranque una view transition de toda la página —el salto raro que se
+ * veía al apretar. Con `setState` común el cambio es un render normal y no
+ * mueve nada.
  */
-export function FavoriteButton({ item, saved, canSave }: FavoriteButtonProps) {
-  const [state, formAction, pending] = useActionState<FavoriteState, FormData>(toggleFavorite, {
-    saved,
-    status: 'idle',
-  })
+export function FavoriteButton({ item, saved, canSave, onSavedChange }: FavoriteButtonProps) {
+  const [isSaved, setIsSaved] = useState(saved)
+  const [pending, setPending] = useState(false)
 
-  const isSaved = pending ? !state.saved : state.saved
+  useEffect(() => {
+    onSavedChange?.(isSaved)
+    // Sólo nos importa reaccionar al cambio de estado, no a que cambie la referencia del callback.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSaved])
+
+  if (!canSave) return <FavoriteButtonPlaceholder />
+
   const label = isSaved ? 'Quitar de favoritos' : 'Guardar en favoritos'
 
-  if (!canSave) {
-    return (
-      <button
-        type="button"
-        onClick={() => void signIn()}
-        aria-label="Iniciá sesión para guardar esta noticia"
-        className="flex items-center gap-2 text-basic-500 transition-colors duration-200 hover:cursor-pointer hover:text-foreground"
-      >
-        <Heart className={ICON_CLASSNAME} aria-hidden="true" />
-        <Text variant="meta.3" className="hidden uppercase sm:block">
-          Save
-        </Text>
-      </button>
-    )
+  async function handleToggle() {
+    if (pending) return
+
+    const previous = isSaved
+
+    setIsSaved(!previous)
+    setPending(true)
+
+    try {
+      const result = await toggleFavorite(item)
+
+      if (result.status === 'error') {
+        setIsSaved(previous)
+        toast.error(result.message ?? 'No pudimos guardar el cambio.')
+
+        return
+      }
+
+      // La base es la que manda: si resolvió distinto de lo que asumimos, gana.
+      setIsSaved(result.saved)
+    } catch {
+      setIsSaved(previous)
+      toast.error('No pudimos guardar el cambio. Revisá tu conexión.')
+    } finally {
+      setPending(false)
+    }
   }
 
   return (
-    <form action={formAction}>
-      <input type="hidden" name="kind" value={item.kind} />
-      <input type="hidden" name="itemId" value={item.itemId} />
-      <input type="hidden" name="title" value={item.title} />
-      {item.description && <input type="hidden" name="description" value={item.description} />}
-      {item.image && <input type="hidden" name="image" value={item.image} />}
-      {item.href && <input type="hidden" name="href" value={item.href} />}
-      {item.tag && <input type="hidden" name="tag" value={item.tag} />}
-      {item.tone && <input type="hidden" name="tone" value={item.tone} />}
-
-      <button
-        type="submit"
-        disabled={pending}
-        aria-pressed={isSaved}
-        aria-label={label}
-        title={state.status === 'error' ? state.message : label}
-        className={cn(
-          'flex items-center gap-2 transition-colors duration-200 hover:cursor-pointer disabled:cursor-wait',
-          isSaved ? 'text-red-300' : 'text-basic-500 hover:text-foreground',
-        )}
-      >
-        <Heart className={ICON_CLASSNAME} aria-hidden="true" />
-        <Text variant="meta.3" className="hidden uppercase sm:block">
-          {isSaved ? 'Saved' : 'Save'}
-        </Text>
-      </button>
-    </form>
+    <button
+      type="button"
+      onClick={handleToggle}
+      aria-pressed={isSaved}
+      aria-label={label}
+      title={label}
+      className={cn(
+        'flex items-center gap-2 transition-colors duration-200 hover:cursor-pointer',
+        isSaved ? 'text-red-300' : 'text-basic-500 hover:text-foreground',
+      )}
+    >
+      <Heart className={ICON_CLASSNAME} aria-hidden="true" />
+      <ReservedLabel>{isSaved ? 'Saved' : 'Save'}</ReservedLabel>
+    </button>
   )
 }

@@ -1,6 +1,5 @@
 'use server'
 
-import { refresh } from 'next/cache'
 import type { Where } from 'payload'
 import { z } from 'zod'
 
@@ -26,37 +25,21 @@ const favoriteSchema = z.object({
   tone: toneSchema.optional(),
 })
 
-function readForm(formData: FormData) {
-  const value = (name: string) => {
-    const raw = formData.get(name)
-
-    return typeof raw === 'string' && raw.length > 0 ? raw : undefined
-  }
-
-  return {
-    kind: value('kind'),
-    itemId: value('itemId'),
-    title: value('title'),
-    description: value('description'),
-    image: value('image'),
-    href: value('href'),
-    tag: value('tag'),
-    tone: value('tone'),
-  }
-}
-
 /**
  * Guarda o saca un item de favoritos según cómo esté ahora.
  *
  * El estado real lo decide la base, no el cliente: el botón manda siempre el
  * item completo y la acción resuelve qué corresponde hacer. Así dos pestañas
  * abiertas sobre la misma noticia no terminan creando duplicados.
+ *
+ * No revalida ni refresca la ruta a propósito. Acá no hay nada cacheado
+ * (`getFavorites`/`isFavorite` son dinámicas), y cualquier re-render del árbol
+ * del server al resolver la acción hace que React corra una view transition
+ * sobre el `<ViewTransition>` del hero: eso es el salto de pantalla que se veía
+ * al guardar. El botón se pinta solo, con su propio estado.
  */
-export async function toggleFavorite(
-  _state: FavoriteState,
-  formData: FormData,
-): Promise<FavoriteState> {
-  const parsed = favoriteSchema.safeParse(readForm(formData))
+export async function toggleFavorite(item: unknown): Promise<FavoriteState> {
+  const parsed = favoriteSchema.safeParse(item)
 
   if (!parsed.success) {
     return { saved: false, status: 'error', message: 'No pudimos identificar el item.' }
@@ -87,7 +70,6 @@ export async function toggleFavorite(
 
     if (existing) {
       await payload.delete({ collection: 'favorites', id: existing.id, depth: 0 })
-      refresh()
 
       return { saved: false, status: 'idle' }
     }
@@ -97,7 +79,6 @@ export async function toggleFavorite(
       data: { user: siteUser.id, kind, itemId, ...card },
       depth: 0,
     })
-    refresh()
 
     return { saved: true, status: 'idle' }
   } catch (error) {

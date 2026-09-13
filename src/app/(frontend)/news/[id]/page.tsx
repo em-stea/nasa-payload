@@ -7,7 +7,10 @@ import {
   CommentsSection,
   CommentsSectionSkeleton,
 } from '@/features/comments/components/comments-section'
-import { FavoriteButton } from '@/features/favorites/components/favorite-button'
+import {
+  FavoriteButton,
+  FavoriteButtonPlaceholder,
+} from '@/features/favorites/components/favorite-button'
 import { isFavorite } from '@/features/favorites/services/get-favorites'
 import { ArticleBody } from '@/features/news/components/article-body'
 import { ArticleBreadcrumbs } from '@/features/news/components/article-breadcrumbs'
@@ -20,6 +23,7 @@ import { getNewsArticle } from '@/features/news/services/get-news-article'
 import { getRelatedNews } from '@/features/news/services/get-related-news'
 import type { NewsArticleDetail } from '@/features/news/types/news'
 import { buildArticleHref } from '@/features/news/utils/parse-post'
+import { Container } from '@/shared/components/container/container'
 
 /**
  * Detalle de una noticia.
@@ -66,10 +70,12 @@ export async function generateMetadata({
 
 export default function NewsArticlePage({ params }: { params: Promise<NewsArticleParams> }) {
   return (
-    <main className="flex min-h-dvh w-full flex-col items-start gap-8 bg-background px-6 pt-24 pb-32 text-primary-foreground">
-      <Suspense fallback={<ArticleSkeleton />}>
-        <ArticleRoute params={params} />
-      </Suspense>
+    <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
+      <Container className="flex flex-col items-start gap-8">
+        <Suspense fallback={<ArticleSkeleton />}>
+          <ArticleRoute params={params} />
+        </Suspense>
+      </Container>
     </main>
   )
 }
@@ -94,7 +100,7 @@ async function ArticleRoute({ params }: { params: Promise<NewsArticleParams> }) 
         article={article}
         actions={
           <>
-            <Suspense fallback={<div className="h-5 w-5" aria-hidden="true" />}>
+            <Suspense fallback={<FavoriteButtonPlaceholder />}>
               <ArticleFavorite article={article} />
             </Suspense>
 

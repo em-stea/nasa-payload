@@ -1,0 +1,19 @@
+.next
+node_modules
+pnpm-lock.yaml
+
+# Plantillas y documentación de agentes, no son código del proyecto.
+.agents
+.claude
+.cursor
+
+# Los regenera `next dev`, no conviene tocarlos a mano.
+AGENTS.md
+CLAUDE.md
+
+# Generados por Payload: los reescribe `payload generate`.
+src/app/(payload)/admin
+src/app/(payload)/api
+src/app/(payload)/layout.tsx
+src/payload-types.ts
+**/tw-merge/helpers/generated-config.json

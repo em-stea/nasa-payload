@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image'
-import { getAPODImage } from '../../services/get-apod-image'
+import Link from 'next/link'
+import { getAPODImage } from '@/features/apod/services/get-apod-image'
 import { Heading } from '@/shared/components/heading/heading'
 import { Text } from '@/shared/components/text/text'
 import { Badge } from '@/shared/components/badge/badge'
@@ -10,7 +11,6 @@ import { ArrowRight } from '@/shared/components/icons/directional/arrow-right'
 export default async function APODHero() {
   const apodImage = await getAPODImage()
 
-  console.log(apodImage, 'apodImage')
   return (
     <div className="w-full h-[calc(100dvh-80px)] overflow-hidden relative">
       <div className="absolute z-10 bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 h-fit border border-basic-00-10 rounded-2xl overflow-hidden">
@@ -30,17 +30,24 @@ export default async function APODHero() {
             feature unveils the intricate filamentary structures of the Veil Nebula.
           </Text>
 
-          <Button variant="primary" size="md" className="gap-2 w-full sm:w-auto justify-center">
-            Explore More
-            <ArrowRight color="text-basic-00" className="size-5" />
+          <Button
+            asChild
+            variant="primary"
+            size="md"
+            className="gap-2 w-full sm:w-auto justify-center"
+          >
+            <Link href="/apod">
+              Explore More
+              <ArrowRight color="text-basic-00" className="size-5" />
+            </Link>
           </Button>
         </div>
       </div>
 
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src={apodImage.hdurl}
-          alt={apodImage.title}
+          src={apodImage.image}
+          alt={apodImage.alt || apodImage.title}
           fill
           priority
           className="object-cover object-center"

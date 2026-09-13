@@ -14,7 +14,7 @@ import { Footer, type FooterData, type FooterLinkItem } from './footer'
 
 const FOOTER_DATA: FooterData = {
   logo: {
-    src: '/images/dscovr-logo.jpg',
+    src: '/images/dscovr-site-logo.png',
     alt: 'DSCOVR',
     href: '/',
   },

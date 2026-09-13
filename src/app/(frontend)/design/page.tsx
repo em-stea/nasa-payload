@@ -481,11 +481,10 @@ const Page = () => {
               <Navbar
                 data={{
                   logo: {
-                    src: '/images/dscovr-logo.jpg',
+                    src: '/images/dscovr-logo.png',
                     alt: 'DSCOVR',
                     href: '/',
                   },
-                  user: { name: 'Franco Rateni' },
                 }}
               >
                 <Navbar.Group>

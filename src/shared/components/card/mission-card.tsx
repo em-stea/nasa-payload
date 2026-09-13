@@ -20,7 +20,7 @@ export function MissionCard({ data, className }: MissionCardProps) {
       </Card.Body>
       <Card.Footer variant="stats">
         {data.stats?.map((stat, index) => (
-          <Card.Stat key={stat.label} index={index} />
+          <Card.Stat key={stat.label} index={index} size="sm" />
         ))}
       </Card.Footer>
     </Card>

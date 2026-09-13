@@ -2,10 +2,12 @@ import { z } from 'zod'
 
 const envSchema = z.object({
   NEXT_PUBLIC_ENVIRONMENT: z.string().min(1),
+  NEXT_PUBLIC_NASA_API_KEY: z.string().min(1),
 })
 
 const parsedEnv = envSchema.safeParse({
   NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
+  NEXT_PUBLIC_NASA_API_KEY: process.env.NEXT_PUBLIC_NASA_API_KEY,
 })
 
 if (!parsedEnv.success) {

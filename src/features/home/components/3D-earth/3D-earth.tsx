@@ -1,9 +1,7 @@
 import { getEPIC3DImages } from '@/features/home/services/get-epic-3d-images'
-import { Badge } from '@/shared/components/badge/badge'
 import { Container } from '@/shared/components/container/container'
-import { Heading } from '@/shared/components/heading/heading'
+import { HeaderGroup } from '@/shared/components/header-group/header-group'
 import { Live } from '@/shared/components/icons/other/live'
-import { Text } from '@/shared/components/text/text'
 import { EpicExplorer } from './epic-explorer'
 
 /**
@@ -25,18 +23,11 @@ export default async function ThreeDEarth() {
 
       <Container className="relative">
         <EpicExplorer captures={captures}>
-          <div className="flex flex-col gap-4">
-            <Badge variant="destructive">
-              <Live className="size-5" /> LIVE TELEMETRY
-            </Badge>
-
-            <Heading variant="title.2">Earth EPIC 3D</Heading>
-
-            <Text variant="body.3" color="basic-300">
-              Earth Polychromatic Imaging Camera (EPIC). Positioned at the Earth-Sun Lagrange point
-              1, capturing daily, full-disc imagery of our home planet from deep space.
-            </Text>
-          </div>
+          <HeaderGroup
+            title="Earth EPIC 3D"
+            description="Earth Polychromatic Imaging Camera (EPIC). Positioned at the Earth-Sun Lagrange point 1, capturing daily, full-disc imagery of our home planet from deep space."
+            badge={{ text: 'LIVE TELEMETRY', icon: <Live className="size-5" /> }}
+          />
         </EpicExplorer>
       </Container>
     </section>

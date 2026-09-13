@@ -17,8 +17,8 @@ export default async function APODHero() {
         <div className="absolute inset-0 bg-basic-950-60 backdrop-blur-md z-0" />
 
         <div className="p-4 sm:p-6 relative z-10 flex flex-col gap-2 items-start">
-          <Badge variant="default">
-            <div className="size-2 rounded-full bg-blue-200" /> APOD // ACTIVE
+          <Badge variant="default" hasDot>
+            APOD // ACTIVE
           </Badge>
 
           <Heading variant="title.1" color="basic-00" className="w-full md:w-[70%] lg:w-[45%]">

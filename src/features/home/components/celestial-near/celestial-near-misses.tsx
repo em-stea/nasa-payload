@@ -4,10 +4,7 @@ import {CloseApproachCard} from "@/shared/components/card/close-approach-card";
 import {CarouselImage} from "@/shared/components/carousel/carousel-image";
 import {HeaderGroup} from "@/shared/components/header-group/header-group";
 
-import {getNeoFeed} from "../../services/get-neo-feed";
-import {getDate} from "../../utils/get-date";
-
-export async function CelestialNearMisses() {
+export function CelestialNearMisses() {
   // const neoFeed = await getNeoFeed({
   //   start_date: getDate().today,
   //   end_date: getDate().twoDaysAgo,

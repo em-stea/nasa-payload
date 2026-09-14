@@ -21,7 +21,10 @@ export default async function APODHero() {
           <div className="absolute inset-0 z-0 bg-basic-950-60 backdrop-blur-md" />
 
           <div className="relative z-10 flex flex-col items-start gap-2 p-4 sm:p-6">
-            <Badge hasDot variant="default">
+            {/* La placa es vidrio oscuro sobre la foto en los dos temas, así
+                que el badge no sigue al tema: en claro `foreground` es el azul
+                oscuro y desaparecería contra el scrim. */}
+            <Badge hasDot className="text-blue-200" variant="default">
               APOD // ACTIVE
             </Badge>
 

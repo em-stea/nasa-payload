@@ -47,17 +47,18 @@ export const navbarGroupVariants = cva(["shrink-0", "items-center"], {
 });
 
 export const navbarLogoVariants = cva([
-  'relative',
-  'block',
-  'size-15',
-  'shrink-0',
-  'opacity-80',
-  'transition-opacity',
-  'duration-200',
-  'hover:opacity-100',
-])
+  "relative",
+  "block",
+  "size-15",
+  "shrink-0",
+  "opacity-80",
+  "transition-[opacity,filter]",
+  "duration-200",
+  "hover:opacity-100",
+  "hover:brightness-125",
+]);
 
-export const navbarLogoImageVariants = cva(['size-full', 'object-contain'])
+export const navbarLogoImageVariants = cva(["size-full", "object-contain"]);
 
 export const navbarLinkVariants = cva(
   [

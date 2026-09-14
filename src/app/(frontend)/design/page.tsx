@@ -489,7 +489,7 @@ const Page = () => {
               <Navbar
                 data={{
                   logo: {
-                    src: "/images/dscovr-logo.png",
+                    src: "/images/dscovr-site-logo.svg",
                     alt: "DSCOVR",
                     href: "/",
                   },

@@ -49,9 +49,9 @@ export function RelatedArticles({articles}: {articles: NewsArticle[]}) {
             <Badge
               className={cn(
                 "bg-transparent px-2.25 py-1.25 backdrop-blur-none",
-                OUTLINE_BY_TONE[article.tone ?? "blue"],
+                OUTLINE_BY_TONE[article.tone],
               )}
-              tone={article.tone ?? "blue"}
+              tone={article.tone}
               variant="media"
             >
               {article.tag}

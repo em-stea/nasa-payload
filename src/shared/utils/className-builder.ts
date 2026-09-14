@@ -38,7 +38,14 @@ const themeColors = [
   "icon",
 ] as const;
 
-const isThemeFontSize = (value: string) => /^(?:\d+(?:_\d+)?)$/.test(value);
+/**
+ * La escala de `semantic-tokens/text.css` va de `--text-1` a `--text-200`, con
+ * medios pasos escritos `--text-2_5`. Tailwind traduce el `_` del token al `.`
+ * de la clase, así que en el código se escribe `text-2.5`: hay que aceptar las
+ * dos formas o tailwind-merge lo toma por un color y lo tira cuando la misma
+ * lista trae un `text-<color>`.
+ */
+const isThemeFontSize = (value: string) => /^\d+(?:[._]\d+)?$/.test(value);
 
 const twMerge = extendTailwindMerge({
   extend: {

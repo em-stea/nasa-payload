@@ -1,4 +1,4 @@
-import type {CardTone} from "@/shared/components/card/card";
+import type {BadgeTone} from "@/shared/styles/components/badge";
 
 /**
  * Diccionario de categorías de nasa.gov.
@@ -26,7 +26,7 @@ export type NewsCategory = {
   /** Etiqueta corta para el chip del filtro y el tag de la card. */
   label: string;
   /** Color del tag, del punto y del hover de la card. */
-  tone: CardTone;
+  tone: BadgeTone;
 };
 
 export const NEWS_CATEGORIES = {

@@ -27,7 +27,10 @@ export function NotFoundScreen({className}: {className?: string}) {
     >
       <TelescopeViewport>
         <Container className="flex flex-col items-center gap-4 pb-10 text-center md:pb-14">
-          <Badge variant="alert">
+          {/* La pantalla trae su propio fondo negro en los dos temas, así que
+              el rojo del badge no puede seguir al tema: en claro `destructive`
+              es el rojo oscuro y se perdería contra el cielo. */}
+          <Badge className="text-red-200" variant="alert">
             <Live /> No signal
           </Badge>
 

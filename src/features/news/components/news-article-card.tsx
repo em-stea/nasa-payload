@@ -33,7 +33,7 @@ export function NewsArticleCard({article}: NewsArticleCardProps) {
       >
         <Card.Header>
           <Card.Image />
-          <Card.Tag dot />
+          <Card.Badge dot />
         </Card.Header>
 
         <Card.Body className="flex-1 pb-4">

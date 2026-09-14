@@ -46,18 +46,19 @@ export const footerGroupVariants = cva(["flex", "shrink-0", "items-center", "jus
 });
 
 export const footerLogoVariants = cva([
-  'relative',
-  'block',
-  'size-15',
-  'shrink-0',
-  'overflow-hidden',
-  'opacity-80',
-  'transition-opacity',
-  'duration-200',
-  'hover:opacity-100',
-])
+  "relative",
+  "block",
+  "size-15",
+  "shrink-0",
+  "overflow-hidden",
+  "opacity-80",
+  "transition-[opacity,filter]",
+  "duration-200",
+  "hover:opacity-100",
+  "hover:brightness-125",
+]);
 
-export const footerLogoImageVariants = cva(['size-full', 'object-contain'])
+export const footerLogoImageVariants = cva(["size-full", "object-contain"]);
 
 export const footerLinkVariants = cva([
   "inline-flex",

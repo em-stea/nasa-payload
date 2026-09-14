@@ -25,6 +25,7 @@ export const cardVariants = cva(
         default: "hover:border-foreground, hover:bg-transparent",
         blue: "hover:border-foreground, hover:bg-basic-700",
         red: "hover:border-foreground, hover:bg-basic-700",
+        orange: "hover:border-foreground, hover:bg-basic-700",
       },
       padding: {
         none: "",
@@ -72,20 +73,21 @@ export const cardImageVariants = cva([
 export const cardTagVariants = cva("absolute top-4 left-4", {
   variants: {
     tone: {
-      default: "text-basic-300 border border-basic-300 bg-basic-700",
-      blue: "text-blue-200 border border-basic-00-10 bg-basic-960-90",
-      red: "text-red-200 border border-basic-00-10 bg-basic-960-90",
+      default: "border border-basic-300 bg-basic-700 text-basic-300",
+      blue: "border border-basic-00-10 bg-basic-960-90 text-blue-200",
+      red: "border border-basic-00-10 bg-basic-960-90 text-red-200",
+      orange: "border border-basic-00-10 bg-basic-960-90 text-orange-200",
     },
   },
 });
 
-/** Punto de color del tag: toma el color del `tone` de la card. */
 export const cardTagDotVariants = cva("size-2 shrink-0 rounded-full", {
   variants: {
     tone: {
       default: "bg-basic-00",
       blue: "bg-blue-200",
       red: "bg-red-200",
+      orange: "bg-orange-200",
     },
   },
   defaultVariants: {
@@ -111,6 +113,7 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
       default: "line-clamp-1 text-basic-00 group-hover:text-basic-00",
       blue: "line-clamp-1 text-primary-foreground group-hover:text-foreground",
       red: "line-clamp-1 text-basic-00 group-hover:text-red-300",
+      orange: "line-clamp-1 text-primary-foreground group-hover:text-orange-200",
     },
     size: {
       md: textVariants({variant: "card.title"}),

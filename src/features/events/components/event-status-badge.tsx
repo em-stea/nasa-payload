@@ -1,10 +1,14 @@
 import type {EventStatus} from "@/features/events/types/events";
 
-import {Text} from "@/shared/components/text/text";
-import {cn} from "@/shared/utils/className-builder";
+import {Badge} from "@/shared/components/badge/badge";
+import {badgeVariants} from "@/shared/styles/components/badge";
 
 /**
  * Pastilla de alerta del diseño: un punto y el nivel en mayúsculas.
+ *
+ * Los tres niveles son las tres `full-filled` del frame 321-85, así que salen
+ * de las variantes del Badge en vez de repetir la tabla de colores acá. El
+ * punto toma el color del texto solo.
  *
  * El nivel no viene de EONET —ver `resolveStatus`—, así que el `title` explica
  * de dónde sale en vez de dejarlo como un dato sin origen.
@@ -13,39 +17,33 @@ const STATUS = {
   critical: {
     label: "Critical",
     hint: "Magnitud de ciclón mayor, o traza actualizada en las últimas 24 horas",
-    className: "border-red-200-30 bg-red-700-20 text-red-200",
-    dot: "bg-red-200",
+    variant: "alert",
   },
   elevated: {
     label: "Elevated",
     hint: "Magnitud de tormenta tropical, o traza actualizada en los últimos 3 días",
-    className: "border-blue-200-30 bg-blue-700-20 text-foreground",
-    dot: "bg-foreground",
+    variant: "default",
   },
   monitoring: {
     label: "Monitoring",
     hint: "Evento cerrado o sin actualizaciones recientes",
-    className: "border-border bg-card text-basic-500",
-    dot: "bg-basic-500",
+    variant: "neutral",
   },
-} as const satisfies Record<EventStatus, unknown>;
+} as const satisfies Record<
+  EventStatus,
+  {
+    label: string;
+    hint: string;
+    variant: NonNullable<Parameters<typeof badgeVariants>[0]>["variant"];
+  }
+>;
 
 export function EventStatusBadge({status, className}: {status: EventStatus; className?: string}) {
-  const {label, hint, className: tone, dot} = STATUS[status];
+  const {label, hint, variant} = STATUS[status];
 
   return (
-    <span
-      className={cn(
-        "inline-flex w-fit shrink-0 items-center gap-1.5 rounded-lg border px-2.25 py-1.25",
-        tone,
-        className,
-      )}
-      title={hint}
-    >
-      <span aria-hidden="true" className={cn("size-1.5 shrink-0 rounded-full", dot)} />
-      <Text className="font-bold" variant="meta.1">
-        {label}
-      </Text>
-    </span>
+    <Badge hasDot className={className} title={hint} variant={variant}>
+      {label}
+    </Badge>
   );
 }

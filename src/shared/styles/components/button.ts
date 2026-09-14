@@ -44,7 +44,7 @@ export const buttonVariants = cva(commonClassnames, {
       variant: "secondary",
       size: "xs",
       className:
-        "size-auto shrink-0 border-border bg-background text-3 leading-3 font-bold tracking-1_2 whitespace-nowrap text-primary-foreground uppercase transition-colors duration-200 hover:text-foreground",
+        "size-auto shrink-0 border-border bg-background text-3 leading-3 font-bold tracking-1.2 whitespace-nowrap text-primary-foreground uppercase transition-colors duration-200 hover:text-foreground",
     },
     {
       variant: "secondary",

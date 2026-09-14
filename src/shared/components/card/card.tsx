@@ -9,7 +9,6 @@ import {createContext, use, ViewTransition} from "react";
 import {Badge, badgeVariants} from "@/shared/components/badge/badge";
 import {Separator} from "@/shared/components/separator/separator";
 import {
-  cardAlertDotVariants,
   cardBodyVariants,
   cardDateVariants,
   cardDescriptionVariants,
@@ -125,7 +124,7 @@ function CardBadge({className, dot = false, variant = "default", ...props}: Card
 
   return (
     <Badge
-      className={cn(cardTagVariants({ tone: data.tone }), className)}
+      className={cn(cardTagVariants({tone: data.tone}), className)}
       data-slot="card-tag"
       variant={variant}
       {...props}
@@ -287,26 +286,9 @@ function CardStat({className, index, layout, size, ...props}: CardStatProps) {
   );
 }
 
-// function CardAlert({className, ...props}: BadgeProps) {
-//   const {data} = useCardContext();
-
-//   if (!data.alert) {
-//     return null;
-//   }
-
-//   return (
-//     <Badge className={className} data-slot="card-alert" variant="alert" {...props}>
-//       <span className={cardAlertDotVariants()} data-slot="card-alert-dot" />
-
-//       {data.alert}
-     
-//     </Badge>
-//   );
-// }
-
 export const Card = Object.assign(CardRoot, {
   Header: CardHeader,
-  Badge : CardBadge,
+  Badge: CardBadge,
   Image: CardImage,
   Body: CardBody,
   Title: CardTitle,
@@ -314,7 +296,6 @@ export const Card = Object.assign(CardRoot, {
   Footer: CardFooter,
   Date: CardDate,
   Stat: CardStat,
-  // Alert: CardAlert,
 });
 
 export type CardProps = CardRootProps;

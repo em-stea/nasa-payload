@@ -48,6 +48,8 @@ export function CelestialNearMisses() {
             date: "2026-09-13",
             miss_distance: "100000 km",
             velocity: "100000 km/s",
+            tone: "red",
+            tag: "high alert",
           },
           {
             id: 2,
@@ -55,6 +57,8 @@ export function CelestialNearMisses() {
             date: "2026-09-13",
             miss_distance: "100000 km",
             velocity: "100000 km/s",
+            tone: "default",
+            tag: "monitored",
           },
           {
             id: 3,
@@ -62,6 +66,8 @@ export function CelestialNearMisses() {
             date: "2026-09-13",
             miss_distance: "100000 km",
             velocity: "100000 km/s",
+            tone: "default",
+            tag: "monitored",
           },
           {
             id: 4,
@@ -69,6 +75,8 @@ export function CelestialNearMisses() {
             date: "2026-09-13",
             miss_distance: "100000 km",
             velocity: "100000 km/s",
+            tone: "default",
+            tag: "monitored",
           },
           {
             id: 5,
@@ -76,6 +84,8 @@ export function CelestialNearMisses() {
             date: "2026-09-13",
             miss_distance: "100000 km",
             velocity: "100000 km/s",
+            tone: "default",
+            tag: "monitored",
           },
         ]}
         renderItem={(neo: any) => (

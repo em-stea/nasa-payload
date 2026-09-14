@@ -37,28 +37,29 @@ const commonClassnames = [
   "[&>svg]:size-3",
 ];
 
-/**
- * La tipografía va por variante y no en la base a propósito: `tracking-1.2` y
- * `leading-4` no caen en ningún grupo que tailwind-merge conozca, así que un
- * `textVariants` en la base no lo puede pisar la variante.
- */
 export const badgeVariants = cva(commonClassnames, {
   variants: {
     variant: {
       "full-filled": textVariants({variant: "eyebrow"}),
       default: [
+        textVariants({variant: "eyebrow"}),
         "border-basic-00-10",
-        "bg-basic-960-80",
-        "backdrop-blur-sm",
-        "pt-2.5",
-        "pb-1.75",
-        // 10px/15px con tracking 0.5; no hay un textVariant con esa mezcla.
+        "bg-basic-700",
+        // "backdrop-blur-sm",
+        // "pt-2.5",
+        // "pb-1.75",
         "text-2.5",
         "leading-3.75",
         "tracking-0.5",
         "uppercase",
       ],
-      dark: ["border-gray-200", "bg-basic-950", "px-2", textVariants({variant: "body.4"})],
+      dark: [
+        "border-gray-200",
+        "bg-basic-950",
+        "px-3",
+        "py-2.5",
+        textVariants({variant: "eyebrow"}),
+      ],
     },
     tone: {
       blue: "",
@@ -67,9 +68,12 @@ export const badgeVariants = cva(commonClassnames, {
       neutral: "",
       orange: "",
     },
+    position: {
+      "top-left": "absolute top-4 left-4",
+      relative: "",
+    },
   },
   compoundVariants: [
-    /* El relleno sólo lo pinta `full-filled`. */
     {
       variant: "full-filled",
       tone: "blue",

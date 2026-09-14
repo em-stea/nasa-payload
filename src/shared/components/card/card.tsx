@@ -131,7 +131,7 @@ function CardBadge({className, dot = false, variant = "dark", ...props}: CardTag
 
   return (
     <Badge
-      className={cn("absolute top-4 left-4", className)}
+      className={cn(className)}
       data-slot="card-tag"
       hasDot={dot}
       tone={data.tone}

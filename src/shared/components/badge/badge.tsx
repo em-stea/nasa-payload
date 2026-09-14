@@ -7,12 +7,17 @@ function Badge({
   className,
   variant = "default",
   tone,
+  position = "relative",
   hasDot = false,
   children,
   ...props
 }: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants> & {hasDot?: boolean}) {
   return (
-    <span className={cn(badgeVariants({variant, tone}), className)} data-slot="badge" {...props}>
+    <span
+      className={cn(badgeVariants({variant, tone, position}), className)}
+      data-slot="badge"
+      {...props}
+    >
       {hasDot && <span aria-hidden="true" className={badgeDotVariants()} data-slot="badge-dot" />}
       {children}
     </span>

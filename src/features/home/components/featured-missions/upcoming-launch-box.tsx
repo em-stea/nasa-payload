@@ -19,7 +19,7 @@ export const UpcomingLaunchBox = ({nextUpcomingLaunch}: {nextUpcomingLaunch: any
       <div className="border-blue-200-20 relative flex w-full flex-col gap-2 rounded-[7px] border bg-basic-960-90 px-6 py-6 backdrop-blur-md">
         {/* Mismo caso que el hero de APOD: la placa es oscura en los dos
             temas, así que el badge se queda en el azul claro. */}
-        <Badge hasDot className="text-blue-200">
+        <Badge hasDot className="text-blue-200" variant="full-filled">
           UPCOMING // {date}
         </Badge>
         <Heading className="my-2 uppercase" variant="title.4">

@@ -19,7 +19,10 @@ export function CloseApproachCard({data, className}: CloseApproachCardProps) {
     <Card className={className} data={data} padding="md">
       <Card.Header variant="bar">
         <Card.Title size="sm" />
-        <Card.Badge dot={data.tone === ALERT_TONE} />
+        <Card.Badge
+          dot={data.tone === ALERT_TONE}
+          variant={data.tone === ALERT_TONE ? "full-filled" : "default"}
+        />
       </Card.Header>
       <Card.Body variant="plain">
         {data.stats?.map((stat, index) => (

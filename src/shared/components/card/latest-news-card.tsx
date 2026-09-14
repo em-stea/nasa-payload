@@ -12,7 +12,7 @@ export function LatestNewsCard({data, className}: LatestNewsCardProps) {
     <Card className={className} data={data}>
       <Card.Header>
         <Card.Image />
-        <Card.Badge />
+        <Card.Badge position="top-left" variant="dark" />
       </Card.Header>
       <Card.Body>
         <Card.Title />

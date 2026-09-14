@@ -21,9 +21,9 @@ import {Navbar, type NavbarData, type NavbarLinkItem} from "./navbar";
 
 const NAVBAR_DATA: NavbarData = {
   logo: {
-    src: '/images/dscovr-site-logo.svg',
-    alt: 'DSCOVR',
-    href: '/',
+    src: "/images/dscovr-site-logo.svg",
+    alt: "DSCOVR",
+    href: "/",
   },
 };
 

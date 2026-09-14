@@ -22,10 +22,8 @@ export default async function LiveHero() {
     <section className="w-full border-b border-border bg-basic-960 py-8 sm:py-12">
       <Container className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <Badge
-            className={isLive ? "" : "border-transparent bg-muted text-muted-foreground"}
-            variant={isLive ? "destructive" : undefined}
-          >
+          {/* Al aire es el rojo invertido del diseño; fuera de aire, el gris. */}
+          <Badge tone={isLive ? "light-red" : "neutral"} variant="full-filled">
             <Live className="size-5" /> {isLive ? "ON AIR" : "OFFLINE"}
           </Badge>
 

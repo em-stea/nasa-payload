@@ -1,6 +1,13 @@
 import type {BadgeTone} from "@/shared/styles/components/badge";
 
 /**
+ * Los tonos que usa el diccionario de categorías. Es un subconjunto de
+ * `BadgeTone` —el resto del vocabulario no aplica a una noticia— y es también
+ * lo que la colección de favoritos sabe guardar.
+ */
+export type NewsTone = Extract<BadgeTone, "blue" | "red" | "orange">;
+
+/**
  * Diccionario de categorías de nasa.gov.
  *
  * El WP de nasa.gov taxonomiza cada post con varias `categories` y las expone
@@ -26,7 +33,7 @@ export type NewsCategory = {
   /** Etiqueta corta para el chip del filtro y el tag de la card. */
   label: string;
   /** Color del tag, del punto y del hover de la card. */
-  tone: BadgeTone;
+  tone: NewsTone;
 };
 
 export const NEWS_CATEGORIES = {

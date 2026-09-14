@@ -76,7 +76,7 @@ export function ArticleGallery({figures}: {figures: ArticleFigure[]}) {
           </CarouselContent>
         </Carousel>
 
-        <Badge className="absolute top-4 left-4 px-2.25 py-1.25" tone="blue" variant="media">
+        <Badge className="absolute top-4 left-4 px-2.25 py-1.25" tone="blue" variant="default">
           SRC: {toSourceLabel(active.url)}
         </Badge>
 

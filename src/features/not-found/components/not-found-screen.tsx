@@ -30,7 +30,7 @@ export function NotFoundScreen({className}: {className?: string}) {
           {/* La pantalla trae su propio fondo negro en los dos temas, así que
               el rojo del badge no puede seguir al tema: en claro `destructive`
               es el rojo oscuro y se perdería contra el cielo. */}
-          <Badge className="text-red-200" variant="alert">
+          <Badge className="text-red-200" tone="red" variant="full-filled">
             <Live /> No signal
           </Badge>
 

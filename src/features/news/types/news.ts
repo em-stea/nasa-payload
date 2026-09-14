@@ -1,5 +1,5 @@
+import type {NewsTone} from "@/features/news/constants/categories";
 import type {CardData} from "@/shared/components/card/card";
-import type {BadgeTone} from "@/shared/styles/components/badge";
 
 /**
  * Post tal como lo devuelve el WP REST de nasa.gov, acotado a los `_fields`
@@ -27,7 +27,7 @@ export type NasaPostDetail = NasaPost & {
 export type NewsArticle = CardData & {
   id: number;
   /** Sale siempre de la categoría, así que nunca es el tono neutro de la card. */
-  tone: BadgeTone;
+  tone: NewsTone;
   /** Ruta interna al detalle. */
   href: string;
   /** Permalink original en nasa.gov. */
@@ -53,7 +53,7 @@ export type NewsArticleDetail = {
   sourceUrl: string;
   image?: string;
   tag: string;
-  tone: BadgeTone;
+  tone: NewsTone;
   /** ISO, para el `dateTime` del <time>. */
   publishedAt: string;
   /** Antigüedad formateada por el backend de nasa.gov. */

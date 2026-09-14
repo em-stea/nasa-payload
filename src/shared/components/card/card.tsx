@@ -8,6 +8,7 @@ import {createContext, use, ViewTransition} from "react";
 
 import {Badge, badgeVariants} from "@/shared/components/badge/badge";
 import {Separator} from "@/shared/components/separator/separator";
+import {type BadgeTone} from "@/shared/styles/components/badge";
 import {
   cardBodyVariants,
   cardDateVariants,
@@ -18,8 +19,6 @@ import {
   cardStatLabelVariants,
   cardStatValueVariants,
   cardStatVariants,
-  cardTagDotVariants,
-  cardTagVariants,
   cardTitleVariants,
   cardVariants,
 } from "@/shared/styles/components/card";
@@ -32,7 +31,11 @@ type TimeProps = Omit<ComponentProps<"time">, "dateTime" | "children"> & {
   children?: ReactNode;
 };
 
-export type CardTone = NonNullable<VariantProps<typeof cardVariants>["tone"]>;
+/**
+ * El tono de la card es el mismo del Badge: viaja sin traducción desde el dato
+ * hasta el tag, y de paso decide el hover del borde y el color del título.
+ */
+export type CardTone = BadgeTone;
 
 export type CardStatData = {
   label: string;
@@ -117,25 +120,24 @@ type CardTagProps = BadgeProps & {
   variant?: VariantProps<typeof badgeVariants>["variant"];
 };
 
-function CardBadge({className, dot = false, variant = "default", ...props}: CardTagProps) {
+/**
+ * El tag de la card es la pastilla `dark` del diseño con el tono del dato. La
+ * posición es lo único que aporta la card: el resto sale del Badge.
+ */
+function CardBadge({className, dot = false, variant = "dark", ...props}: CardTagProps) {
   const {data} = useCardContext();
 
   if (!data.tag) return null;
 
   return (
     <Badge
-      className={cn(cardTagVariants({tone: data.tone}), className)}
+      className={cn("absolute top-4 left-4", className)}
       data-slot="card-tag"
+      hasDot={dot}
+      tone={data.tone}
       variant={variant}
       {...props}
     >
-      {dot && (
-        <span
-          aria-hidden="true"
-          className={cardTagDotVariants({tone: data.tone})}
-          data-slot="card-tag-dot"
-        />
-      )}
       {data.tag}
     </Badge>
   );

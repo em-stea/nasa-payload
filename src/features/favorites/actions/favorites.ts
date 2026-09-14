@@ -1,5 +1,6 @@
 "use server";
 
+import type {BadgeTone} from "@/shared/styles/components/badge";
 import type {Where} from "payload";
 
 import {z} from "zod";
@@ -13,7 +14,12 @@ export type FavoriteState = {
   message?: string;
 };
 
-const toneSchema = z.enum(["blue", "red", "orange"]);
+/**
+ * Subconjunto de `BadgeTone` que la colección de Payload sabe guardar: son
+ * los tonos que producen las categorías de noticias, lo único que hoy se
+ * puede marcar como favorito. Ampliarlo pide tocar `Favorites.ts` también.
+ */
+const toneSchema = z.enum(["blue", "red", "orange"] as const satisfies readonly BadgeTone[]);
 
 const favoriteSchema = z.object({
   kind: z.enum(["news", "apod"]),

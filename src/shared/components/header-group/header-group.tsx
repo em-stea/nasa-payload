@@ -24,7 +24,7 @@ export function HeaderGroup({title, description, badge, link}: HeaderGroupProps)
     <div className="flex flex-col items-start justify-between gap-4 pb-6 lg:flex-row lg:items-end lg:gap-0">
       <div className="flex flex-col gap-2">
         {badge && (
-          <Badge variant="destructive">
+          <Badge tone="light-red" variant="full-filled">
             {badge.icon} {badge.text}
           </Badge>
         )}

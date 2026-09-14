@@ -72,7 +72,7 @@ export function AsteroidCard({asteroid}: AsteroidCardProps) {
               className="mt-0.5 shrink-0 uppercase"
               title={status.description}
               tone={status.tone}
-              variant={isCritical ? "alert" : "media"}
+              variant={isCritical ? "full-filled" : "default"}
             >
               {status.label}
             </Badge>

@@ -1,4 +1,5 @@
 import type {NewsArticle} from "@/features/news/types/news";
+import type {BadgeTone} from "@/shared/styles/components/badge";
 
 import Link from "next/link";
 
@@ -17,11 +18,11 @@ import {cn} from "@/shared/utils/className-builder";
  * el tema: `foreground` y `destructive` ya lo hacen. `orange` no tiene par
  * claro en la paleta y queda en su pastel.
  */
-const OUTLINE_BY_TONE = {
+const OUTLINE_BY_TONE: Partial<Record<BadgeTone, string>> = {
   blue: "border-foreground text-foreground",
   red: "border-destructive text-destructive",
   orange: "border-orange-200 text-orange-200",
-} as const;
+};
 
 /**
  * Fila de noticias de la misma categoría.
@@ -52,7 +53,7 @@ export function RelatedArticles({articles}: {articles: NewsArticle[]}) {
                 OUTLINE_BY_TONE[article.tone],
               )}
               tone={article.tone}
-              variant="media"
+              variant="default"
             >
               {article.tag}
             </Badge>

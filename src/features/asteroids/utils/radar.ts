@@ -9,6 +9,12 @@ import type {Asteroid, AsteroidApproach} from "@/features/asteroids/types/astero
  * a menos de 0.05 AU se amontona contra el centro y el resto se pega al borde:
  * la escala real abarca cuatro órdenes de magnitud.
  *
+ * El plano se mira desde arriba, de plano: el barrido y los anillos son
+ * círculos, no elipses en escorzo. Antes la pantalla iba inclinada, llenaba el
+ * panel de punta a punta y los contactos del borde quedaban pegados al marco:
+ * al apuntarlos, el rótulo salía del recorte y no había forma de leerlo. Ahora
+ * la cámara se aleja y el instrumento entra entero.
+ *
  * Va acá y no en el componente porque son cuentas puras y son varias: el
  * componente se queda con el dibujo.
  */
@@ -18,24 +24,41 @@ export const MIN_AU = 0.0005;
 
 export const MAX_AU = 1.5;
 
-export const VIEW_WIDTH = 800;
+/**
+ * El `viewBox` es cuadrado y se dibuja con `meet`.
+ *
+ * El panel es mucho más ancho que alto y encima su ancho no tiene tope —el
+ * container resuelve a 5600px—, así que con `slice` el SVG se escalaba hasta
+ * cubrir el ancho y lo que se perdía era alto: cuanto más grande el monitor,
+ * más se comía de arriba y de abajo. Con un cuadrado y `meet` la escala la
+ * manda siempre el lado corto, así que todo lo que caiga adentro de estas 400
+ * unidades se ve entero en cualquier pantalla. Lo que se dibuja afuera —los
+ * anillos lejanos, el resplandor— se recorta contra el alto del panel, que es
+ * justo el corte que pide el diseño.
+ */
+export const VIEW_SIZE = 400;
 
-export const VIEW_HEIGHT = 400;
+export const CENTER = VIEW_SIZE / 2;
 
-export const CENTER_X = VIEW_WIDTH / 2;
+/** Margen contra el borde del cuadrado: nada legible lo pisa. */
+export const SAFE_MARGIN = 6;
 
-export const CENTER_Y = VIEW_HEIGHT / 2;
+/** Radio del plano donde caen los contactos. */
+export const PLOT_R = 148;
 
 /**
- * El plano del radar se ve en escorzo, como en el diseño: es una elipse, no un
- * círculo. Los semiejes son deliberadamente chicos contra el `viewBox` porque
- * el SVG se recorta con `slice` para llenar el panel —ancho en desktop, casi
- * cuadrado en mobile— y estas medidas son las que sobreviven al recorte en las
- * dos puntas.
+ * Anillo de adorno, fuera del rango de los contactos.
+ *
+ * Se sale del cuadrado a propósito: cortado contra el alto del panel es lo que
+ * hace leer la pantalla como más grande que su marco.
  */
-export const PLOT_RX = 230;
+export const OUTER_R = PLOT_R * 1.5;
 
-export const PLOT_RY = 115;
+/** Anillo lejano, punteado: siempre cortado, da profundidad al fondo. */
+export const FAR_R = PLOT_R * 2;
+
+/** Alcance del fósforo de la pantalla. */
+export const GLOW_R = 330;
 
 /**
  * Anillos de alcance, una década por anillo.
@@ -50,19 +73,11 @@ export const RANGE_RINGS = [
   {au: 1, label: "1 AU"},
 ] as const;
 
-/**
- * Anillo de adorno, fuera del rango de los contactos.
- *
- * Se sale del marco a propósito: recortarse es lo que hace leer la pantalla
- * como más grande que su panel.
- */
-export const OUTER_RING = 1.34;
-
-/** Marcas de rumbo sobre el borde del plano, cada 15°. */
+/** Marcas de rumbo alrededor del plano, cada 15°. */
 export const BEARING_TICKS = Array.from({length: 24}, (_, index) => (index * Math.PI) / 12);
 
-/** Radio del barrido en el espacio circular, antes de achatarlo. */
-export const SWEEP_RADIUS = 340;
+/** Radio del barrido. */
+export const SWEEP_RADIUS = 330;
 
 /** Apertura del haz, en grados. */
 export const SWEEP_DEGREES = 62;
@@ -86,52 +101,71 @@ function hashAngle(id: string) {
   return ((hash >>> 0) / 4294967296) * Math.PI * 2;
 }
 
-/** Distancia → fracción del semieje, en log y dejando libre el centro. */
+/** Recorta un valor a un rango. */
+export function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+/** Distancia → fracción del radio, en log y dejando libre el centro. */
 export function toRatio(au: number) {
-  const clamped = Math.min(Math.max(au, MIN_AU), MAX_AU);
+  const clamped = clamp(au, MIN_AU, MAX_AU);
   const ratio = Math.log10(clamped / MIN_AU) / Math.log10(MAX_AU / MIN_AU);
 
   // El 14% del centro queda para la Tierra.
   return 0.14 + ratio * 0.86;
 }
 
-/** Punto del plano a partir del ángulo y la fracción del semieje. */
+/** Punto del plano a partir del ángulo y la fracción del radio. */
 export function toPoint(angle: number, ratio: number) {
   return {
-    x: CENTER_X + Math.cos(angle) * PLOT_RX * ratio,
-    y: CENTER_Y + Math.sin(angle) * PLOT_RY * ratio,
+    x: CENTER + Math.cos(angle) * PLOT_R * ratio,
+    y: CENTER + Math.sin(angle) * PLOT_R * ratio,
   };
 }
 
-/** Sector circular con el vértice en el centro, para el haz. */
-function buildSweepPath() {
-  const radians = (SWEEP_DEGREES * Math.PI) / 180;
-  const endX = CENTER_X + Math.cos(radians) * SWEEP_RADIUS;
-  const endY = CENTER_Y + Math.sin(radians) * SWEEP_RADIUS;
+/** Punto del borde del barrido, en grados desde el eje +x. */
+function sweepEdge(degrees: number) {
+  const radians = (degrees * Math.PI) / 180;
+
+  return {
+    x: CENTER + Math.cos(radians) * SWEEP_RADIUS,
+    y: CENTER + Math.sin(radians) * SWEEP_RADIUS,
+  };
+}
+
+/** Sector con el vértice en el centro, colgando del filo de ataque. */
+function buildSweepPath(span: number) {
+  const from = sweepEdge(SWEEP_DEGREES - span);
+  const to = sweepEdge(SWEEP_DEGREES);
+  const large = span > 180 ? 1 : 0;
 
   return [
-    `M ${CENTER_X} ${CENTER_Y}`,
-    `L ${CENTER_X + SWEEP_RADIUS} ${CENTER_Y}`,
-    `A ${SWEEP_RADIUS} ${SWEEP_RADIUS} 0 0 1 ${endX.toFixed(1)} ${endY.toFixed(1)}`,
+    `M ${CENTER} ${CENTER}`,
+    `L ${from.x.toFixed(1)} ${from.y.toFixed(1)}`,
+    `A ${SWEEP_RADIUS} ${SWEEP_RADIUS} 0 ${large} 1 ${to.x.toFixed(1)} ${to.y.toFixed(1)}`,
     "Z",
   ].join(" ");
 }
 
-export const SWEEP_PATH = buildSweepPath();
-
 /**
- * Punta del haz, en el espacio circular: el filo que va adelante en el giro.
+ * El haz, en capas.
  *
- * Va sin achatar porque se dibuja adentro del mismo grupo que el sector, que
- * es el que aplica el escorzo.
+ * Un solo sector deja dos filos duros y el barrido se lee como un triángulo
+ * que gira. Apilando sectores que comparten el filo de ataque y se van
+ * abriendo hacia atrás, la estela se apaga de a poco —lo que SVG no da con un
+ * degradé cónico— y queda el resplandor del diseño.
  */
-export const SWEEP_EDGE = {
-  x: CENTER_X + Math.cos((SWEEP_DEGREES * Math.PI) / 180) * SWEEP_RADIUS,
-  y: CENTER_Y + Math.sin((SWEEP_DEGREES * Math.PI) / 180) * SWEEP_RADIUS,
-};
+export const SWEEP_LAYERS = [
+  {span: 150, opacity: 0.35},
+  {span: 90, opacity: 0.4},
+  {span: 48, opacity: 0.5},
+].map(({span, opacity}) => ({span, opacity, path: buildSweepPath(span)}));
+
+/** Punta del haz: el filo que va adelante en el giro. */
+export const SWEEP_EDGE = sweepEdge(SWEEP_DEGREES);
 
 /** Lo mínimo que pueden separarse dos contactos, en unidades del `viewBox`. */
-const MIN_BLIP_GAP = 34;
+const MIN_BLIP_GAP = 26;
 
 /** Lo que gira el contacto tapado en cada pasada, en radianes. */
 const NUDGE = 0.07;

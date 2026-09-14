@@ -16,26 +16,28 @@ import {
 import {
   BEARING_TICKS,
   buildRadarContacts,
-  CENTER_X,
-  CENTER_Y,
+  CENTER,
+  clamp,
+  FAR_R,
+  GLOW_R,
   MAX_AU,
-  OUTER_RING,
-  PLOT_RX,
-  PLOT_RY,
+  OUTER_R,
+  PLOT_R,
   type RadarContact,
   RANGE_RINGS,
+  SAFE_MARGIN,
   SWEEP_EDGE,
-  SWEEP_PATH,
+  SWEEP_LAYERS,
+  SWEEP_RADIUS,
   toPoint,
   toRatio,
-  VIEW_HEIGHT,
-  VIEW_WIDTH,
+  VIEW_SIZE,
 } from "@/features/asteroids/utils/radar";
 import {Text} from "@/shared/components/text/text";
 import {cn} from "@/shared/utils/className-builder";
 
 /**
- * La pantalla de radar del diseño.
+ * La pantalla de radar del diseño, mirada desde arriba.
  *
  * Los contactos son los objetos de la página, ubicados por `utils/radar`: el
  * ángulo sale del id y el radio, de la distancia de su aproximación.
@@ -49,19 +51,38 @@ import {cn} from "@/shared/utils/className-builder";
  * adorno y va en una capa aparte, marcada como tal.
  */
 
-const ORIGIN = `${CENTER_X}px ${CENTER_Y}px`;
+const ORIGIN = `${CENTER}px ${CENTER}px`;
+
+/** Bordes de la zona que se lee entera en cualquier panel. */
+const SAFE_LEFT = SAFE_MARGIN;
+const SAFE_RIGHT = VIEW_SIZE - SAFE_MARGIN;
+const SAFE_TOP = SAFE_MARGIN;
+const SAFE_BOTTOM = VIEW_SIZE - SAFE_MARGIN;
 
 /** Radio del área sensible de cada contacto; el blip dibujado es mucho menor. */
-const HIT_RADIUS = 24;
+const HIT_RADIUS = 23;
 
 /** Media caja del cerco de enganche. */
-const LOCK_SIZE = 15;
+const LOCK_SIZE = 17;
 
 /** Largo de cada gancho del cerco. */
 const LOCK_HOOK = 5;
 
+/**
+ * Hasta dónde llega el filo del haz, como fracción del radio del sector.
+ *
+ * El sector se desvanece con el degradé, pero el filo es una línea sólida: a
+ * radio completo se salía de los anillos y se leía como una raya suelta en el
+ * panel en vez del frente del barrido.
+ */
+const EDGE_REACH = OUTER_R / SWEEP_RADIUS;
+
 /** Distancia del rótulo al centro del blip. */
 const LABEL_OFFSET = 26;
+
+/** Medidas de la caja del rótulo. */
+const LABEL_HEIGHT = 32;
+const LABEL_PAD = 7;
 
 /**
  * Ancho de caracter de JetBrains Mono, en los dos cuerpos del rótulo.
@@ -94,7 +115,15 @@ function buildLockPath(x: number, y: number) {
   ].join(" ");
 }
 
-/** Rótulo del contacto activo, del lado que no se sale del marco. */
+/**
+ * Rótulo del contacto activo.
+ *
+ * Sale del lado de adentro cuando el contacto está en la mitad derecha, y la
+ * caja queda encajada a la fuerza en la zona segura: es lo único del dibujo
+ * que tiene que leerse entero, y el recorte del panel cambia con el ancho de
+ * la pantalla. El guión que lo une al blip se estira hasta donde haya quedado
+ * la caja, así que si tuvo que correrse un poco se nota de dónde viene.
+ */
 function ContactLabel({contact}: {contact: RadarContact}) {
   const name =
     contact.asteroid.name.length > MAX_NAME
@@ -103,32 +132,33 @@ function ContactLabel({contact}: {contact: RadarContact}) {
 
   const meta = `${formatMissAu(contact.approach.missAu)} AU · ${formatVelocity(contact.approach.velocityKmS)}`;
 
-  // Del lado de adentro: en la mitad derecha de la pantalla, un rótulo hacia
-  // afuera se iría contra el borde recortado.
-  const flip = contact.x > CENTER_X;
-  const width = Math.max(name.length * NAME_CHAR, meta.length * META_CHAR) + 14;
+  const flip = contact.x > CENTER;
+  const width = Math.max(name.length * NAME_CHAR, meta.length * META_CHAR) + LABEL_PAD * 2;
   const anchorX = flip ? contact.x - LABEL_OFFSET : contact.x + LABEL_OFFSET;
-  const boxX = flip ? anchorX - width : anchorX;
-  const textX = flip ? anchorX - 7 : anchorX + 7;
+
+  const boxX = clamp(flip ? anchorX - width : anchorX, SAFE_LEFT, SAFE_RIGHT - width);
+  const boxY = clamp(contact.y, SAFE_TOP + LABEL_HEIGHT / 2, SAFE_BOTTOM - LABEL_HEIGHT / 2);
+
+  const textX = flip ? boxX + width - LABEL_PAD : boxX + LABEL_PAD;
   const tone = toneOf(contact.asteroid.hazardous);
 
   return (
     <g className="pointer-events-none">
       <line
-        opacity="0.6"
+        opacity="0.55"
         stroke={tone}
         strokeWidth="1"
         vectorEffect="non-scaling-stroke"
         x1={flip ? contact.x - LOCK_SIZE - 1 : contact.x + LOCK_SIZE + 1}
-        x2={anchorX}
+        x2={flip ? boxX + width : boxX}
         y1={contact.y}
-        y2={contact.y}
+        y2={boxY}
       />
 
       <rect
         fill="var(--color-background)"
         fillOpacity="0.92"
-        height={32}
+        height={LABEL_HEIGHT}
         rx="5"
         stroke={tone}
         strokeOpacity="0.45"
@@ -136,7 +166,7 @@ function ContactLabel({contact}: {contact: RadarContact}) {
         vectorEffect="non-scaling-stroke"
         width={width}
         x={boxX}
-        y={contact.y - 16}
+        y={boxY - LABEL_HEIGHT / 2}
       />
 
       <text
@@ -146,7 +176,7 @@ function ContactLabel({contact}: {contact: RadarContact}) {
         letterSpacing="0.4"
         textAnchor={flip ? "end" : "start"}
         x={textX}
-        y={contact.y - 4}
+        y={boxY - 4}
       >
         {name.toUpperCase()}
       </text>
@@ -157,7 +187,7 @@ function ContactLabel({contact}: {contact: RadarContact}) {
         fontSize="9"
         textAnchor={flip ? "end" : "start"}
         x={textX}
-        y={contact.y + 9}
+        y={boxY + 9}
       >
         {meta}
       </text>
@@ -189,7 +219,7 @@ function Blip({contact, active, dimmed, onActivate}: BlipProps) {
       onPointerEnter={() => onActivate(asteroid.id)}
       onPointerLeave={() => onActivate(null)}
     >
-      {/* El área sensible: sin esto habría que acertarle a un punto de 3.5. */}
+      {/* El área sensible: sin esto habría que acertarle a un punto de 4. */}
       <circle cx={x} cy={y} fill="transparent" r={HIT_RADIUS} />
 
       {asteroid.hazardous && (
@@ -199,7 +229,7 @@ function Blip({contact, active, dimmed, onActivate}: BlipProps) {
           cy={y}
           fill={tone}
           opacity="0.35"
-          r="9"
+          r="11"
           style={{transformOrigin: `${x}px ${y}px`}}
         />
       )}
@@ -210,10 +240,10 @@ function Blip({contact, active, dimmed, onActivate}: BlipProps) {
         cy={y}
         fill={tone}
         opacity={active ? 0.35 : 0.2}
-        r={active ? 11 : 9}
+        r={active ? 13 : 11}
       />
 
-      <circle cx={x} cy={y} fill={tone} r="3.5" />
+      <circle cx={x} cy={y} fill={tone} r="4" />
 
       {active && (
         <>
@@ -224,9 +254,9 @@ function Blip({contact, active, dimmed, onActivate}: BlipProps) {
             strokeDasharray="3 4"
             strokeWidth="1"
             vectorEffect="non-scaling-stroke"
-            x1={CENTER_X}
+            x1={CENTER}
             x2={x}
-            y1={CENTER_Y}
+            y1={CENTER}
             y2={y}
           />
 
@@ -296,111 +326,151 @@ export function RadarAperture({asteroids}: {asteroids: Asteroid[]}) {
 
   return (
     <TelemetrySection readout="[360° sweep active]" title="Radar aperture">
-      <div className="relative h-72 w-full overflow-hidden rounded-2xl border border-border bg-muted sm:h-96 lg:h-104">
+      <div className="relative h-72 w-full overflow-hidden rounded-2xl border border-border bg-muted sm:h-96 lg:h-120">
+        {/* El resplandor de fondo va en CSS y no en el SVG: el instrumento se
+            escala con el alto del panel, pero el ancho no tiene tope, y esto
+            es lo único que tiene que llegar hasta las dos puntas. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(75%_140%_at_50%_50%,var(--color-blue-700-20)_0%,transparent_72%)]"
+        />
+
         <svg
           aria-hidden="true"
           className="absolute inset-0 size-full"
-          preserveAspectRatio="xMidYMid slice"
+          preserveAspectRatio="xMidYMid meet"
           role="presentation"
-          viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
+          viewBox={`0 0 ${VIEW_SIZE} ${VIEW_SIZE}`}
         >
           <defs>
-            <radialGradient cx="50%" cy="50%" id="radar-sweep" r="50%">
-              <stop offset="0%" stopColor="var(--color-foreground)" stopOpacity="0.32" />
+            {/* Los dos gradientes van en el espacio del dibujo y no en la caja
+                de cada forma: el haz es un sector que no arranca en su propio
+                centro, y con las coordenadas relativas el degradé le quedaba
+                corrido respecto del centro del radar. */}
+            <radialGradient
+              cx={CENTER}
+              cy={CENTER}
+              gradientUnits="userSpaceOnUse"
+              id="radar-sweep"
+              r={SWEEP_RADIUS}
+            >
+              <stop offset="0%" stopColor="var(--color-foreground)" stopOpacity="0.26" />
+              <stop offset="45%" stopColor="var(--color-foreground)" stopOpacity="0.1" />
               <stop offset="100%" stopColor="var(--color-foreground)" stopOpacity="0" />
             </radialGradient>
 
-            <radialGradient cx="50%" cy="50%" id="radar-screen" r="50%">
-              <stop offset="0%" stopColor="var(--color-blue-700)" stopOpacity="0.16" />
-              <stop offset="70%" stopColor="var(--color-blue-700)" stopOpacity="0.05" />
+            <radialGradient
+              cx={CENTER}
+              cy={CENTER}
+              gradientUnits="userSpaceOnUse"
+              id="radar-screen"
+              r={GLOW_R}
+            >
+              <stop offset="0%" stopColor="var(--color-blue-700)" stopOpacity="0.24" />
+              <stop offset="45%" stopColor="var(--color-blue-700)" stopOpacity="0.1" />
               <stop offset="100%" stopColor="var(--color-blue-700)" stopOpacity="0" />
             </radialGradient>
           </defs>
 
           {/* El fósforo de la pantalla: un tinte que se apaga hacia el borde. */}
-          <ellipse
-            cx={CENTER_X}
-            cy={CENTER_Y}
-            fill="url(#radar-screen)"
-            rx={PLOT_RX * OUTER_RING}
-            ry={PLOT_RY * OUTER_RING}
-          />
+          <circle cx={CENTER} cy={CENTER} fill="url(#radar-screen)" r={GLOW_R} />
 
-          {/* El haz gira en el espacio circular y recién después se achata: al
-              revés, la rotación deformaría el sector en cada cuadrante. El
-              filo que va adelante en el giro va adentro del mismo grupo —es lo
-              que hace leer el barrido como un barrido— y con el trazo sin
-              escalar, que si no el escorzo lo adelgaza. */}
-          <g style={{transform: `scaleY(${PLOT_RY / PLOT_RX})`, transformOrigin: ORIGIN}}>
-            <g
-              className="animate-[spin_9s_linear_infinite] motion-reduce:animate-none"
-              style={{transformOrigin: ORIGIN}}
-            >
-              <path d={SWEEP_PATH} fill="url(#radar-sweep)" />
-
-              <line
-                opacity="0.35"
-                stroke="var(--color-foreground)"
-                strokeWidth="1.2"
-                vectorEffect="non-scaling-stroke"
-                x1={CENTER_X}
-                x2={SWEEP_EDGE.x}
-                y1={CENTER_Y}
-                y2={SWEEP_EDGE.y}
+          {/* El haz, de plano: la pantalla se mira desde arriba, así que gira
+              en círculo y no hay escorzo que corregir. El filo que va adelante
+              en el giro va adentro del mismo grupo —es lo que hace leer el
+              barrido como un barrido— y con el trazo sin escalar, que si no el
+              tamaño del panel lo engorda. */}
+          <g
+            className="animate-[spin_12s_linear_infinite] motion-reduce:animate-none"
+            style={{transformOrigin: ORIGIN}}
+          >
+            {SWEEP_LAYERS.map((layer) => (
+              <path
+                d={layer.path}
+                fill="url(#radar-sweep)"
+                fillOpacity={layer.opacity}
+                key={layer.span}
               />
-            </g>
+            ))}
+
+            <line
+              opacity="0.32"
+              stroke="var(--color-foreground)"
+              strokeWidth="1.2"
+              vectorEffect="non-scaling-stroke"
+              x1={CENTER}
+              x2={CENTER + (SWEEP_EDGE.x - CENTER) * EDGE_REACH}
+              y1={CENTER}
+              y2={CENTER + (SWEEP_EDGE.y - CENTER) * EDGE_REACH}
+            />
+          </g>
+
+          {/* Los anillos lejanos: fuera del rango de los contactos y cortados
+              por el marco, que es lo que hace leer la pantalla como más grande
+              que su panel. */}
+          <g fill="none" opacity="0.16" stroke="var(--color-muted-foreground)">
+            <circle
+              cx={CENTER}
+              cy={CENTER}
+              r={FAR_R}
+              strokeDasharray="3 7"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+            />
           </g>
 
           <g fill="none" opacity="0.22" stroke="var(--color-muted-foreground)">
             {RANGE_RINGS.map((ring) => (
-              <ellipse
-                cx={CENTER_X}
-                cy={CENTER_Y}
+              <circle
+                cx={CENTER}
+                cy={CENTER}
                 key={ring.au}
-                rx={PLOT_RX * toRatio(ring.au)}
-                ry={PLOT_RY * toRatio(ring.au)}
+                r={PLOT_R * toRatio(ring.au)}
                 strokeWidth="1"
                 vectorEffect="non-scaling-stroke"
               />
             ))}
 
-            <ellipse
-              cx={CENTER_X}
-              cy={CENTER_Y}
-              rx={PLOT_RX * OUTER_RING}
-              ry={PLOT_RY * OUTER_RING}
+            <circle
+              cx={CENTER}
+              cy={CENTER}
+              r={OUTER_R}
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
             />
 
+            {/* La cruz de rumbo llega hasta el anillo de adorno: estirada a
+                todo el `viewBox` se leía como dos líneas sueltas del panel y
+                no como parte del instrumento. */}
             <line
               strokeDasharray="6 6"
               strokeWidth="0.8"
-              x1="0"
-              x2={VIEW_WIDTH}
-              y1={CENTER_Y}
-              y2={CENTER_Y}
+              x1={CENTER - OUTER_R}
+              x2={CENTER + OUTER_R}
+              y1={CENTER}
+              y2={CENTER}
             />
             <line
               strokeDasharray="6 6"
               strokeWidth="0.8"
-              x1={CENTER_X}
-              x2={CENTER_X}
-              y1="0"
-              y2={VIEW_HEIGHT}
+              x1={CENTER}
+              x2={CENTER}
+              y1={CENTER - OUTER_R}
+              y2={CENTER + OUTER_R}
             />
           </g>
 
-          {/* Marcas de rumbo sobre el borde del plano. */}
+          {/* Marcas de rumbo, entre el plano y el anillo de adorno. */}
           <g opacity="0.35" stroke="var(--color-muted-foreground)">
             {BEARING_TICKS.map((angle, index) => {
-              const from = toPoint(angle, 1);
-              const to = toPoint(angle, index % 6 === 0 ? 1.08 : 1.04);
+              const major = index % 6 === 0;
+              const from = toPoint(angle, 1.08);
+              const to = toPoint(angle, major ? 1.24 : 1.17);
 
               return (
                 <line
                   key={angle}
-                  strokeWidth={index % 6 === 0 ? 1.6 : 1}
+                  strokeWidth={major ? 1.6 : 1}
                   vectorEffect="non-scaling-stroke"
                   x1={from.x}
                   x2={to.x}
@@ -413,17 +483,17 @@ export function RadarAperture({asteroids}: {asteroids: Asteroid[]}) {
 
           {/* El alcance de cada anillo; en mobile el panel no da para leerlos. */}
           <g className="hidden sm:block">
-            {RANGE_RINGS.map((ring) => (
+            {RANGE_RINGS.map((ring, index) => (
               <text
                 className="font-jetbrains-mono"
                 fill="var(--color-muted-foreground)"
                 fontSize="9"
                 key={ring.au}
-                letterSpacing="0.5"
+                letterSpacing="0.4"
                 opacity="0.7"
                 textAnchor="middle"
-                x={CENTER_X + PLOT_RX * toRatio(ring.au)}
-                y={CENTER_Y - 7}
+                x={CENTER + PLOT_R * toRatio(ring.au)}
+                y={index % 2 === 0 ? CENTER - 8 : CENTER + 17}
               >
                 {ring.label}
               </text>
@@ -431,15 +501,16 @@ export function RadarAperture({asteroids}: {asteroids: Asteroid[]}) {
           </g>
 
           {/* La Tierra, en el centro del barrido. */}
-          <circle cx={CENTER_X} cy={CENTER_Y} fill="url(#radar-screen)" r="26" />
-          <circle cx={CENTER_X} cy={CENTER_Y} fill="var(--color-blue-700)" opacity="0.6" r="13" />
+          <circle cx={CENTER} cy={CENTER} fill="url(#radar-screen)" r="30" />
+          <circle cx={CENTER} cy={CENTER} fill="var(--color-blue-700)" opacity="0.6" r="14" />
           <circle
-            cx={CENTER_X}
-            cy={CENTER_Y}
+            cx={CENTER}
+            cy={CENTER}
             fill="none"
-            r="13"
+            r="14"
             stroke="var(--color-foreground)"
             strokeWidth="1.5"
+            vectorEffect="non-scaling-stroke"
           />
         </svg>
 
@@ -447,7 +518,7 @@ export function RadarAperture({asteroids}: {asteroids: Asteroid[]}) {
             seco contra el marco. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_50%,transparent_45%,var(--color-muted)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(140%_115%_at_50%_50%,transparent_55%,var(--color-muted)_100%)]"
         />
 
         {/* Los contactos van en su propia capa: mismo `viewBox` y mismo
@@ -455,8 +526,8 @@ export function RadarAperture({asteroids}: {asteroids: Asteroid[]}) {
             sin heredar el `aria-hidden` del adorno. */}
         <svg
           className="pointer-events-none absolute inset-0 size-full"
-          preserveAspectRatio="xMidYMid slice"
-          viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
+          preserveAspectRatio="xMidYMid meet"
+          viewBox={`0 0 ${VIEW_SIZE} ${VIEW_SIZE}`}
         >
           {painted.map((contact) => (
             <Blip

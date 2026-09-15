@@ -117,7 +117,7 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
     {
       variant: "plain",
       tone: "neutral",
-      class: "border border-red-500 text-primary-foreground",
+      class: "text-primary-foreground group-hover:text-primary-foreground",
     },
   ],
   defaultVariants: {

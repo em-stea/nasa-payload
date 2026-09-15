@@ -233,6 +233,7 @@ export const drawerThemeRowVariants = cva([
   "flex",
   "w-full",
   "shrink-0",
+  "cursor-pointer",
   "items-center",
   "justify-between",
   "rounded-lg",

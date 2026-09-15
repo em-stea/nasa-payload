@@ -77,10 +77,8 @@ function DarkModeSwitch() {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <div className={drawerThemeRowVariants()}>
-      <label className={drawerThemeLabelVariants()} htmlFor="drawer-dark-mode">
-        Dark Mode
-      </label>
+    <label className={drawerThemeRowVariants()} htmlFor="drawer-dark-mode">
+      <span className={drawerThemeLabelVariants()}>Dark Mode</span>
       <Switch
         checked={isDark}
         className={drawerSwitchVariants()}
@@ -88,7 +86,7 @@ function DarkModeSwitch() {
         thumbClassName={drawerSwitchThumbVariants()}
         onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
       />
-    </div>
+    </label>
   );
 }
 

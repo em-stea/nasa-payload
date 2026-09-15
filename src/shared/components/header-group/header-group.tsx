@@ -31,7 +31,9 @@ export function HeaderGroup({title, description, badge, link}: HeaderGroupProps)
 
         <Heading variant="title.2">{title}</Heading>
 
-        <Text className="max-w-2xl" color="basic-300" variant="body.3">
+        {/* `basic-300` es fijo: en claro queda gris clarito sobre blanco. El rol
+            resuelve al mismo `basic-300` en oscuro. */}
+        <Text className="max-w-2xl" color="muted-foreground" variant="body.3">
           {description}
         </Text>
       </div>

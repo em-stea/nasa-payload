@@ -10,7 +10,7 @@ export const UpcomingLaunchBox = ({nextUpcomingLaunch}: {nextUpcomingLaunch: any
       <span
         style={{
           background:
-            "conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 340deg, rgba(147, 197, 253, 0.8) 355deg, transparent 360deg)",
+            "conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 340deg, color-mix(in oklch, var(--foreground) 85%, transparent) 355deg, transparent 360deg)",
           animation: "spin 6s linear infinite",
         }}
         className="absolute -inset-full -top-full -left-full h-[300%] w-[300%]"

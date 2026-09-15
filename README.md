@@ -1,5 +1,8 @@
 # NASA Backoffice
 
+<img width="1512" height="826" alt="Screenshot 2026-09-15 at 16 55 40" src="https://github.com/user-attachments/assets/6585c51e-8584-4692-8431-b2ce6ba9f1f7" />
+
+
 Backoffice hecho con [Payload 3](https://payloadcms.com) + Next.js para moderar los
 comentarios del blog de noticias de la NASA. La única entidad de negocio es
 `comments`; las noticias viven en el blog y acá se referencian por su id.

@@ -19,9 +19,25 @@ export type LatestFrontiersPage = {
   totalItems: number;
 };
 
+/** Detalle de un item del catálogo, con la descripción completa y su metadata. */
+export type LatestFrontierDetail = {
+  id: string;
+  tag: string;
+  tags: string[];
+  title: string;
+  description: string;
+  image?: string;
+  date: string;
+  dateTime: string;
+  center?: string;
+  photographer?: string;
+  location?: string;
+  tone?: CardTone;
+};
+
 /**
- * Forma cruda de `images-api.nasa.gov/search`, acotada a lo que consume
- * `parseLatestFrontier`.
+ * Forma cruda de `images-api.nasa.gov/search`, acotada a lo que consumen
+ * `parseLatestFrontier` y `getLatestFrontier`.
  */
 export type ImagesApiItem = {
   data: Array<{
@@ -30,6 +46,9 @@ export type ImagesApiItem = {
     description?: string;
     date_created: string;
     keywords?: string[];
+    center?: string;
+    photographer?: string;
+    location?: string;
   }>;
   links?: Array<{href: string; rel: string; render: string}>;
 };

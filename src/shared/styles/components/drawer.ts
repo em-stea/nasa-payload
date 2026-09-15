@@ -3,16 +3,9 @@ import {cva} from "class-variance-authority";
 import {headingVariants} from "./heading";
 import {textVariants} from "./text";
 
-export const drawerOverlayVariants = cva([
-  "fixed",
-  "inset-0",
-  "z-50",
-  "bg-basic-960-80",
-  "data-[state=open]:animate-in",
-  "data-[state=closed]:animate-out",
-  "data-[state=open]:fade-in-0",
-  "data-[state=closed]:fade-out-0",
-]);
+// El fade y el slide-in/out los resuelve vaul (data-vaul-overlay/data-vaul-drawer),
+// así que no se replican acá con tailwindcss-animate para no animar por duplicado.
+export const drawerOverlayVariants = cva(["fixed", "inset-0", "z-50", "bg-basic-960-80"]);
 
 export const drawerContentVariants = cva([
   "fixed",
@@ -35,12 +28,6 @@ export const drawerContentVariants = cva([
   "shadow-drawer",
   "backdrop-blur-6",
   "focus:outline-none",
-  "data-[state=open]:animate-in",
-  "data-[state=closed]:animate-out",
-  "data-[state=open]:slide-in-from-right",
-  "data-[state=closed]:slide-out-to-right",
-  "data-[state=open]:duration-300",
-  "data-[state=closed]:duration-200",
 ]);
 
 /* ---------------------------------- Header --------------------------------- */

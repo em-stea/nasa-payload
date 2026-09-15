@@ -6,8 +6,8 @@ import {signIn, signOut, useSession} from "next-auth/react";
 import {useTheme} from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
-import {Dialog} from "radix-ui";
 import {type ComponentProps, type ReactNode, useState} from "react";
+import {Drawer} from "vaul";
 
 import {AUTH_PROVIDERS, type AuthProviderId} from "@/features/auth/providers";
 import {UnreadNotificationsBadge} from "@/features/notifications/components/unread-badge";
@@ -134,18 +134,18 @@ export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
   const isAuthenticated = status === "authenticated" && Boolean(user);
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+    <Drawer.Root direction="right" open={open} onOpenChange={onOpenChange}>
+      <Drawer.Trigger asChild>{children}</Drawer.Trigger>
 
-      <Dialog.Portal>
-        <Dialog.Overlay className={drawerOverlayVariants()} />
+      <Drawer.Portal>
+        <Drawer.Overlay className={drawerOverlayVariants()} />
 
-        <Dialog.Content className={drawerContentVariants()} data-slot="user-drawer">
-          <Dialog.Description className="sr-only">
+        <Drawer.Content className={drawerContentVariants()} data-slot="user-drawer">
+          <Drawer.Description className="sr-only">
             {isAuthenticated
               ? "Perfil, tema y preferencias de la cuenta."
               : "Iniciá sesión para acceder a tu cuenta."}
-          </Dialog.Description>
+          </Drawer.Description>
 
           <div className={drawerHeaderVariants()} data-slot="user-drawer-header">
             <div className={drawerIdentityVariants()}>
@@ -165,9 +165,9 @@ export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
                     )}
                   </span>
                   <span className={drawerUserMetaVariants()}>
-                    <Dialog.Title className={drawerUserNameVariants()}>
+                    <Drawer.Title className={drawerUserNameVariants()}>
                       {user?.name ?? "Astronaut"}
-                    </Dialog.Title>
+                    </Drawer.Title>
                     {user?.email && <span className={drawerUserEmailVariants()}>{user.email}</span>}
                   </span>
                 </>
@@ -176,14 +176,14 @@ export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
                   <span className="flex size-10 items-center justify-center rounded-full bg-blue-700-20">
                     <User />
                   </span>
-                  <Dialog.Title className={drawerTitleVariants()}>User Profile</Dialog.Title>
+                  <Drawer.Title className={drawerTitleVariants()}>User Profile</Drawer.Title>
                 </>
               )}
             </div>
 
-            <Dialog.Close aria-label="Cerrar" className={drawerCloseVariants()}>
+            <Drawer.Close aria-label="Cerrar" className={drawerCloseVariants()}>
               <Cross className={drawerCloseIconVariants()} />
-            </Dialog.Close>
+            </Drawer.Close>
           </div>
 
           <div className={drawerBodyVariants()} data-slot="user-drawer-body">
@@ -199,13 +199,13 @@ export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
                 <h4 className={drawerSectionTitleVariants()}>Preferences</h4>
                 <nav className={drawerNavVariants()}>
                   {PREFERENCE_LINKS.map(({href, label, icon: Icon, showUnread}) => (
-                    <Dialog.Close asChild key={href}>
+                    <Drawer.Close asChild key={href}>
                       <Link className={cn(drawerNavLinkVariants())} href={href}>
                         <Icon className={drawerNavLinkIconVariants()} />
                         {label}
                         {showUnread && <UnreadNotificationsBadge />}
                       </Link>
-                    </Dialog.Close>
+                    </Drawer.Close>
                   ))}
                 </nav>
               </section>
@@ -224,8 +224,8 @@ export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
               </button>
             </div>
           )}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
   );
 }

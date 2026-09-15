@@ -40,7 +40,7 @@ importers:
         version: 8.6.0(react@19.2.6)
       globe.gl:
         specifier: ^2.46.2
-        version: 2.46.2(preact-render-to-string@6.5.11(preact@10.24.3))
+        version: 2.46.2(preact-render-to-string@6.5.11)
       graphql:
         specifier: ^16.8.1
         version: 16.14.2
@@ -86,6 +86,9 @@ importers:
       usehooks-ts:
         specifier: ^3.1.1
         version: 3.1.1(react@19.2.6)
+      vaul:
+        specifier: ^1.1.2
+        version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       zod:
         specifier: ^4.6.1
         version: 4.6.1
@@ -4374,6 +4377,12 @@ packages:
     resolution: {integrity: sha512-vzi9uRZ926x4XV73S/4qQaTwPXM2JBj6/6lI/byHH1jOpCzb0zDbfytgA9LcN/hzb2l7WQSQnxITOVx5un/wGw==}
     hasBin: true
 
+  vaul@1.1.2:
+    resolution: {integrity: sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
 
@@ -7344,11 +7353,11 @@ snapshots:
 
   flatted@3.4.4: {}
 
-  float-tooltip@1.7.5(preact-render-to-string@6.5.11(preact@10.24.3)):
+  float-tooltip@1.7.5(preact-render-to-string@6.5.11):
     dependencies:
       d3-selection: 3.0.0
       kapsule: 1.16.3
-      preact: 10.29.8(preact-render-to-string@6.5.11(preact@10.24.3))
+      preact: 10.29.8(preact-render-to-string@6.5.11)
     transitivePeerDependencies:
       - preact-render-to-string
 
@@ -7434,14 +7443,14 @@ snapshots:
       define-properties: 1.2.1
       gopd: 1.2.0
 
-  globe.gl@2.46.2(preact-render-to-string@6.5.11(preact@10.24.3)):
+  globe.gl@2.46.2(preact-render-to-string@6.5.11):
     dependencies:
       '@tweenjs/tween.js': 25.0.0
       accessor-fn: 1.5.3
       kapsule: 1.16.3
       three: 0.186.0
       three-globe: 2.45.2(three@0.186.0)
-      three-render-objects: 1.42.0(preact-render-to-string@6.5.11(preact@10.24.3))(three@0.186.0)
+      three-render-objects: 1.42.0(preact-render-to-string@6.5.11)(three@0.186.0)
     transitivePeerDependencies:
       - preact-render-to-string
 
@@ -8438,7 +8447,7 @@ snapshots:
 
   preact@10.24.3: {}
 
-  preact@10.29.8(preact-render-to-string@6.5.11(preact@10.24.3)):
+  preact@10.29.8(preact-render-to-string@6.5.11):
     optionalDependencies:
       preact-render-to-string: 6.5.11(preact@10.24.3)
 
@@ -9007,11 +9016,11 @@ snapshots:
       three-slippy-map-globe: 1.0.6(three@0.186.0)
       tinycolor2: 1.6.0
 
-  three-render-objects@1.42.0(preact-render-to-string@6.5.11(preact@10.24.3))(three@0.186.0):
+  three-render-objects@1.42.0(preact-render-to-string@6.5.11)(three@0.186.0):
     dependencies:
       '@tweenjs/tween.js': 25.0.0
       accessor-fn: 1.5.3
-      float-tooltip: 1.7.5(preact-render-to-string@6.5.11(preact@10.24.3))
+      float-tooltip: 1.7.5(preact-render-to-string@6.5.11)
       kapsule: 1.16.3
       polished: 4.3.1
       three: 0.186.0
@@ -9200,6 +9209,15 @@ snapshots:
   utf8-byte-length@1.0.5: {}
 
   uuid@13.0.2: {}
+
+  vaul@1.1.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+    dependencies:
+      '@radix-ui/react-dialog': 1.1.23(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
 
   vfile-message@4.0.3:
     dependencies:

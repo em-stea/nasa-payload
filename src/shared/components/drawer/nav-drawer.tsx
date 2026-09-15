@@ -5,7 +5,7 @@ import type {ReactNode} from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-import {Dialog} from "radix-ui";
+import {Drawer} from "vaul";
 
 import {Cross} from "@/shared/components/icons/feedback/cross";
 import {
@@ -43,16 +43,16 @@ export function NavDrawer({children, logo, links, activePath, open, onOpenChange
     !!activePath && normalizePath(href) === normalizePath(activePath);
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+    <Drawer.Root direction="right" open={open} onOpenChange={onOpenChange}>
+      <Drawer.Trigger asChild>{children}</Drawer.Trigger>
 
-      <Dialog.Portal>
-        <Dialog.Overlay className={drawerOverlayVariants()} />
+      <Drawer.Portal>
+        <Drawer.Overlay className={drawerOverlayVariants()} />
 
-        <Dialog.Content className={drawerContentVariants()} data-slot="nav-drawer">
-          <Dialog.Description className="sr-only">
+        <Drawer.Content className={drawerContentVariants()} data-slot="nav-drawer">
+          <Drawer.Description className="sr-only">
             Navegación principal del sitio.
-          </Dialog.Description>
+          </Drawer.Description>
 
           <div className={drawerHeaderVariants()} data-slot="nav-drawer-header">
             <div className={drawerIdentityVariants()}>
@@ -67,9 +67,9 @@ export function NavDrawer({children, logo, links, activePath, open, onOpenChange
               </span>
             </div>
 
-            <Dialog.Close aria-label="Cerrar" className={drawerCloseVariants()}>
+            <Drawer.Close aria-label="Cerrar" className={drawerCloseVariants()}>
               <Cross className={drawerCloseIconVariants()} />
-            </Dialog.Close>
+            </Drawer.Close>
           </div>
 
           <div className={drawerBodyVariants()} data-slot="nav-drawer-body">
@@ -80,7 +80,7 @@ export function NavDrawer({children, logo, links, activePath, open, onOpenChange
                   const current = isActive(href);
 
                   return (
-                    <Dialog.Close asChild key={href}>
+                    <Drawer.Close asChild key={href}>
                       <Link
                         aria-current={current ? "page" : undefined}
                         className={drawerNavLinkVariants({active: current})}
@@ -89,14 +89,14 @@ export function NavDrawer({children, logo, links, activePath, open, onOpenChange
                         {showDot && <span aria-hidden="true" className={navbarDotVariants()} />}
                         {label}
                       </Link>
-                    </Dialog.Close>
+                    </Drawer.Close>
                   );
                 })}
               </nav>
             </section>
           </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
   );
 }

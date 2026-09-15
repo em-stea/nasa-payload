@@ -18,18 +18,35 @@ import {cn} from "@/shared/utils/className-builder";
 import {ScrambleValue} from "./scramble-value";
 import {FLIGHT_DURATION_MS, GlobeEarth} from "./wrapper-earth";
 
+/** Agrega un id sin romper la identidad del set cuando ya estaba. */
+function withId(ids: ReadonlySet<string>, id: string) {
+  return ids.has(id) ? ids : new Set(ids).add(id);
+}
+
+/**
+ * Qué toma está elegida y en qué maniobra. El `turn` existe porque el id no
+ * alcanza para distinguir dos elecciones: salir de una toma y volver a entrar
+ * tiene que volver a esperar el giro del globo, y sin el contador la llegada
+ * de la maniobra anterior seguiría dando por buena a la nueva.
+ */
+type Selection = {captureId: string | null; turn: number};
+
+function toSelection(current: Selection, captureId: string | null): Selection {
+  return {captureId, turn: current.turn + 1};
+}
+
 type ReadoutProps = {
   label: string;
   /** Vacío mientras no haya toma elegida: la lectura queda en guión. */
   value: string;
-  /** La fecha de captura va en el azul del diseño; las coordenadas, en blanco. */
+  /** La fecha de captura va en el azul del diseño; las coordenadas, en neutro. */
   accent?: boolean;
 };
 
 function Readout({label, value, accent}: ReadoutProps) {
   return (
     <div className="flex flex-col gap-1.25">
-      <Text className="font-normal text-basic-500" variant="body.2">
+      <Text className="font-normal text-muted-foreground" variant="body.2">
         {label}
       </Text>
 
@@ -38,13 +55,13 @@ function Readout({label, value, accent}: ReadoutProps) {
           className={cn(
             textVariants({variant: "body.1"}),
             "leading-6 whitespace-nowrap",
-            accent ? "text-blue-200" : "text-basic-00",
+            accent ? "text-foreground" : "text-primary-foreground",
           )}
           key={value}
           value={value}
         />
       ) : (
-        <Text className="leading-6 text-basic-500" variant="body.1">
+        <Text className="leading-6 text-muted-foreground" variant="body.1">
           —
         </Text>
       )}
@@ -55,11 +72,11 @@ function Readout({label, value, accent}: ReadoutProps) {
 /** El punto sub-satelital de la toma elegida, como la card del diseño. */
 function CaptureReadouts({capture}: {capture: EpicCapture | null}) {
   return (
-    <div className="grid w-full grid-cols-2 gap-2 rounded-xl border-t border-l border-basic-00-10 bg-basic-950-60 px-4 pt-4 pb-4 shadow-card backdrop-blur-sm">
+    <div className="grid w-full grid-cols-2 gap-2 rounded-xl border-t border-l border-border bg-card/60 px-4 pt-4 pb-4 shadow-card backdrop-blur-sm">
       <Readout label="Latitude" value={capture ? toLatitudeLabel(capture) : ""} />
       <Readout label="Longitude" value={capture ? toLongitudeLabel(capture) : ""} />
 
-      <div className="col-span-2 mt-2 border-t border-basic-00-10 pt-2.25">
+      <div className="col-span-2 mt-2 border-t border-border pt-2.25">
         <Readout
           accent
           label="Capture date"
@@ -77,32 +94,62 @@ type EpicExplorerProps = {
 };
 
 export function EpicExplorer({captures, children}: EpicExplorerProps) {
-  const [activeCaptureId, setActiveCaptureId] = useState<string | null>(null);
+  const [selection, setSelection] = useState<Selection>({captureId: null, turn: 0});
   /**
-   * La foto que está —o estuvo— sobre el globo. Sobrevive a la deselección
-   * para que el disco se desvanezca en vez de desaparecer de un frame al otro.
+   * Las tomas cuyo disco ya está montado y, por lo tanto, bajando. Entra la
+   * elegida y también la que el lector está por elegir: el archivo del EPIC es
+   * lento y esos JPG son de 2048px, así que empezar la descarga recién al
+   * hacer click se siente como una espera muerta.
    */
-  const [photoCapture, setPhotoCapture] = useState<EpicCapture | null>(null);
+  const [requestedIds, setRequestedIds] = useState<ReadonlySet<string>>(() => new Set());
+  /** Las que ya terminaron de bajar; sólo esas se pueden mostrar. */
+  const [loadedIds, setLoadedIds] = useState<ReadonlySet<string>>(() => new Set());
+  /** La maniobra que el globo ya terminó de hacer. */
+  const [arrivedTurn, setArrivedTurn] = useState<number | null>(null);
 
+  const activeCaptureId = selection.captureId;
   const activeCapture = captures.find(({id}) => id === activeCaptureId) ?? null;
 
-  /**
-   * El disco real entra recién cuando el globo terminó de girar: hasta ahí se
-   * ve la maniobra, y el cambio de foto queda escondido detrás del fundido.
-   */
-  useEffect(() => {
-    if (!activeCapture) return;
-
-    const timeout = setTimeout(() => setPhotoCapture(activeCapture), FLIGHT_DURATION_MS);
-
-    return () => clearTimeout(timeout);
-  }, [activeCapture]);
-
-  const handleSelectCapture = useCallback((captureId: string) => {
-    setActiveCaptureId((current) => (current === captureId ? null : captureId));
+  const handleRequestCapture = useCallback((captureId: string) => {
+    setRequestedIds((current) => withId(current, captureId));
   }, []);
 
-  const isPhotoVisible = Boolean(activeCapture) && photoCapture?.id === activeCaptureId;
+  const handleSelectCapture = useCallback(
+    (captureId: string) => {
+      handleRequestCapture(captureId);
+      setSelection((current) =>
+        toSelection(current, current.captureId === captureId ? null : captureId),
+      );
+    },
+    [handleRequestCapture],
+  );
+
+  /** El giro del globo hasta la toma elegida. */
+  useEffect(() => {
+    if (!selection.captureId) return;
+
+    const timeout = setTimeout(() => setArrivedTurn(selection.turn), FLIGHT_DURATION_MS);
+
+    return () => clearTimeout(timeout);
+  }, [selection]);
+
+  /**
+   * El disco real entra recién cuando el globo terminó de girar *y* la foto
+   * terminó de bajar. Esperar sólo al giro no alcanza: un `img` sigue pintando
+   * los píxeles de su fuente anterior hasta que decodifica la nueva, así que
+   * al revelarlo a ciegas aparecía un rato la toma anterior y recién después
+   * la elegida.
+   */
+  const isPhotoReady =
+    activeCaptureId !== null && arrivedTurn === selection.turn && loadedIds.has(activeCaptureId);
+
+  /**
+   * Todas las que se pidieron quedan montadas: las que no se ven pesan lo que
+   * pesa un `img` transparente y son las que hacen que la elegida ya esté en
+   * caché. La que se desmontaría —la anterior— se queda además para poder
+   * desvanecerse en vez de desaparecer de un frame al otro.
+   */
+  const photoCaptures = captures.filter(({id}) => requestedIds.has(id));
 
   return (
     // Dos mitades iguales, como el diseño: la bajada y la card miden lo mismo
@@ -115,29 +162,45 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
       </div>
 
       <div className="flex flex-col items-center gap-4 justify-self-center">
-        <div className="relative size-80 rounded-full border border-red-200-30 p-2.5 shadow-[0px_0px_40px_0px_rgba(255,179,173,0.2)] sm:size-96 lg:size-112">
-          <div className="size-full rounded-full border border-red-200-30 bg-basic-970 p-2.5">
+        <div className="relative size-80 rounded-full border border-destructive/30 p-2.5 shadow-[0px_0px_40px_0px] shadow-basic-950/40 sm:size-96 lg:size-112">
+          <div className="size-full rounded-full border border-destructive/30 bg-basic-970 p-2.5">
+            {/* El visor es siempre el mismo pozo negro: lo que se ve adentro es
+                espacio, no chrome del sitio, así que no sigue al tema. */}
             <div className="relative size-full overflow-hidden rounded-full border border-basic-00-10 bg-basic-970 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
               <GlobeEarth
                 activeCaptureId={activeCaptureId}
                 captures={captures}
+                onRequestCapture={handleRequestCapture}
                 onSelectCapture={handleSelectCapture}
               />
 
-              {photoCapture && (
-                <Image
-                  fill
-                  className={cn(
-                    // Sobre los pines —el disco real ya es esa toma— y a la
-                    // escala del globo, para que el fundido calce.
-                    "pointer-events-none z-10 scale-[1.28] object-cover transition-opacity duration-700",
-                    isPhotoVisible ? "opacity-100" : "opacity-0",
-                  )}
-                  alt={photoCapture.caption}
-                  sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 320px"
-                  src={photoCapture.imageUrl}
-                />
-              )}
+              {photoCaptures.map((capture) => {
+                const isVisible = isPhotoReady && capture.id === activeCaptureId;
+
+                return (
+                  <Image
+                    fill
+                    className={cn(
+                      // Sobre los pines: el disco real ya es esa toma.
+                      "pointer-events-none z-10 object-cover transition-[opacity,scale,filter] duration-1000 ease-out",
+                      // Entra desenfocada y un punto más grande, y termina en
+                      // la escala del globo —donde el disco calza con la
+                      // esfera—: así parece posarse encima en vez de aparecer
+                      // de un frame al otro.
+                      isVisible
+                        ? "scale-[1.28] opacity-100 blur-none"
+                        : "scale-[1.34] opacity-0 blur-[6px]",
+                    )}
+                    alt={isVisible ? capture.caption : ""}
+                    key={capture.id}
+                    // Se monta para bajar, no para esperar a entrar en pantalla.
+                    loading="eager"
+                    sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 320px"
+                    src={capture.imageUrl}
+                    onLoad={() => setLoadedIds((current) => withId(current, capture.id))}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -145,7 +208,7 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
         {/* Siempre montado: si apareciera y desapareciera, el globo saltaría. */}
         <Text
           className={cn(
-            "text-center text-basic-500 transition-opacity duration-500",
+            "text-center text-muted-foreground transition-opacity duration-500",
             activeCapture ? "opacity-0" : "opacity-100",
           )}
           variant="meta.1"
@@ -158,7 +221,7 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
           active={!activeCapture}
           size="xs"
           variant="primary"
-          onClick={() => setActiveCaptureId(null)}
+          onClick={() => setSelection((current) => toSelection(current, null))}
         >
           Live globe
         </Button>

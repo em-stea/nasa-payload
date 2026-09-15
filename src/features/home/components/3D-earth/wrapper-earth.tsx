@@ -38,7 +38,7 @@ const ATMOSPHERE_COLOR = "#3a228a";
  * sacó. Se construye a mano porque la capa HTML de `globe.gl` monta nodos DOM,
  * no JSX.
  */
-function createCaptureMarker(capture: EpicCapture, onSelect: () => void) {
+function createCaptureMarker(capture: EpicCapture, onSelect: () => void, onRequest: () => void) {
   const marker = document.createElement("button");
 
   marker.type = "button";
@@ -47,6 +47,11 @@ function createCaptureMarker(capture: EpicCapture, onSelect: () => void) {
   marker.className =
     "group pointer-events-auto cursor-pointer rounded-full transition-opacity duration-300";
   marker.addEventListener("click", onSelect);
+  // La foto de 2048px empieza a bajar cuando el pin se apunta, no cuando se
+  // elige: el archivo del EPIC tarda más que el giro del globo, así que
+  // arrancarla con el click deja al lector mirando el globo pelado.
+  marker.addEventListener("pointerenter", onRequest);
+  marker.addEventListener("focus", onRequest);
 
   const frame = document.createElement("span");
 
@@ -73,9 +78,16 @@ type GlobeEarthProps = {
   /** La toma elegida; `null` deja el globo rotando solo. */
   activeCaptureId: string | null;
   onSelectCapture: (captureId: string) => void;
+  /** Aviso de que una toma está por elegirse: su foto puede ir bajando. */
+  onRequestCapture: (captureId: string) => void;
 };
 
-export function GlobeEarth({captures, activeCaptureId, onSelectCapture}: GlobeEarthProps) {
+export function GlobeEarth({
+  captures,
+  activeCaptureId,
+  onSelectCapture,
+  onRequestCapture,
+}: GlobeEarthProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef(new Map<string, HTMLElement>());
@@ -90,10 +102,12 @@ export function GlobeEarth({captures, activeCaptureId, onSelectCapture}: GlobeEa
 
   /** Los pines se crean una sola vez; el click siempre llama al handler vigente. */
   const selectRef = useRef(onSelectCapture);
+  const requestRef = useRef(onRequestCapture);
 
   useEffect(() => {
     selectRef.current = onSelectCapture;
-  }, [onSelectCapture]);
+    requestRef.current = onRequestCapture;
+  }, [onSelectCapture, onRequestCapture]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -202,7 +216,11 @@ export function GlobeEarth({captures, activeCaptureId, onSelectCapture}: GlobeEa
       .htmlLng("lng")
       .htmlElement((data) => {
         const capture = data as EpicCapture;
-        const marker = createCaptureMarker(capture, () => selectRef.current(capture.id));
+        const marker = createCaptureMarker(
+          capture,
+          () => selectRef.current(capture.id),
+          () => requestRef.current(capture.id),
+        );
 
         markers.set(capture.id, marker);
 

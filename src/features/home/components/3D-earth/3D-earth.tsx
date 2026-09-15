@@ -15,11 +15,14 @@ export default async function ThreeDEarth() {
   const captures = await getEPIC3DImages();
 
   return (
-    <section className="relative my-10 w-full overflow-hidden bg-basic-950 py-12">
+    // `text-primary-foreground` porque la home fuerza `text-basic-00` en el
+    // `main`: sobre el fondo claro ese blanco deja la sección en blanco sobre
+    // blanco, y el rol es el mismo blanco en oscuro.
+    <section className="relative my-10 w-full overflow-hidden bg-background py-12 text-primary-foreground">
       {/* El lavado azul que baja sobre el globo, como en el diseño. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 left-1/2 bg-linear-to-l from-blue-200/5 to-transparent"
+        className="pointer-events-none absolute inset-y-0 right-0 left-1/2 bg-linear-to-l from-primary/5 to-transparent"
       />
 
       <Container>

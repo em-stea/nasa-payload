@@ -168,6 +168,7 @@ const COLOR_GROUPS = [
     name: "gray",
     tokens: [
       {label: "bg-gray-100", className: "bg-gray-100", token: "--gray-100", hex: "#E1E2ED"},
+      {label: "bg-gray-150", className: "bg-gray-150", token: "--gray-150", hex: "#C9CAD4"},
       {label: "bg-gray-200", className: "bg-gray-200", token: "--gray-200", hex: "#262626"},
       {label: "bg-gray-300", className: "bg-gray-300", token: "--gray-300", hex: "#171717"},
       {label: "bg-gray-400", className: "bg-gray-400", token: "--gray-400", hex: "#3b3b3b"},
@@ -185,6 +186,7 @@ const COLOR_GROUPS = [
         hex: "#B4C5FF 30%",
       },
       {label: "bg-blue-300", className: "bg-blue-300", token: "--blue-300", hex: "#A1B2ED"},
+      {label: "bg-blue-400", className: "bg-blue-400", token: "--blue-400", hex: "#7F90C9"},
       {label: "bg-blue-700", className: "bg-blue-700", token: "--blue-700", hex: "#2563EB"},
       {
         label: "bg-blue-700-20",
@@ -201,6 +203,7 @@ const COLOR_GROUPS = [
     tokens: [
       {label: "bg-red-200", className: "bg-red-200", token: "--red-200", hex: "#FFB4AB"},
       {label: "bg-red-300", className: "bg-red-300", token: "--red-300", hex: "#FFB3AD"},
+      {label: "bg-red-400", className: "bg-red-400", token: "--red-400", hex: "#DB8C86"},
       {label: "bg-red-700", className: "bg-red-700", token: "--red-700", hex: "#93000A"},
       {
         label: "bg-red-700-20",

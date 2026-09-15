@@ -101,7 +101,7 @@ export const drawerCloseVariants = cva([
   "transition-colors",
   "duration-200",
   "hover:cursor-pointer",
-  "hover:text-basic-00",
+  "hover:text-icon-foreground-hover",
   "focus-visible:ring-2",
   "focus-visible:ring-blue-200",
   "focus-visible:outline-none",
@@ -125,7 +125,7 @@ export const drawerSectionVariants = cva(["flex", "w-full", "shrink-0", "flex-co
 export const drawerSectionTitleVariants = cva([
   "w-full",
   "px-3",
-  "text-basic-500",
+  "text-secondary-foreground",
   textVariants({variant: "meta.2"}),
 ]);
 
@@ -185,7 +185,8 @@ export const drawerLoginVariants = cva(
     "gap-2",
     "rounded-lg",
     "py-3",
-    "shadow-drawer-action",
+    // "shadow-drawer-action",
+    "shadow-button",
     "transition-colors",
     "duration-200",
     "hover:cursor-pointer",
@@ -196,8 +197,6 @@ export const drawerLoginVariants = cva(
     "focus-visible:ring-offset-2",
     "focus-visible:ring-offset-basic-700",
     "focus-visible:outline-none",
-    // "text-icon-foreground",
-    // "bg-gray-100",
     textVariants({variant: "button.2"}),
   ],
   {
@@ -238,8 +237,8 @@ export const drawerThemeRowVariants = cva([
   "justify-between",
   "rounded-lg",
   "border",
-  "border-basic-00-05",
-  "bg-basic-00-05",
+  "border-secondary-background",
+  "bg-light-background",
   "p-3.25",
 ]);
 
@@ -248,7 +247,7 @@ export const drawerThemeLabelVariants = cva([
   "shrink-0",
   "items-center",
   "gap-2",
-  "text-basic-300",
+  "text-muted-foreground",
   textVariants({variant: "drawer.item"}),
 ]);
 
@@ -272,21 +271,20 @@ export const drawerSwitchVariants = cva([
   "focus-visible:ring-offset-basic-700",
   "focus-visible:outline-none",
   "data-[state=checked]:bg-blue-200",
-  "data-[state=unchecked]:bg-basic-00-10",
+  "data-[state=unchecked]:bg-gray-150",
 ]);
 
 export const drawerSwitchThumbVariants = cva([
   "block",
   "size-3",
   "rounded-full",
-  // ídem: sin `!` el thumb salta sin animar al togglear el tema.
   "transition-transform!",
   "duration-200!",
   "will-change-transform",
   "data-[state=checked]:translate-x-5",
   "data-[state=checked]:bg-blue-900",
   "data-[state=unchecked]:translate-x-0",
-  "data-[state=unchecked]:bg-basic-300",
+  "data-[state=unchecked]:bg-basic-00",
 ]);
 
 /* ---------------------------------- Footer ---------------------------------- */

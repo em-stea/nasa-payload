@@ -16,7 +16,7 @@ export const UpcomingLaunchBox = ({nextUpcomingLaunch}: {nextUpcomingLaunch: any
         className="absolute -inset-full -top-full -left-full h-[300%] w-[300%]"
       />
 
-      <div className="border-blue-200-20 relative flex w-full flex-col gap-2 rounded-[7px] border bg-basic-960-90 px-6 py-6 backdrop-blur-md">
+      <div className="border-blue-200-20 relative flex w-full flex-col gap-2 rounded-[7px] border bg-card-highlight px-6 py-6 backdrop-blur-md">
         <Badge hasDot className="text-blue-200" variant="full-filled">
           UPCOMING // {date}
         </Badge>

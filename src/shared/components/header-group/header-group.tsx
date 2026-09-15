@@ -29,11 +29,11 @@ export function HeaderGroup({title, description, badge, link}: HeaderGroupProps)
           </Badge>
         )}
 
-        <Heading variant="title.2">{title}</Heading>
+        <Heading className="pt-2 text-inverted-text" variant="title.2">
+          {title}
+        </Heading>
 
-        {/* `basic-300` es fijo: en claro queda gris clarito sobre blanco. El rol
-            resuelve al mismo `basic-300` en oscuro. */}
-        <Text className="max-w-2xl" color="muted-foreground" variant="body.3">
+        <Text className="max-w-2xl text-inverted-text-secondary" variant="body.3">
           {description}
         </Text>
       </div>

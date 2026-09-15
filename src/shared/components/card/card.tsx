@@ -85,6 +85,7 @@ function CardRoot({className, data, padding, children, variant, ...props}: CardR
     <CardContext value={{data, variant}}>
       <div
         className={cn(
+          "group",
           cardVariants({
             variant: variant,
             tone: data.tone,
@@ -117,15 +118,10 @@ function CardHeader({className, variant, children, ...props}: CardHeaderProps) {
 }
 
 type CardTagProps = BadgeProps & {
-  /** Antepone el punto de color del tone, como en las cards de noticias. */
   dot?: boolean;
   variant?: VariantProps<typeof badgeVariants>["variant"];
 };
 
-/**
- * El tag de la card es la pastilla `dark` del diseño con el tono del dato. La
- * posición es lo único que aporta la card: el resto sale del Badge.
- */
 function CardBadge({className, dot = false, variant = "dark", ...props}: CardTagProps) {
   const {data} = useCardContext();
 
@@ -170,7 +166,9 @@ function CardImage({className, sizes = "(max-width: 768px) 100vw, 33vw", ...prop
 
 type CardBodyProps = DivProps & VariantProps<typeof cardBodyVariants>;
 
-function CardBody({className, variant, children, ...props}: CardBodyProps) {
+function CardBody({className, children, ...props}: CardBodyProps) {
+  const {variant} = useCardContext();
+
   return (
     <div className={cn(cardBodyVariants({variant}), className)} data-slot="card-body" {...props}>
       {children}
@@ -189,8 +187,6 @@ function CardTitle({className, size, children, ...props}: CardTitleProps) {
       data-slot="card-title"
       {...props}
     >
-      {/* Por defecto pinta el título de `data`; se le pueden pasar children
-          para envolverlo (por ejemplo en un link que estira su área de click). */}
       {children ?? data.title}
     </div>
   );

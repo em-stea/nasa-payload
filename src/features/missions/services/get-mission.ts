@@ -5,10 +5,9 @@ import {cacheLife, cacheTag} from "next/cache";
 import {findMissionImage} from "@/features/missions/services/get-mission-image";
 import {resolveMissionTone} from "@/features/missions/utils/mission-tone";
 import {stripHtml} from "@/features/missions/utils/strip-html";
+import {FRONT_ENV} from "@/shared/config/front-config";
+import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
 import {http, HttpError} from "@/shared/services/http";
-import {getNasaApiKey} from "@/shared/services/nasa-api-key";
-
-const TECHPORT_PROJECTS_ENDPOINT = "https://api.nasa.gov/techport/api/projects";
 
 type ProjectContact = NonNullable<
   TechPortProjectDetailResponse["project"]["projectContacts"]
@@ -33,8 +32,8 @@ export async function getMission(id: string): Promise<MissionDetail | null> {
 
   try {
     const {data} = await http.get<TechPortProjectDetailResponse>(
-      `${TECHPORT_PROJECTS_ENDPOINT}/${id}`,
-      {searchParams: {api_key: getNasaApiKey()}},
+      `${NASA_ENDPOINTS.techport}/projects/${id}`,
+      {searchParams: {api_key: FRONT_ENV.NEXT_PUBLIC_NASA_API_KEY}},
     );
 
     const project = data.project;

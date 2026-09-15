@@ -18,4 +18,12 @@ export const NASA_ENDPOINTS = {
   neo: "https://api.nasa.gov/neo/rest/v1",
   /** NASA Image and Video Library: búsqueda de imágenes por keyword/fecha. */
   images: "https://images-api.nasa.gov",
+  /** TechPort: catálogo de proyectos de tecnología en desarrollo. */
+  techport: "https://api.nasa.gov/techport/api",
+  /**
+   * Launch Library 2 (TheSpaceDevs). No es de la NASA, pero es el único
+   * calendario de lanzamientos abierto que publica el próximo despegue; la
+   * NASA no expone uno.
+   */
+  launches: "https://ll.thespacedevs.com/2.2.0",
 } as const;

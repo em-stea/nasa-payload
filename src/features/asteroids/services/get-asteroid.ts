@@ -3,9 +3,9 @@ import type {AsteroidDetail, NeoObject} from "@/features/asteroids/types/asteroi
 import {cacheLife, cacheTag} from "next/cache";
 
 import {parseAsteroidDetail} from "@/features/asteroids/utils/parse-asteroid";
+import {FRONT_ENV} from "@/shared/config/front-config";
 import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
 import {http, HttpError} from "@/shared/services/http";
-import {getNasaApiKey} from "@/shared/services/nasa-api-key";
 
 /**
  * Un objeto del catálogo, pedido por su id de NeoWs.
@@ -27,7 +27,7 @@ export async function getAsteroid(id: string): Promise<AsteroidDetail | null> {
 
   try {
     const {data} = await http.get<NeoObject>(`${NASA_ENDPOINTS.neo}/neo/${id}`, {
-      searchParams: {api_key: getNasaApiKey()},
+      searchParams: {api_key: FRONT_ENV.NEXT_PUBLIC_NASA_API_KEY},
       timeoutMs: TIMEOUT_MS,
     });
 

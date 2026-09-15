@@ -1,5 +1,14 @@
 import {z} from "zod";
 
+/**
+ * Variables de entorno del front, validadas al importar el módulo.
+ *
+ * `NEXT_PUBLIC_NASA_API_KEY` es la única clave de `api.nasa.gov` del proyecto:
+ * la piden todos los services que pegan a `api.nasa.gov` (NeoWs, TechPort). No
+ * hay fallback a `DEMO_KEY` a propósito —cortaba a 30 requests por hora y por
+ * IP, y fallaba tarde y en silencio—: si falta, el build se cae acá con el
+ * nombre de la variable.
+ */
 const envSchema = z.object({
   NEXT_PUBLIC_ENVIRONMENT: z.string().min(1),
   NEXT_PUBLIC_NASA_API_KEY: z.string().min(1),

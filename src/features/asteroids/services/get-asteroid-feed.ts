@@ -3,9 +3,9 @@ import type {AsteroidPage, NeoBrowseResponse} from "@/features/asteroids/types/a
 import {cacheLife} from "next/cache";
 
 import {parseAsteroid} from "@/features/asteroids/utils/parse-asteroid";
+import {FRONT_ENV} from "@/shared/config/front-config";
 import {NASA_ENDPOINTS} from "@/shared/constants/nasa-endpoints";
 import {http, HttpError} from "@/shared/services/http";
-import {getNasaApiKey} from "@/shared/services/nasa-api-key";
 
 /**
  * Catálogo de objetos cercanos a la Tierra (NeoWs `/neo/browse`).
@@ -52,7 +52,7 @@ export async function getAsteroidFeed({
         // NeoWs pagina desde cero; la UI, desde uno.
         page: safePage - 1,
         size: ASTEROIDS_PER_PAGE,
-        api_key: getNasaApiKey(),
+        api_key: FRONT_ENV.NEXT_PUBLIC_NASA_API_KEY,
       },
       timeoutMs: TIMEOUT_MS,
     });

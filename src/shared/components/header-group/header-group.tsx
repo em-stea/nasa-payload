@@ -29,9 +29,11 @@ export function HeaderGroup({title, description, badge, link}: HeaderGroupProps)
           </Badge>
         )}
 
-        <Heading variant="title.2">{title}</Heading>
+        <Heading className="pt-2 text-inverted-text" variant="title.2">
+          {title}
+        </Heading>
 
-        <Text className="max-w-2xl" color="basic-300" variant="body.3">
+        <Text className="max-w-2xl text-inverted-text-secondary" variant="body.3">
           {description}
         </Text>
       </div>

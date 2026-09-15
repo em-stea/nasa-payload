@@ -29,7 +29,7 @@ type ReadoutProps = {
 function Readout({label, value, accent}: ReadoutProps) {
   return (
     <div className="flex flex-col gap-1.25">
-      <Text className="font-normal text-basic-500" variant="body.2">
+      <Text className="font-normal text-secondary-foreground" variant="body.2">
         {label}
       </Text>
 
@@ -38,7 +38,7 @@ function Readout({label, value, accent}: ReadoutProps) {
           className={cn(
             textVariants({variant: "body.1"}),
             "leading-6 whitespace-nowrap",
-            accent ? "text-blue-200" : "text-basic-00",
+            accent ? "text-primary" : "text-muted-foreground-text",
           )}
           key={value}
           value={value}
@@ -52,14 +52,13 @@ function Readout({label, value, accent}: ReadoutProps) {
   );
 }
 
-/** El punto sub-satelital de la toma elegida, como la card del diseño. */
 function CaptureReadouts({capture}: {capture: EpicCapture | null}) {
   return (
-    <div className="grid w-full grid-cols-2 gap-2 rounded-xl border-t border-l border-basic-00-10 bg-basic-950-60 px-4 pt-4 pb-4 shadow-card backdrop-blur-sm">
+    <div className="border-border-primary-10 grid w-full grid-cols-2 gap-2 rounded-xl border-t border-l bg-card-readout px-4 pt-4 pb-4 shadow-readout">
       <Readout label="Latitude" value={capture ? toLatitudeLabel(capture) : ""} />
       <Readout label="Longitude" value={capture ? toLongitudeLabel(capture) : ""} />
 
-      <div className="col-span-2 mt-2 border-t border-basic-00-10 pt-2.25">
+      <div className="col-span-2 mt-2 border-t border-secondary-border pt-4">
         <Readout
           accent
           label="Capture date"
@@ -72,7 +71,6 @@ function CaptureReadouts({capture}: {capture: EpicCapture | null}) {
 
 type EpicExplorerProps = {
   captures: EpicCapture[];
-  /** La bajada de la sección, renderizada en el server. */
   children: ReactNode;
 };
 
@@ -105,8 +103,6 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
   const isPhotoVisible = Boolean(activeCapture) && photoCapture?.id === activeCaptureId;
 
   return (
-    // Dos mitades iguales, como el diseño: la bajada y la card miden lo mismo
-    // que la columna, así sus bordes coinciden en cualquier ancho.
     <div className="grid items-center gap-8 lg:grid-cols-2">
       <div className="flex flex-col gap-4">
         {children}
@@ -128,8 +124,6 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
                 <Image
                   fill
                   className={cn(
-                    // Sobre los pines —el disco real ya es esa toma— y a la
-                    // escala del globo, para que el fundido calce.
                     "pointer-events-none z-10 scale-[1.28] object-cover transition-opacity duration-700",
                     isPhotoVisible ? "opacity-100" : "opacity-0",
                   )}
@@ -142,10 +136,9 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
           </div>
         </div>
 
-        {/* Siempre montado: si apareciera y desapareciera, el globo saltaría. */}
         <Text
           className={cn(
-            "text-center text-basic-500 transition-opacity duration-500",
+            "text-center text-secondary-foreground transition-opacity duration-500",
             activeCapture ? "opacity-0" : "opacity-100",
           )}
           variant="meta.1"
@@ -153,7 +146,6 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
           Pick a capture on the globe
         </Text>
 
-        {/* La salida de la toma elegida; en vivo queda encendido, como estado. */}
         <Button
           active={!activeCapture}
           size="xs"

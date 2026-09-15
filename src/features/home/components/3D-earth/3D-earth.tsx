@@ -5,18 +5,11 @@ import {Live} from "@/shared/components/icons/other/live";
 
 import {EpicExplorer} from "./epic-explorer";
 
-/**
- * El globo y las fotos del EPIC son la misma escena: cada toma del día queda
- * clavada sobre su punto sub-satelital y, al elegirla, el globo gira hasta ese
- * punto y el disco real se funde encima. La navegación es estado de cliente
- * —vive en `EpicExplorer`—; acá sólo se resuelve el fetch y la bajada.
- */
 export default async function ThreeDEarth() {
   const captures = await getEPIC3DImages();
 
   return (
-    <section className="relative my-10 w-full overflow-hidden bg-basic-950 py-12">
-      {/* El lavado azul que baja sobre el globo, como en el diseño. */}
+    <section className="relative my-10 w-full overflow-hidden bg-background-secondary py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 right-0 left-1/2 bg-linear-to-l from-blue-200/5 to-transparent"

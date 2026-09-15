@@ -21,9 +21,11 @@
 [data-theme="light"] {
   --background: var(--basic-00);
   --foreground: var(--blue-900);
+  --background-secondary: var(--gray-100);
 
   --card: var(--basic-00);
   --card-foreground: var(--basic-500);
+  --card-readout: var(--color-basic-00-05);
 
   --primary: var(--blue-700);
   --primary-foreground: var(--basic-950);
@@ -42,7 +44,7 @@
   --accent-foreground: var(--basic-00);
   --highlight: var(--blue-700);
 
-  --destructive: var(--red-700);
+  --destructive: var(--red-900);
   --destructive-foreground: var(--basic-00);
 
   --border: var(--basic-300);
@@ -52,23 +54,32 @@
 
   --primary-text: var(--basic-00);
   --primary-background: var(--blue-1000);
+  --inverted-text: var(--basic-900);
+  --inverted-text-secondary: var(--basic-900);
 
   --drawer-background: var(--basic-00);
 
-  /* Chrome del sitio: navbar y footer */
+  --primary-border: var(--gray-100);
+  --secondary-border: var(--basic-300);
+
   --transparency-navbar: var(--basic-00-80);
   --navbar-border: var(--basic-300);
   --footer-background: var(--gray-100);
   --footer-border: var(--basic-300);
   --live-dot: var(--red-700);
+
+  --shadow-readout: 0px 4px 16px -2px rgba(3, 31, 84, 0.08), 
+                   0px 2px 6px -1px rgba(3, 31, 84, 0.04);
 }
 
 [data-theme="dark"] {
   --background: var(--basic-960);
   --foreground: var(--blue-200);
+  --background-secondary: var(--basic-950);
 
   --card: var(--basic-960);
   --card-foreground: var(--basic-950-60);
+  --card-readout: var(--basic-950-60);
 
   --primary: var(--blue-200);
   --primary-foreground: var(--basic-00);
@@ -97,16 +108,22 @@
 
   --primary-text: var(--blue-900);
   --primary-background: var(--blue-300);
-
+  --inverted-text: var(--basic-00);
+  --inverted-text-secondary: var(--basic-300);
 
   --drawer-background: var(--basic-700-90);
 
-  /* Chrome del sitio: navbar y footer */
+  --primary-border: var(--basic-00);
+  --secondary-border: var(--basic-00-10);
+
   --transparency-navbar: var(--basic-960-80);
   --navbar-border: var(--basic-00-10);
   --footer-background: var(--basic-960);
   --footer-border: var(--basic-00-05);
   --live-dot: var(--red-200);
+
+  --shadow-readout: 0px 8px 24px -4px rgba(0, 0, 0, 0.4), 
+                   0px 2px 8px -2px rgba(0, 0, 0, 0.25);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -164,12 +181,16 @@
   --shadow-drawer: var(--effect-shadow-drawer);
   --shadow-drawer-action: var(--effect-shadow-drawer-action);
 
+  --shadow-readout: var(--shadow-readout);
+
   /* Semantic (cambian con data-theme) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-background-secondary: var(--background-secondary);
 
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-card-readout: var(--card-readout);
 
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -197,6 +218,8 @@
 
   --color-primary-text: var(--primary-text);
   --color-primary-background: var(--primary-background);
+  --color-inverted-text: var(--inverted-text);
+  --color-inverted-text-secondary: var(--inverted-text-secondary);
 
   --color-transparency-navbar: var(--transparency-navbar);
   --color-navbar-border: var(--navbar-border);
@@ -206,4 +229,7 @@
 
   --color-drawer-background: var(--drawer-background);
   --color-icon-foreground: var(--icon-foreground);
+
+  --color-primary-border: var(--border-primary);
+  --color-secondary-border: var(--secondary-border);
 }

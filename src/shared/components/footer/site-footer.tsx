@@ -28,6 +28,8 @@ const FOOTER_LINKS: FooterLinkItem[] = [
 ];
 
 export function SiteFooter() {
+  const year = new Date().getFullYear();
+
   return (
     <Footer data={FOOTER_DATA}>
       <Footer.Group>
@@ -43,7 +45,7 @@ export function SiteFooter() {
       </Footer.Nav>
 
       <Footer.Group>
-        <Footer.Copyright>© 2024 DSCOVR. Powered by NASA Open APIs.</Footer.Copyright>
+        <Footer.Copyright>© {year} DSCOVR. Powered by NASA Open APIs.</Footer.Copyright>
       </Footer.Group>
     </Footer>
   );

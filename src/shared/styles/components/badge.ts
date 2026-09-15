@@ -18,6 +18,8 @@ import {textVariants} from "./text";
  */
 export type BadgeTone = "blue" | "red" | "light-red" | "neutral" | "orange";
 
+export type BadgeVariant = "full-filled" | "default" | "dark";
+
 const commonClassnames = [
   "inline-flex",
   "w-fit",

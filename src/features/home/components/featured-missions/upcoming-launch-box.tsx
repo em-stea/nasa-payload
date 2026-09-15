@@ -1,8 +1,14 @@
+import type {UpcomingLaunch} from "@/features/home/types/launch";
+
 import {Badge} from "@/shared/components/badge/badge";
 import {Heading} from "@/shared/components/heading/heading";
 import {Text} from "@/shared/components/text/text";
 
-export const UpcomingLaunchBox = ({nextUpcomingLaunch}: {nextUpcomingLaunch: any}) => {
+type UpcomingLaunchBoxProps = {
+  nextUpcomingLaunch: UpcomingLaunch;
+};
+
+export const UpcomingLaunchBox = ({nextUpcomingLaunch}: UpcomingLaunchBoxProps) => {
   const {name, date, status, location} = nextUpcomingLaunch;
 
   return (
@@ -21,7 +27,7 @@ export const UpcomingLaunchBox = ({nextUpcomingLaunch}: {nextUpcomingLaunch: any
           UPCOMING // {date}
         </Badge>
         <Heading className="my-2 uppercase" variant="title.4">
-          Mission Status: {status?.name || status}
+          Mission Status: {status}
         </Heading>
         <Text color="blue-200" variant="meta.1">
           NAME: {name}

@@ -1,12 +1,18 @@
 "use client";
 
+import type {CloseApproachPreview} from "@/features/home/types/neo-feed";
+
 import {CloseApproachCard} from "@/shared/components/card/close-approach-card";
 import {CarouselImage} from "@/shared/components/carousel/carousel-image";
 
-export const CelestialNearCarousel = ({neoFeed}: {neoFeed: any}) => {
+type CelestialNearCarouselProps = {
+  neoFeed: CloseApproachPreview[];
+};
+
+export const CelestialNearCarousel = ({neoFeed}: CelestialNearCarouselProps) => {
   return (
     <CarouselImage
-      renderItem={(neo: any) => (
+      renderItem={(neo) => (
         <CloseApproachCard
           data={{
             title: neo.title,

@@ -35,6 +35,21 @@ export type MissionDetail = {
 };
 
 /**
+ * Forma cruda de `techport/api/projects`: el índice del catálogo. No trae el
+ * proyecto, sólo su id y cuándo se actualizó por última vez; el título y el
+ * resto hay que pedirlos de a uno por `projects/{id}`.
+ */
+export type TechPortProjectsListResponse = {
+  projects: Array<{
+    projectId: number;
+    /** `2026-9-14`: sin cero a la izquierda, no es ISO. */
+    lastUpdated: string;
+    favorited: boolean;
+    detailedFunding: boolean;
+  }>;
+};
+
+/**
  * Forma cruda de `techport/api/projects/{id}`, acotada a lo que consume
  * `getMission`. TechPort anida mucho más (taxonomías, financiamiento,
  * organizaciones de soporte) que no hace falta para el detalle.

@@ -13,7 +13,8 @@ export interface Item {
 
 export interface DataItem {
   center: string;
-  date_created: Date;
+  /** ISO completo (`2019-05-06T00:00:00Z`): la API lo manda como string. */
+  date_created: string;
   description: string;
   description_508: string;
   keywords: string[];

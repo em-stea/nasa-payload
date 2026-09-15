@@ -21,7 +21,7 @@ export async function FeaturedMissions() {
           description="Deep space exploration vanguard pushing the boundaries of our solar system and beyond, highlighting technological breakthroughs and active spaceflight initiatives."
           title="Featured Missions"
         />
-        <UpcomingLaunchBox nextUpcomingLaunch={nextUpcomingLaunch} />
+        {nextUpcomingLaunch ? <UpcomingLaunchBox nextUpcomingLaunch={nextUpcomingLaunch} /> : null}
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projectsMedia.map((project) => (

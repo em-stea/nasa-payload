@@ -30,10 +30,13 @@
 
   --secondary: var(--basic-500);
   --secondary-foreground: var(--basic-900);
+  --secondary-background: var(--basic-200);
+  --secondary-hover: var(--basic-300);
   --btn-secondary: var(--basic-00);
 
   --muted: var(--gray-100);
   --muted-foreground: var(--basic-700);
+  --muted-foreground-text: var(--basic-700);
 
   --accent: var(--blue-700);
   --accent-foreground: var(--basic-00);
@@ -44,7 +47,13 @@
 
   --border: var(--basic-300);
   --input: var(--basic-300);
-  --icon: var(--basic-700);
+  --icon: var(--blue-900);
+  --icon-foreground: var(--basic-900);
+
+  --primary-text: var(--basic-00);
+  --primary-background: var(--blue-1000);
+
+  --drawer-background: var(--basic-00);
 
   /* Chrome del sitio: navbar y footer */
   --transparency-navbar: var(--basic-00-80);
@@ -66,10 +75,13 @@
 
   --secondary: var(--gray-400);
   --secondary-foreground: var(--basic-500);
+  --secondary-background: var(--basic-00-05);
+  --secondary-hover: var(--basic-00-10);
   --btn-secondary: var(--basic-300);
 
   --muted: var(--gray-300);
   --muted-foreground: var(--basic-300);
+  --muted-foreground-text: var(--basic-00);
 
   --accent: var(--color-blue-50);
   --accent-foreground: var(--basic-970);
@@ -81,6 +93,13 @@
   --border: var(--gray-200);
   --input: var(--gray-200);
   --icon: var(--blue-200);
+  --icon-foreground: var(--basic-00);
+
+  --primary-text: var(--blue-900);
+  --primary-background: var(--blue-300);
+
+
+  --drawer-background: var(--basic-700-90);
 
   /* Chrome del sitio: navbar y footer */
   --transparency-navbar: var(--basic-960-80);
@@ -100,6 +119,7 @@
   --color-basic-00-05: var(--basic-00-05);
   --color-basic-00-10: var(--basic-00-10);
   --color-basic-00-80: var(--basic-00-80);
+  --color-basic-200: var(--basic-200);
   --color-basic-300: var(--basic-300);
   --color-basic-500: var(--basic-500);
   --color-basic-700: var(--basic-700);
@@ -116,9 +136,11 @@
   --color-blue-50: var(--blue-50);
   --color-blue-200: var(--blue-200);
   --color-blue-200-30: var(--blue-200-30);
+  --color-blue-300: var(--blue-300);
   --color-blue-700: var(--blue-700);
   --color-blue-700-20: var(--blue-700-20);
   --color-blue-900: var(--blue-900);
+  --color-blue-1000: var(--blue-1000);
 
   --color-red-200: var(--red-200);
   --color-red-200-30: var(--red-200-30);
@@ -154,10 +176,13 @@
 
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-background: var(--secondary-background);
+  --color-secondary-hover: var(--secondary-hover);
   --color-btn-secondary: var(--btn-secondary);
 
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-muted-foreground-text: var(--muted-foreground-text);
 
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
@@ -170,9 +195,15 @@
   --color-input: var(--input);
   --color-icon: var(--icon);
 
+  --color-primary-text: var(--primary-text);
+  --color-primary-background: var(--primary-background);
+
   --color-transparency-navbar: var(--transparency-navbar);
   --color-navbar-border: var(--navbar-border);
   --color-footer-background: var(--footer-background);
   --color-footer-border: var(--footer-border);
   --color-live-dot: var(--live-dot);
+
+  --color-drawer-background: var(--drawer-background);
+  --color-icon-foreground: var(--icon-foreground);
 }

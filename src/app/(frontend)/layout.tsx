@@ -28,10 +28,6 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           attribute="data-theme"
           defaultTheme="system"
         >
-          {/* La sesión se resuelve en el cliente contra /api/auth/session: con
-              `cacheComponents` activo, leer la cookie acá arriba obligaría a
-              envolver todo el layout en Suspense y sacrificaría el shell
-              estático de cada ruta. */}
           <SessionProvider>
             <SiteNavbar />
             {children}

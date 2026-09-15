@@ -118,14 +118,27 @@ const COLOR_GROUPS = [
     tokens: [
       {label: "bg-basic-00", className: "bg-basic-00", token: "--basic-00", hex: "#FFFFFF"},
       {
+        label: "bg-basic-00-05",
+        className: "bg-basic-00-05",
+        token: "--basic-00-05",
+        hex: "#FFFFFF",
+      },
+      {
         label: "bg-basic-00-10",
         className: "bg-basic-00-10",
         token: "--basic-00-10",
         hex: "#FFFFFF 10%",
       },
+      {label: "bg-basic-200", className: "bg-basic-200", token: "--basic-200", hex: "#DADDF0"},
       {label: "bg-basic-300", className: "bg-basic-300", token: "--basic-300", hex: "#C3C6D7"},
       {label: "bg-basic-500", className: "bg-basic-500", token: "--basic-500", hex: "#8D90A0"},
       {label: "bg-basic-700", className: "bg-basic-700", token: "--basic-700", hex: "#32343D"},
+      {
+        label: "bg-basic-700-90",
+        className: "bg-basic-700-90",
+        token: "--basic-700-90",
+        hex: "#32343D",
+      },
       {label: "bg-basic-900", className: "bg-basic-900", token: "--basic-900", hex: "#1E1E1E"},
       {label: "bg-basic-940", className: "bg-basic-940", token: "--basic-940", hex: "#0a0f14"},
       {label: "bg-basic-950", className: "bg-basic-950", token: "--basic-950", hex: "#0A0E14"},
@@ -171,6 +184,7 @@ const COLOR_GROUPS = [
         token: "--blue-200-30",
         hex: "#B4C5FF 30%",
       },
+      {label: "bg-blue-300", className: "bg-blue-300", token: "--blue-300", hex: "#A1B2ED"},
       {label: "bg-blue-700", className: "bg-blue-700", token: "--blue-700", hex: "#2563EB"},
       {
         label: "bg-blue-700-20",
@@ -179,6 +193,7 @@ const COLOR_GROUPS = [
         hex: "#2563EB 20%",
       },
       {label: "bg-blue-900", className: "bg-blue-900", token: "--blue-900", hex: "#002A78"},
+      {label: "bg-blue-1000", className: "bg-blue-1000", token: "--blue-1000", hex: "#031F54"},
     ],
   },
   {

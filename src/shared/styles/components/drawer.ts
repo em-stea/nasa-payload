@@ -20,8 +20,6 @@ export const drawerContentVariants = cva([
   "right-0",
   "bottom-0",
   "z-50",
-  // En mobile ocupa el ancho menos un respiro de 24px para ver el overlay;
-  // desde `sm` vuelve al ancho fijo del diseño.
   "left-6",
   "sm:left-auto",
   "sm:w-112.5",
@@ -30,7 +28,7 @@ export const drawerContentVariants = cva([
   "justify-between",
   "border-l",
   "border-basic-00-10",
-  "bg-basic-700-90",
+  "bg-drawer-background",
   "py-4",
   "pr-4",
   "pl-4.25",
@@ -68,7 +66,7 @@ export const drawerAvatarVariants = cva([
   "text-blue-200",
 ]);
 
-export const drawerAvatarIconVariants = cva(["size-6"]);
+export const drawerAvatarIconVariants = cva(["size-4"]);
 
 export const drawerAvatarImageVariants = cva(["size-full", "rounded-full", "object-cover"]);
 
@@ -89,15 +87,18 @@ export const drawerUserEmailVariants = cva([
 export const drawerLogoVariants = cva([
   "relative",
   "block",
-  "size-10",
+  "size-15",
   "shrink-0",
   "overflow-hidden",
-  "rounded-full",
 ]);
 
-export const drawerLogoImageVariants = cva(["size-full", "object-cover"]);
+export const drawerLogoImageVariants = cva(["size-full", "object-contain"]);
 
-export const drawerTitleVariants = cva(["text-basic-00", headingVariants({variant: "title.4"})]);
+export const drawerTitleVariants = cva([
+  "ml-2",
+  "text-muted-foreground-text",
+  headingVariants({variant: "title.5"}),
+]);
 
 export const drawerCloseVariants = cva([
   "inline-flex",
@@ -109,7 +110,7 @@ export const drawerCloseVariants = cva([
   "px-1",
   "pt-1",
   "pb-2",
-  "text-basic-300",
+  "text-icon-foreground",
   "transition-colors",
   "duration-200",
   "hover:cursor-pointer",
@@ -184,7 +185,6 @@ export const drawerLoginWrapperVariants = cva([
   "shrink-0",
   "flex-col",
   "gap-2",
-  "px-3",
   "pb-2",
 ]);
 
@@ -209,20 +209,26 @@ export const drawerLoginVariants = cva(
     "focus-visible:ring-offset-2",
     "focus-visible:ring-offset-basic-700",
     "focus-visible:outline-none",
+    // "text-icon-foreground",
+    // "bg-gray-100",
     textVariants({variant: "button.2"}),
   ],
   {
     variants: {
-      // Un provider destacado (`primary`) y el resto en tono neutro, para que
-      // la lista de OAuth no compita entre sí.
       intent: {
-        primary: ["bg-blue-200", "text-blue-900", "hover:bg-blue-50"],
+        primary: [
+          "bg-foreground",
+          "text-primary-text",
+          "hover:bg-primary-background",
+          "hover:text-primary-text",
+        ],
         secondary: [
           "border",
           "border-basic-00-10",
-          "bg-basic-00-05",
-          "text-basic-00",
-          "hover:bg-basic-00-10",
+          "bg-secondary-background",
+          "text-muted-foreground-text",
+          "hover:bg-secondary-hover",
+          "hover:text-muted-foreground-text",
         ],
       },
     },
@@ -266,12 +272,9 @@ export const drawerSwitchVariants = cva([
   "w-10",
   "shrink-0",
   "rounded-full",
-  // anulan los defaults de shadcn que corren el thumb 1px y agregan sombra
   "border-0",
   "shadow-none",
   "p-1",
-  // `!` para sobrevivir al `* { transition: none !important }` que next-themes
-  // inyecta en cada cambio de tema (disableTransitionOnChange en el layout).
   "transition-colors!",
   "duration-200!",
   "hover:cursor-pointer",

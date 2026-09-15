@@ -30,20 +30,14 @@ function normalizePath(path: string) {
 }
 
 export type NavDrawerProps = {
-  /** Disparador del drawer (se renderiza con asChild). */
   children: ReactNode;
   logo: NavbarLogoData;
   links: NavbarLinkItem[];
-  /** Ruta activa; la resuelve `SiteNavbar`, ver el comentario en `Navbar`. */
   activePath?: string | null;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
 
-/**
- * Menú de navegación para mobile: replica los links del TopNavBar dentro del
- * mismo lenguaje visual del drawer de usuario.
- */
 export function NavDrawer({children, logo, links, activePath, open, onOpenChange}: NavDrawerProps) {
   const isActive = (href: string) =>
     !!activePath && normalizePath(href) === normalizePath(activePath);

@@ -17,7 +17,6 @@ import {Bell} from "@/shared/components/icons/other/bell";
 import {Comments} from "@/shared/components/icons/other/comments";
 import {Heart} from "@/shared/components/icons/other/heart";
 import {Logout} from "@/shared/components/icons/other/logout";
-import {Moon} from "@/shared/components/icons/other/moon";
 import {Settings} from "@/shared/components/icons/other/settings";
 import {User} from "@/shared/components/icons/other/user";
 import {Switch} from "@/shared/components/switch/switch";
@@ -46,7 +45,6 @@ import {
   drawerSectionVariants,
   drawerSwitchThumbVariants,
   drawerSwitchVariants,
-  drawerThemeIconVariants,
   drawerThemeLabelVariants,
   drawerThemeRowVariants,
   drawerTitleVariants,
@@ -62,11 +60,9 @@ type PreferenceLink = {
   href: string;
   label: string;
   icon: IconComponent;
-  /** Muestra el contador de avisos sin leer al final de la fila. */
   showUnread?: boolean;
 };
 
-/** Acciones de cuenta: sólo visibles con sesión iniciada. */
 const PREFERENCE_LINKS: PreferenceLink[] = [
   {href: "/favorites", label: "Favorites", icon: Heart},
   {href: "/comments", label: "My Comments", icon: Comments},
@@ -78,15 +74,11 @@ const PREFERENCE_LINKS: PreferenceLink[] = [
 function DarkModeSwitch() {
   const {resolvedTheme, setTheme} = useTheme();
 
-  // Sin guard de hidratación a propósito: Dialog.Portal no renderiza nada
-  // mientras el drawer está cerrado, así que esto monta recién al abrirlo,
-  // siempre después de hidratar y con el tema ya resuelto.
   const isDark = resolvedTheme === "dark";
 
   return (
     <div className={drawerThemeRowVariants()}>
       <label className={drawerThemeLabelVariants()} htmlFor="drawer-dark-mode">
-        <Moon className={drawerThemeIconVariants()} />
         Dark Mode
       </label>
       <Switch
@@ -114,8 +106,7 @@ function LoginActions({disabled}: {disabled: boolean}) {
           type="button"
           onClick={() => {
             setPending(id);
-            // signIn navega fuera del sitio; si el usuario vuelve con el botón
-            // atrás el componente se remonta y `pending` arranca en null.
+
             void signIn(id);
           }}
         >
@@ -135,12 +126,7 @@ export type UserDrawerProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
-/**
- * Drawer de usuario. El contenido depende de la sesión de Auth.js:
- * deslogueado sólo ofrece los providers de OAuth (más el tema, que es una
- * preferencia del dispositivo); logueado muestra perfil, preferencias y logout.
- */
-export function UserDrawer({children, logo, open, onOpenChange}: UserDrawerProps) {
+export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
   const {data: session, status} = useSession();
 
   const isLoading = status === "loading";
@@ -187,14 +173,8 @@ export function UserDrawer({children, logo, open, onOpenChange}: UserDrawerProps
                 </>
               ) : (
                 <>
-                  <span className={drawerLogoVariants()}>
-                    <Image
-                      alt={logo.alt}
-                      className={drawerLogoImageVariants()}
-                      height={40}
-                      src={logo.src}
-                      width={40}
-                    />
+                  <span className="flex size-10 items-center justify-center rounded-full bg-blue-700-20">
+                    <User />
                   </span>
                   <Dialog.Title className={drawerTitleVariants()}>User Profile</Dialog.Title>
                 </>

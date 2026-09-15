@@ -69,6 +69,7 @@ export const badgeVariants = cva(commonClassnames, {
       "light-red": "",
       neutral: "",
       orange: "",
+      default: "",
     },
     position: {
       "top-left": "absolute top-4 left-4",
@@ -100,6 +101,11 @@ export const badgeVariants = cva(commonClassnames, {
       variant: "full-filled",
       tone: "orange",
       class: "border-orange-200/30 bg-orange-200/20 text-orange-200",
+    },
+    {
+      variant: "default",
+      tone: "default",
+      class: "border-basic-00-10 bg-tag-default text-basic-300",
     },
 
     /* `default` y `dark` ya traen su fondo: el tono sólo mueve el color del

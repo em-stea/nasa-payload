@@ -50,6 +50,7 @@
 
   --destructive: var(--red-900);
   --destructive-foreground: var(--basic-00);
+  --tag-default: var(--basic-700-90);
 
   --border: var(--gray-150);
   --input: var(--basic-300);
@@ -117,6 +118,7 @@
 
   --destructive: var(--red-200);
   --destructive-foreground: var(--red-900);
+  --tag-default: var(--basic-700);
 
   --border: var(--basic-00-10);
   --input: var(--gray-200);
@@ -244,6 +246,7 @@
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-tag-default: var(--tag-default);
 
   --color-border: var(--border);
   --color-input: var(--input);

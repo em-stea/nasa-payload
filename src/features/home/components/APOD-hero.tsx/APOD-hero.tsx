@@ -28,11 +28,11 @@ export default async function APODHero() {
               APOD // ACTIVE
             </Badge>
 
-            <Heading className="w-full md:w-[70%] lg:w-[45%]" color="basic-00" variant="title.1">
+            <Heading className="w-full text-basic-00 md:w-[70%] lg:w-[45%]" variant="title.1">
               Astronomy Picture of the Day
             </Heading>
 
-            <Text className="w-full pb-4 md:w-[70%] lg:w-[45%]" color="basic-00" variant="body.1">
+            <Text className="w-full pb-4 text-basic-00 md:w-[70%] lg:w-[45%]" variant="body.1">
               Witness the cosmos through the lens of NASA's most profound observatories. Today's
               feature unveils the intricate filamentary structures of the Veil Nebula.
             </Text>

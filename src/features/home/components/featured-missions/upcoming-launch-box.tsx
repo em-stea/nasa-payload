@@ -26,7 +26,7 @@ export const UpcomingLaunchBox = ({nextUpcomingLaunch}: UpcomingLaunchBoxProps) 
         <Badge hasDot className="text-blue-200" variant="full-filled">
           UPCOMING // {date}
         </Badge>
-        <Heading className="my-2 uppercase" variant="title.4">
+        <Heading className="my-2 text-basic-00 uppercase" variant="title.4">
           Mission Status: {status}
         </Heading>
         <Text color="blue-200" variant="meta.1">

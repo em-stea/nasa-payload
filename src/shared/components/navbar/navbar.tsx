@@ -3,12 +3,12 @@
 import type {VariantProps} from "class-variance-authority";
 import type {ComponentProps, ReactNode} from "react";
 
-import Image from "next/image";
 import Link from "next/link";
 import {createContext, use} from "react";
 
 import {Menu} from "@/shared/components/icons/other/menu";
 import {User} from "@/shared/components/icons/other/user";
+import {SiteLogo} from "@/shared/components/logo/site-logo";
 import {
   navbarContainerVariants,
   navbarDotVariants,
@@ -28,6 +28,8 @@ type LinkProps = ComponentProps<typeof Link>;
 
 export type NavbarLogoData = {
   src: string;
+  /** Variante para light mode (letras en negro); sin esto se usa `src` en ambos temas. */
+  lightSrc?: string;
   alt: string;
   href?: string;
 };
@@ -135,14 +137,7 @@ function NavbarLogo({className, ...props}: NavbarLogoProps) {
       data-slot="navbar-logo"
       href={logo.href ?? "/"}
     >
-      <Image
-        priority
-        alt={logo.alt}
-        className={navbarLogoImageVariants()}
-        height={48}
-        src={logo.src}
-        width={48}
-      />
+      <SiteLogo priority className={navbarLogoImageVariants()} logo={logo} size={48} />
     </Link>
   );
 }

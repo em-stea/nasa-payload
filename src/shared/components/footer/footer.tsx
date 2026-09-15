@@ -4,10 +4,10 @@ import type {NavbarLogoData} from "@/shared/components/navbar/navbar";
 import type {VariantProps} from "class-variance-authority";
 import type {ComponentProps, ReactNode} from "react";
 
-import Image from "next/image";
 import Link from "next/link";
 import {createContext, use} from "react";
 
+import {SiteLogo} from "@/shared/components/logo/site-logo";
 import {
   footerContainerVariants,
   footerCopyrightVariants,
@@ -102,13 +102,7 @@ function FooterLogo({className, ...props}: FooterLogoProps) {
       data-slot="footer-logo"
       href={logo.href ?? "/"}
     >
-      <Image
-        alt={logo.alt}
-        className={footerLogoImageVariants()}
-        height={48}
-        src={logo.src}
-        width={48}
-      />
+      <SiteLogo className={footerLogoImageVariants()} logo={logo} size={48} />
     </Link>
   );
 }

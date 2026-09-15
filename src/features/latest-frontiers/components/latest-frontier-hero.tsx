@@ -34,7 +34,7 @@ export function LatestFrontierHero({frontier}: LatestFrontierHeroProps) {
       )}
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 bg-gradient-to-t from-background to-transparent px-4 pt-4 pb-4">
-        <Badge className="self-start" hasDot tone={frontier.tone} variant="dark">
+        <Badge hasDot className="self-start" tone={frontier.tone} variant="dark">
           {frontier.tag}
         </Badge>
 

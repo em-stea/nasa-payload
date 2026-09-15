@@ -510,6 +510,7 @@ const Page = () => {
                 data={{
                   logo: {
                     src: "/images/dscovr-site-logo.svg",
+                    lightSrc: "/images/dscovr-site-logo-light.svg",
                     alt: "DSCOVR",
                     href: "/",
                   },

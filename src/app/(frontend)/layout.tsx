@@ -8,6 +8,7 @@ import {SiteFooter} from "@/shared/components/footer/site-footer";
 import {SiteNavbar} from "@/shared/components/navbar/site-navbar";
 import {Toaster} from "@/shared/components/toast/toaster";
 import {JetBrainsMono, SpaceGrotesk} from "@/shared/styles/foundations/fonts";
+import {getCurrentYear} from "@/shared/utils/current-year";
 
 import "@styles/globals.css";
 
@@ -16,8 +17,9 @@ export const metadata: Metadata = {
   title: "NASA — Blog",
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default async function RootLayout({children}: {children: React.ReactNode}) {
   const fonts = `${SpaceGrotesk.variable} ${JetBrainsMono.variable}`;
+  const year = await getCurrentYear();
 
   return (
     <html suppressHydrationWarning className={fonts} lang="es">
@@ -31,7 +33,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           <SessionProvider>
             <SiteNavbar />
             {children}
-            <SiteFooter />
+            <SiteFooter year={year} />
             <Toaster />
           </SessionProvider>
         </ThemeProvider>

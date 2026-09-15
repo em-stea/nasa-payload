@@ -3,11 +3,11 @@
 import type {NavbarLinkItem, NavbarLogoData} from "@/shared/components/navbar/navbar";
 import type {ReactNode} from "react";
 
-import Image from "next/image";
 import Link from "next/link";
 import {Drawer} from "vaul";
 
 import {Cross} from "@/shared/components/icons/feedback/cross";
+import {SiteLogo} from "@/shared/components/logo/site-logo";
 import {
   drawerBodyVariants,
   drawerCloseIconVariants,
@@ -57,13 +57,7 @@ export function NavDrawer({children, logo, links, activePath, open, onOpenChange
           <div className={drawerHeaderVariants()} data-slot="nav-drawer-header">
             <div className={drawerIdentityVariants()}>
               <span className={drawerLogoVariants()}>
-                <Image
-                  alt={logo.alt}
-                  className={drawerLogoImageVariants()}
-                  height={40}
-                  src={logo.src}
-                  width={40}
-                />
+                <SiteLogo className={drawerLogoImageVariants()} logo={logo} size={40} />
               </span>
             </div>
 

@@ -10,11 +10,16 @@ import {Footer, type FooterData, type FooterLinkItem} from "./footer";
  * cuelgan de `Footer` con Object.assign y no cruzan el borde RSC.
  *
  * En mobile la fila se apila (logo / links / copyright) en lugar de desbordar.
+ *
+ * El año del copyright llega por prop: `new Date()` acá lo bloquea el
+ * prerender de `cacheComponents`, así que lo resuelve el layout con
+ * `getCurrentYear()`.
  */
 
 const FOOTER_DATA: FooterData = {
   logo: {
     src: "/images/dscovr-site-logo.svg",
+    lightSrc: "/images/dscovr-site-logo-light.svg",
     alt: "DSCOVR",
     href: "/",
   },
@@ -27,9 +32,11 @@ const FOOTER_LINKS: FooterLinkItem[] = [
   {href: "/terms-of-service", label: "Terms of Service"},
 ];
 
-export function SiteFooter() {
-  const year = new Date().getFullYear();
+interface SiteFooterProps {
+  year: number;
+}
 
+export function SiteFooter({year}: SiteFooterProps) {
   return (
     <Footer data={FOOTER_DATA}>
       <Footer.Group>

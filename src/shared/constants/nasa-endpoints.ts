@@ -16,4 +16,6 @@ export const NASA_ENDPOINTS = {
   eonet: "https://eonet.gsfc.nasa.gov/api/v3",
   /** NeoWs: catálogo de objetos cercanos a la Tierra. */
   neo: "https://api.nasa.gov/neo/rest/v1",
+  /** NASA Image and Video Library: búsqueda de imágenes por keyword/fecha. */
+  images: "https://images-api.nasa.gov",
 } as const;

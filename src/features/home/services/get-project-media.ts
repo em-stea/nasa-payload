@@ -1,16 +1,16 @@
 import {http} from "@/shared/services/http";
 
 import {ProjectMediaResponse} from "../types/project-media-types";
+import {TechPortProjectSummary} from "./get-techport-project-by-id";
 
 interface GetProjectMediaProps {
-  projectsById: string[];
+  projects: TechPortProjectSummary[];
   pageSize: number;
 }
 
-export async function getProjectMedia({projectsById, pageSize}: GetProjectMediaProps) {
+export async function getProjectMedia({projects, pageSize}: GetProjectMediaProps) {
   const results = await Promise.all(
-    projectsById.map(async (title, index) => {
-      if (!title) return null;
+    projects.map(async ({id, title}) => {
       const cleanQuery = title.split(" ").slice(0, 3).join(" ");
 
       const response = await http.get<ProjectMediaResponse>(
@@ -25,7 +25,7 @@ export async function getProjectMedia({projectsById, pageSize}: GetProjectMediaP
       if (!imageUrl) return null;
 
       return {
-        id: `mission-${index}`,
+        id: String(id),
         title: nestedItem.title,
         description: nestedItem.description_508 || nestedItem.description,
         image: imageUrl,

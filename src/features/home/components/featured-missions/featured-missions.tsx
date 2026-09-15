@@ -8,9 +8,9 @@ import {getNextUpcomingLaunch} from "../../services/get-upcoming-launch";
 import {UpcomingLaunchBox} from "./upcoming-launch-box";
 
 export async function FeaturedMissions() {
-  const projects = await getTechPortProjectsIds();
-  const projectsById = await getTechPortProjectById(projects);
-  const projectsMedia = await getProjectMedia({projectsById, pageSize: 1});
+  const projectIds = await getTechPortProjectsIds();
+  const projects = await getTechPortProjectById(projectIds);
+  const projectsMedia = await getProjectMedia({projects, pageSize: 1});
 
   const nextUpcomingLaunch = await getNextUpcomingLaunch();
 
@@ -44,6 +44,7 @@ export async function FeaturedMissions() {
                   },
                 ],
               }}
+              id={project.id}
               key={project.id}
             />
           ))}

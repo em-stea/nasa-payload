@@ -18,10 +18,7 @@ export const getNeoFeed = async ({start_date, end_date}: NeoFeedProps) => {
     return [];
   }
 
-  // const nearEarthObjects = Object.values(data.near_earth_objects)[0];
   const nearEarthObjects = Object.values(data.near_earth_objects).flat();
-
-  console.log(nearEarthObjects, "nearEarthObjects");
 
   return nearEarthObjects.map((neo: any) => {
     const missDistanceRaw = neo.close_approach_data[0]?.miss_distance.astronomical;
@@ -32,14 +29,28 @@ export const getNeoFeed = async ({start_date, end_date}: NeoFeedProps) => {
 
     const isHazardous = neo.is_potentially_hazardous_asteroid;
 
+    const tagAndTone = {
+      true: {
+        tag: "HIGH ALERT",
+        tone: "red",
+        tagVariant: "full-filled",
+      },
+      false: {
+        tag: "MONITORED",
+        tone: "default",
+        tagVariant: "default",
+      },
+    } as const;
+
+    const statusTagAndTone = tagAndTone[isHazardous as keyof typeof tagAndTone];
+
     return {
       id: neo.id,
       title: neo.name,
       date: neo.close_approach_data[0]?.close_approach_date,
       miss_distance: missDistance,
       velocity: velocity,
-      tag: isHazardous ? "HIGH ALERT" : "MONITORED",
-      tone: isHazardous ? "red" : "default",
+      ...statusTagAndTone,
     };
   });
 };

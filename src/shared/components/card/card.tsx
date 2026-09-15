@@ -60,6 +60,7 @@ export type CardData = {
 
 type CardContextValue = {
   data: CardData;
+  variant?: VariantProps<typeof cardVariants>["variant"];
 };
 
 const CardContext = createContext<CardContextValue | null>(null);
@@ -79,12 +80,13 @@ type CardRootProps = DivProps &
     data: CardData;
   };
 
-function CardRoot({className, data, padding, children, ...props}: CardRootProps) {
+function CardRoot({className, data, padding, children, variant, ...props}: CardRootProps) {
   return (
-    <CardContext value={{data}}>
+    <CardContext value={{data, variant}}>
       <div
         className={cn(
           cardVariants({
+            variant: variant,
             tone: data.tone,
             isHighlighted: data.isHighlighted,
             padding,
@@ -179,11 +181,11 @@ function CardBody({className, variant, children, ...props}: CardBodyProps) {
 type CardTitleProps = DivProps & Omit<VariantProps<typeof cardTitleVariants>, "tone">;
 
 function CardTitle({className, size, children, ...props}: CardTitleProps) {
-  const {data} = useCardContext();
+  const {data, variant} = useCardContext();
 
   return (
     <div
-      className={cn(cardTitleVariants({tone: data.tone, size}), className)}
+      className={cn(cardTitleVariants({tone: data.tone, size, variant}), className)}
       data-slot="card-title"
       {...props}
     >

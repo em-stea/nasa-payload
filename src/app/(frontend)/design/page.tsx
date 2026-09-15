@@ -466,14 +466,15 @@ const Page = () => {
               <CloseApproachCard
                 data={{
                   tone: "red",
+                  tag: "HIGH ALERT",
                   title: "2024 AB1",
-                  alert: "High alert",
                   stats: [
                     {label: "Approach date", value: "Nov 15, 2024"},
                     {label: "Miss distance", value: "0.02 AU", highlight: true},
                     {label: "Velocity", value: "12.5 km/s"},
                   ],
                 }}
+                tagVariant="full-filled"
               />
             </div>
           </Specimen>
@@ -513,39 +514,6 @@ const Page = () => {
                 </Navbar.Group>
               </Navbar>
             </div>
-          </Specimen>
-        </Section>
-
-        <Section
-          description="shared/components/title-section · title + description + action"
-          id="title-section"
-          title="Title Section"
-        >
-          <Specimen
-            stack
-            name="<TitleSection />"
-            spec="Figma · Container 1:124 · title.2 + body.1 + text-link"
-          >
-            <TitleSection
-              action={{label: "View all archives", href: "/archives"}}
-              description="Curated telemetry and updates from NASA's ongoing deep space operations."
-              title="Latest Frontiers"
-            />
-          </Specimen>
-
-          <Specimen stack name="sin action" spec="solo title + description">
-            <TitleSection
-              description="Seguimiento en vivo de las misiones activas."
-              title="Mission Control"
-            />
-          </Specimen>
-
-          <Specimen stack name="action custom" spec="children reemplaza el link por defecto">
-            <TitleSection description="Objetos detectados esta semana." title="Near Earth Objects">
-              <Button size="md" variant="primary">
-                Suscribirme
-              </Button>
-            </TitleSection>
           </Specimen>
         </Section>
 
@@ -646,7 +614,7 @@ const Page = () => {
           title="Icons"
         >
           <Specimen name="className" spec="el color se pasa con una utility text-*">
-            <div className="flex items-center gap-10">
+            <div className="flex flex-wrap items-center gap-0">
               <Icons className="text-blue-700" />
             </div>
           </Specimen>

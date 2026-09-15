@@ -9,7 +9,7 @@ type LatestNewsCardProps = {
 
 export function LatestNewsCard({data, className}: LatestNewsCardProps) {
   return (
-    <Card className={className} data={data}>
+    <Card className={className} data={data} variant="media">
       <Card.Header>
         <Card.Image />
         <Card.Badge position="top-left" variant="dark" />

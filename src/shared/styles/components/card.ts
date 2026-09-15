@@ -21,10 +21,13 @@ export const cardVariants = cva(
   ],
   {
     variants: {
+      variant: {
+        media: "hover:border-foreground, hover:bg-basic-700",
+      },
       tone: {
         neutral: "hover:border-foreground, hover:bg-transparent",
         blue: "hover:border-foreground, hover:bg-basic-700",
-        red: "hover:border-foreground, hover:bg-basic-700",
+        red: "",
         "light-red": "hover:border-foreground, hover:bg-basic-700",
         orange: "hover:border-foreground, hover:bg-basic-700",
       },
@@ -88,7 +91,7 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
     tone: {
       neutral: "line-clamp-1 text-basic-00 group-hover:text-basic-00",
       blue: "line-clamp-1 text-primary-foreground group-hover:text-foreground",
-      red: "line-clamp-1 text-basic-00 group-hover:text-red-300",
+      red: "line-clamp-1 text-basic-00",
       "light-red": "line-clamp-1 text-basic-00 group-hover:text-red-300",
       orange: "line-clamp-1 text-primary-foreground group-hover:text-orange-200",
     },
@@ -96,7 +99,11 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
       md: textVariants({variant: "card.title"}),
       sm: textVariants({variant: "card.title.sm"}),
     },
+    variant: {
+      media: "",
+    },
   },
+  compoundVariants: [{variant: "media", tone: "red", class: "group-hover:text-red-300"}],
   defaultVariants: {
     tone: "neutral",
     size: "md",

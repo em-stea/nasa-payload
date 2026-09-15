@@ -2,6 +2,7 @@
 "use client";
 
 import {ReactNode, useCallback, useEffect, useState} from "react";
+import {useMediaQuery} from "usehooks-ts";
 
 import {cn} from "@/shared/utils/className-builder";
 
@@ -28,6 +29,9 @@ export function CarouselImage<T>({
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+
+  // Detecta si la pantalla es menor al breakpoint lg (1024px)
+  const isMobile = useMediaQuery("(max-width: 1023px)");
 
   const updateScrollSnapState = useCallback((emblaApi: CarouselApi) => {
     if (!emblaApi) return;
@@ -60,14 +64,13 @@ export function CarouselImage<T>({
   const isGrid = variant === "grid";
   const formatNumber = (num: number) => String(num).padStart(2, "0");
 
-  const showArrowsOnly = count > 4;
+  const showArrowsOnly = isMobile && items.length > 4;
 
   return (
     <div className={cn("mx-auto w-full", className)}>
       <Carousel
         opts={{
           align: "start",
-          slidesToScroll: 1,
           containScroll: "trimSnaps",
           breakpoints: {
             "(min-width: 1024px)": {

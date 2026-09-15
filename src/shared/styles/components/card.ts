@@ -103,7 +103,7 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
     },
     variant: {
       media: "text-secondary-text",
-      plain: "",
+      plain: "text-primary-foreground",
     },
   },
   compoundVariants: [
@@ -115,7 +115,7 @@ export const cardTitleVariants = cva(["transition-colors", "duration-300"], {
     {
       variant: "plain",
       tone: "neutral",
-      class: "text-primary-foreground",
+      class: "border border-red-500 text-primary-foreground",
     },
   ],
   defaultVariants: {
@@ -169,7 +169,7 @@ export const cardStatValueVariants = cva("truncate", {
     },
     tone: {
       default: "text-description-secondary",
-      highlight: "text-blue-200",
+      highlight: "text-primary",
     },
   },
   defaultVariants: {

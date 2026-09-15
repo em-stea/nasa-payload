@@ -17,7 +17,7 @@ export default async function HomePage() {
   "use cache";
 
   return (
-    <main className="min-h-dvh text-basic-00">
+    <main className="min-h-dvh">
       <APODHero />
 
       <ThreeDEarth />

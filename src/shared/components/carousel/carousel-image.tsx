@@ -78,10 +78,14 @@ export function CarouselImage<T>({
             },
           },
         }}
-        className="w-full"
+        className={cn("w-full", isGrid && "-mx-5")}
         setApi={setApi}
       >
-        <CarouselContent className={cn(isGrid && "-ml-4")}>
+        {/* El viewport recorta los slides fuera de vista, pero también se comía el
+        box-shadow de las cards de los extremos: el padding le da lugar a la sombra
+        para sangrar sin clippearse, y el -mx-5 de arriba lo compensa para que el
+        contenido no se corra de posición. */}
+        <CarouselContent className={cn(isGrid && "-ml-4")} viewportClassName={cn(isGrid && "px-5")}>
           {items.map((item, index) => (
             <CarouselItem
               className={cn(isGrid ? "basis-full pl-4 sm:basis-1/2 lg:basis-1/4" : "basis-full")}

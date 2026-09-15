@@ -126,11 +126,20 @@ function Carousel({
   );
 }
 
-function CarouselContent({className, ...props}: React.ComponentProps<"div">) {
+type CarouselContentProps = React.ComponentProps<"div"> & {
+  /** Clases para el viewport (el div con overflow-hidden que mide embla), no para el track. */
+  viewportClassName?: string;
+};
+
+function CarouselContent({className, viewportClassName, ...props}: CarouselContentProps) {
   const {carouselRef, orientation} = useCarousel();
 
   return (
-    <div className="overflow-hidden" data-slot="carousel-content" ref={carouselRef}>
+    <div
+      className={cn("overflow-hidden", viewportClassName)}
+      data-slot="carousel-content"
+      ref={carouselRef}
+    >
       <div
         className={cn("flex", orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col", className)}
         {...props}

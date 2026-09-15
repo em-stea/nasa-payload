@@ -48,6 +48,8 @@ export const cardVariants = cva(
     compoundVariants: [
       {isHighlighted: true, tone: "blue", class: "hover:border-blue-200"},
       {isHighlighted: true, tone: "red", class: "hover:border-red-300"},
+      // "plain" no clippea imagen: overflow-hidden solo le come el shadow-card-highlight.
+      {variant: "plain", class: "overflow-visible"},
     ],
   },
 );

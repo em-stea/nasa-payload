@@ -9,7 +9,7 @@ type MissionCardProps = {
 
 export function MissionCard({data, className}: MissionCardProps) {
   return (
-    <Card className={className} data={data}>
+    <Card className={className} data={data} variant="media">
       <Card.Header>
         <Card.Image />
         <Card.Badge />

@@ -14,7 +14,7 @@ type CloseApproachCardProps = {
 
 export function CloseApproachCard({data, className, tagVariant}: CloseApproachCardProps) {
   return (
-    <Card className={className} data={data} padding="md">
+    <Card className={className} data={data} padding="md" variant="plain">
       <Card.Header variant="bar">
         <Card.Title size="sm" />
         <Card.Badge dot variant={tagVariant} />

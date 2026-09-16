@@ -158,11 +158,11 @@ export function EpicExplorer({captures, children}: EpicExplorerProps) {
       </div>
 
       <div className="flex flex-col items-center gap-4 justify-self-center">
-        <div className="relative size-80 rounded-full border border-destructive/30 p-2.5 shadow-[0px_0px_40px_0px] shadow-basic-950/40 sm:size-96 lg:size-112">
+        <div className="relative size-80 rounded-full border border-destructive/10 p-2.5 shadow-[0px_0px_40px_0px] shadow-destructive/20 sm:size-96 lg:size-112">
           <div className="size-full rounded-full border border-destructive/30 bg-basic-970 p-2.5">
             {/* El visor es siempre el mismo pozo negro: lo que se ve adentro es
                 espacio, no chrome del sitio, así que no sigue al tema. */}
-            <div className="relative size-full overflow-hidden rounded-full border border-basic-00-10 bg-basic-970 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
+            <div className="relative size-full overflow-hidden rounded-full border border-basic-00-10 bg-basic-970 shadow-[inset_0_-40px_100px_1px_rgba(0,0,0,0.9)]">
               <GlobeEarth
                 activeCaptureId={activeCaptureId}
                 captures={captures}

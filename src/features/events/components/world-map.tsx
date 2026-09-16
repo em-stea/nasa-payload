@@ -7,7 +7,7 @@ import Link from "next/link";
 import {useState} from "react";
 
 import {CategoryIcon} from "@/features/events/components/category-icon";
-import {type EventTone, TONE_TEXT} from "@/features/events/constants/categories";
+import {type EventTone, TONE_BORDER, TONE_TEXT} from "@/features/events/constants/categories";
 import {toMapPosition} from "@/features/events/utils/geo";
 import {Text} from "@/shared/components/text/text";
 import {textVariants} from "@/shared/styles/components/text";
@@ -58,7 +58,7 @@ function Graticule() {
   return (
     <svg
       aria-hidden="true"
-      className="absolute inset-0 size-full text-basic-500/15"
+      className="absolute inset-0 size-full text-muted-foreground/20"
       preserveAspectRatio="none"
       viewBox="0 0 360 180"
     >
@@ -77,13 +77,7 @@ function Graticule() {
 const MARKER_TONE = {
   orange: "bg-orange-200",
   blue: "bg-foreground",
-  neutral: "bg-basic-300",
-} as const satisfies Record<EventTone, string>;
-
-const BORDER_TONE = {
-  orange: "border-orange-200",
-  blue: "border-foreground",
-  neutral: "border-basic-300",
+  neutral: "bg-primary-foreground",
 } as const satisfies Record<EventTone, string>;
 
 /**
@@ -111,7 +105,7 @@ function MarkerLabel({event, flip}: {event: NaturalEvent; flip: boolean}) {
         <Text className="truncate text-primary-foreground" variant="meta.2">
           {event.title}
         </Text>
-        <Text className="truncate text-basic-500" variant="meta.1">
+        <Text className="truncate text-muted-foreground" variant="meta.1">
           {event.severity}
         </Text>
       </span>
@@ -164,7 +158,7 @@ function Marker({event, active, dimmed, onActivate}: MarkerProps) {
         <span
           className={cn(
             "absolute -inset-1.5 rounded-full border",
-            BORDER_TONE[event.category.tone],
+            TONE_BORDER[event.category.tone],
           )}
           aria-hidden="true"
         />
@@ -181,7 +175,7 @@ function ReadoutRow({label, value, accent}: {label: string; value: string; accen
 
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <dt className={cn(base, "shrink-0 text-basic-500")}>{label}</dt>
+      <dt className={cn(base, "shrink-0 text-muted-foreground")}>{label}</dt>
       <dd className={cn(base, "truncate text-primary-foreground", accent)}>{value}</dd>
     </div>
   );
@@ -209,7 +203,7 @@ function EventReadout({event, locked}: {event: NaturalEvent; locked: boolean}) {
             aria-hidden="true"
             className={cn("size-1.5 shrink-0 rounded-full", MARKER_TONE[event.category.tone])}
           />
-          <Text className="whitespace-nowrap text-basic-500" variant="meta.1">
+          <Text className="whitespace-nowrap text-muted-foreground" variant="meta.1">
             [{locked ? "event lock" : "latest fix"}]
           </Text>
         </div>
@@ -258,7 +252,7 @@ function TelemetryPanel({events, latest}: {events: NaturalEvent[]; latest?: Natu
         {latest && (
           <div className="flex items-baseline gap-2">
             <dt className="sr-only">Última actualización</dt>
-            <dd className="leading-4.2 font-jetbrains-mono text-3 text-basic-500">
+            <dd className="leading-4.2 font-jetbrains-mono text-3 text-muted-foreground">
               <time dateTime={latest.position.date}>UPDATED: {latest.position.date}</time>
             </dd>
           </div>
@@ -287,7 +281,11 @@ export function WorldMap({events}: {events: NaturalEvent[]}) {
   const readout = locked ?? latest;
 
   return (
-    <div className="relative aspect-5/2 w-full overflow-hidden border-b border-border bg-background">
+    // La textura se ve a través de su `opacity-*`, así que el fondo del panel
+    // se mezcla con ella. En oscuro `bg-background` (casi negro) es lo que le
+    // da relieve al relieve; en claro esa misma base es blanco puro y lava la
+    // imagen entera, así que ahí hace falta `bg-muted`.
+    <div className="relative aspect-5/2 w-full overflow-hidden border-b border-border bg-muted dark:bg-background">
       <div
         className="absolute inset-x-0"
         style={{height: `${INNER_HEIGHT}%`, top: `${INNER_TOP}%`}}
@@ -318,7 +316,10 @@ export function WorldMap({events}: {events: NaturalEvent[]}) {
 
       {/* La pista del hover no va en mobile: no hay hover, y contra el panel de
           telemetría de enfrente no queda ancho para las dos. */}
-      <Text className="absolute top-6 right-6 hidden text-basic-500 sm:block" variant="meta.1">
+      <Text
+        className="absolute top-6 right-6 hidden text-muted-foreground sm:block"
+        variant="meta.1"
+      >
         [pick an event]
       </Text>
 

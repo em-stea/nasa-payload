@@ -24,6 +24,32 @@ import {User} from "./other/user";
 import {Github} from "./social-media/github";
 import {Google} from "./social-media/google";
 
+export {ArrowRight} from "./directional/arrow-right";
+export {ChevronLeft} from "./directional/chevron-left";
+export {ChevronRight} from "./directional/chevron-right";
+export {CheckCircle} from "./feedback/check-circle";
+export {Cross} from "./feedback/cross";
+export {WarningTriangle} from "./feedback/warning-triangle";
+export {Account} from "./other/account";
+export {Bell} from "./other/bell";
+export {ChartLine} from "./other/chart-line";
+export {Comments} from "./other/comments";
+export {Cube} from "./other/cube";
+export {Eye} from "./other/eye";
+export {EyeClosed} from "./other/eye-closed";
+export {Heart} from "./other/heart";
+export {Live} from "./other/live";
+export {Login} from "./other/login";
+export {Logout} from "./other/logout";
+export {Menu} from "./other/menu";
+export {Moon} from "./other/moon";
+export {Settings} from "./other/settings";
+export {Share} from "./other/share";
+export {Target} from "./other/target";
+export {User} from "./other/user";
+export {Github} from "./social-media/github";
+export {Google} from "./social-media/google";
+
 const IconsType = {
   directional: {
     arrowRight: ArrowRight,

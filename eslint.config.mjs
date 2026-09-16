@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import js from "@eslint/js";
 import next from "@next/eslint-plugin-next";
 import stylistic from "@stylistic/eslint-plugin";
@@ -40,7 +43,6 @@ export default tseslint.config(
       "src/payload-types.ts",
     ],
   },
-
   // ── JavaScript / TypeScript ─────────────────────────────────────────────
   // Non type-aware on purpose: no `parserOptions.project`, which would force
   // a full TS program load on every lint pass.
@@ -74,7 +76,6 @@ export default tseslint.config(
       // "@typescript-eslint/no-non-null-assertion": "off",
     },
   },
-
   // ── React / hooks / compiler ────────────────────────────────────────────
   // `eslint-plugin-react-hooks@7` ya trae las reglas del React Compiler, así
   // que no hace falta sumar `eslint-plugin-react-compiler` aparte.
@@ -94,7 +95,6 @@ export default tseslint.config(
       "react/jsx-curly-brace-presence": ["error", {props: "never", children: "never"}],
     },
   },
-
   // ── Accessibility (JSX only) ────────────────────────────────────────────
   {
     name: "appncy/a11y",
@@ -104,7 +104,6 @@ export default tseslint.config(
       "jsx-a11y/click-events-have-key-events": "off",
     },
   },
-
   // ── Next.js ─────────────────────────────────────────────────────────────
   {
     name: "appncy/next",
@@ -115,7 +114,6 @@ export default tseslint.config(
       "@next/next/no-img-element": "off",
     },
   },
-
   // ── Import sorting ──────────────────────────────────────────────────────
   // Replaces eslint-plugin-import (`import/order`) with a faster, Map-based
   // implementation.
@@ -145,7 +143,6 @@ export default tseslint.config(
       "perfectionist/sort-named-imports": ["warn", {type: "natural", order: "asc"}],
     },
   },
-
   // ── JSX prop sorting ────────────────────────────────────────────────────
   // Replaces `react/jsx-sort-props` (perfectionist/react recommend disabling
   // the react rule to avoid double-sorting).
@@ -165,7 +162,6 @@ export default tseslint.config(
       ],
     },
   },
-
   // ── Stylistic ───────────────────────────────────────────────────────────
   // `padding-line-between-statements` was removed from ESLint core's flat
   // defaults; @stylistic is the supported home for it now.
@@ -181,7 +177,6 @@ export default tseslint.config(
       ],
     },
   },
-
   // ── Overrides del proyecto ──────────────────────────────────────────────
   {
     name: "nasa/build-scripts",
@@ -191,7 +186,6 @@ export default tseslint.config(
       "no-console": "off",
     },
   },
-
   // ── Prettier ────────────────────────────────────────────────────────────
   // Runs last so it overrides any stylistic rule still left on. Options are
   // inlined with `usePrettierrc: false` so the plugin skips the per-file
@@ -221,4 +215,5 @@ export default tseslint.config(
       ],
     },
   },
+  storybook.configs["flat/recommended"]
 );

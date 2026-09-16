@@ -15,7 +15,9 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation eslint . --fix",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.88.0",
@@ -48,14 +50,22 @@
     "zod": "^4.6.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "latest",
     "@eslint/js": "^9.39.5",
     "@next/eslint-plugin-next": "^16.3.5",
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-onboarding": "^10.6.0",
+    "@storybook/addon-themes": "^10.6.0",
+    "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/nextjs-vite": "^10.6.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "22.19.9",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/three": "^0.185.4",
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -63,14 +73,19 @@
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-storybook": "^10.6.0",
     "globals": "^17.12.0",
+    "playwright": "latest",
     "postcss": "^8.5.28",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "sass": "^1.83.0",
+    "storybook": "^10.6.0",
     "tailwindcss": "^4.3.3",
     "typescript": "5.7.3",
-    "typescript-eslint": "^8.70.0"
+    "typescript-eslint": "^8.70.0",
+    "vite": "latest",
+    "vitest": "latest"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0",

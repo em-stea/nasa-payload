@@ -136,7 +136,7 @@ export const cardFooterVariants = cva("flex w-full px-4", {
   variants: {
     variant: {
       meta: "items-center pt-2 pb-4.75",
-      stats: "flex flex-col items-start gap-2 pt-0 pb-4",
+      stats: "flex flex-col items-start gap-2 pt-0 pb-4 ",
     },
   },
   defaultVariants: {

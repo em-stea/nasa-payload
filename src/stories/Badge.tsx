@@ -20,7 +20,6 @@ const commonClassnames = [
   "overflow-hidden",
   "rounded-lg",
   "border",
-  "border-transparent",
   "px-3",
   "py-1",
   "whitespace-nowrap",
@@ -72,7 +71,7 @@ export const badgeVariants = cva(commonClassnames, {
     {
       variant: "full-filled",
       tone: "red",
-      class: "border-red-200-30 bg-red-700-20 text-destructive",
+      class: "border border-destructive dark:border-destructive bg-red-700-20  text-destructive",
     },
     {
       variant: "full-filled",

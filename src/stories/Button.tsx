@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { textVariants } from "@/shared/styles/components/text";
 
-// Mock de textVariants según tus imports
-const textVariants = ({ variant }: { variant: string }) => {
-  if (variant === "button.1") return "text-sm font-semibold leading-none";
-  return "";
-};
+// // Mock de textVariants según tus imports
+// const textVariants = ({ variant }: { variant: string }) => {
+//   if (variant === "button.1") return "text-sm font-semibold leading-none";
+//   return "";
+// };
 
 const commonClassnames = [
   "inline-flex",
@@ -13,7 +14,7 @@ const commonClassnames = [
   "justify-center",
   "rounded-lg",
   "hover:cursor-pointer",
-  textVariants({ variant: "button.1" }),
+  // textVariants({ variant: "button.1" }),
 ];
 
 export const buttonVariants = cva(commonClassnames, {
@@ -268,7 +269,7 @@ export const ButtonsPage = () => {
 
                   <td className="py-2 px-4">
                     <button  className="cursor-pointer transition-transform active:scale-95">
-                      <Button variant={variantName} size="md">
+                      <Button variant={variantName} size="md" className='uppercase'>
                         {buttonText}
                       </Button>
                     </button>
@@ -276,7 +277,7 @@ export const ButtonsPage = () => {
 
                   <td className="py-2 px-4">
                     <button  className="cursor-pointer transition-transform active:scale-95">
-                      <Button variant={variantName} size="md" disabled>
+                      <Button variant={variantName} size="md" disabled className='uppercase'>
                         {buttonText}
                       </Button>
                     </button>
@@ -284,7 +285,7 @@ export const ButtonsPage = () => {
 
                   <td className="py-2 px-4">
                     <button  className="cursor-pointer transition-transform active:scale-95">
-                      <Button variant={variantName} size="md" loading>
+                      <Button variant={variantName} size="md" loading className='uppercase'>
                         {buttonText}
                       </Button>
                     </button>
@@ -293,7 +294,7 @@ export const ButtonsPage = () => {
 
                   <td className="py-2 px-4">
                     <button  className="cursor-pointer transition-transform active:scale-95">
-                      <Button variant={variantName} size="md">
+                      <Button variant={variantName} size="md" className='uppercase'>
                         {buttonText}
                       </Button>
                     </button>
@@ -302,7 +303,7 @@ export const ButtonsPage = () => {
                  <td className="py-2 px-4 min-w-50">
                     <button className="w-full cursor-pointer transition-transform active:scale-95"
                     >
-                        <Button variant={variantName} size="fullWidth">
+                        <Button variant={variantName} size="fullWidth" className='uppercase'>
                         {buttonText}
                         </Button>
                     </button>

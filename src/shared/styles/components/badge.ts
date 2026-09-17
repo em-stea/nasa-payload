@@ -85,7 +85,7 @@ export const badgeVariants = cva(commonClassnames, {
     {
       variant: "full-filled",
       tone: "red",
-      class: "border-red-200-30 bg-red-700-20 text-destructive",
+      class: "border border-destructive bg-red-700-20 text-destructive",
     },
     {
       variant: "full-filled",

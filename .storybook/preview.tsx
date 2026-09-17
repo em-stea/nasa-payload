@@ -1,5 +1,7 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
+
+import { SpaceGrotesk, JetBrainsMono } from "@/shared/styles/foundations/fonts"; 
 import "../src/shared/styles/globals.css";
 
 const preview: Preview = {
@@ -18,6 +20,11 @@ const preview: Preview = {
     },
   },
   decorators: [
+    (Story) => (
+      <div className={`${SpaceGrotesk.variable} ${JetBrainsMono.variable}`}>
+        <Story />
+      </div>
+    ),
     withThemeByDataAttribute({
       attributeName: "data-theme", 
       themes: {

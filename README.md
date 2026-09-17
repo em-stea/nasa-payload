@@ -1,6 +1,7 @@
 # DSCOVR - NASA API
 
-<img width="1512" height="829" alt="Screenshot 2026-09-16 at 14 58 14" src="https://github.com/user-attachments/assets/e39f808b-59b2-47a8-8bdf-3ef6f81b110e" />
+<img width="1512" height="822" alt="Screenshot 2026-09-16 at 21 04 45" src="https://github.com/user-attachments/assets/ceb04d93-1086-43fb-82b8-0a0e6223336e" />
+
 
 <br/>
 <br/>

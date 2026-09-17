@@ -78,7 +78,7 @@ export const Typography = () => {
       </div>
 
       {/* Headings Scale */}
-      <section className="mb-20 rounded-xl border border-gray-100 p-6 dark:border-[#181826]">
+      <section className="mb-20 rounded-xl border border-red-500 p-6 dark:border-[#181826]">
         <h2 className="mb-2 font-space-grotesk text-xl font-bold">
           Heading Variants (Space Grotesk)
         </h2>

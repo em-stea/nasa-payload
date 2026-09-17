@@ -234,16 +234,17 @@ pnpm dev
 
 ## Scripts
 
-| Command                             | What it does                      |
-| ----------------------------------- | --------------------------------- |
-| `pnpm dev`                          | Dev server                        |
-| `pnpm devsafe`                      | Wipe `.next` and start again      |
-| `pnpm build` / `pnpm start`         | Production build and serve        |
-| `pnpm generate:types`               | Regenerate `src/payload-types.ts` |
-| `pnpm generate:importmap`           | Regenerate the admin import map   |
-| `pnpm lint` / `pnpm lint:fix`       | ESLint                            |
-| `pnpm format` / `pnpm format:check` | Prettier                          |
-| `pnpm payload`                      | Payload CLI                       |
+| Command                             | What it does                             |
+| ----------------------------------- | ---------------------------------------- |
+| `pnpm dev`                          | Dev server                               |
+| `pnpm devsafe`                      | Wipe `.next` and start again             |
+| `pnpm build` / `pnpm start`         | Production build and serve               |
+| `pnpm generate:types`               | Regenerate `src/payload-types.ts`        |
+| `pnpm generate:importmap`           | Regenerate the admin import map          |
+| `pnpm lint` / `pnpm lint:fix`       | ESLint                                   |
+| `pnpm format` / `pnpm format:check` | Prettier                                 |
+| `pnpm payload`                      | Payload CLI                              |
+| `pnpm chromatic`                    | Build and publish Storybook to Chromatic |
 
 ## UI / design system
 
@@ -267,4 +268,4 @@ pnpm storybook
 pnpm build-storybook
 ```
 
-> 📚 **Storybook Documentation:** [View Storybook Catalog](https://www.chromatic.com/library?appId=6aac7118846206076cda57e3)
+> 📚 **Storybook Documentation:** [View Storybook Catalog](https://6aac7118846206076cda57e3-msozgruwvj.chromatic.com/)

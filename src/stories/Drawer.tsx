@@ -213,7 +213,6 @@ export const Drawer = () => {
 
   return (
     <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-sans space-y-12 transition-colors duration-200">
-      <div>
         <h1 className="text-3xl font-bold mb-2">Drawer</h1>
         <p className="text-gray-500 dark:text-[#8D90A0] mb-6 text-sm">
           Drawers present secondary content, navigation, or supplementary workflows in a sliding overlay panel anchored to the viewport edge.
@@ -228,6 +227,32 @@ export const Drawer = () => {
             <li>Ensure main content behind the overlay is appropriately dimmed to maintain clear visual hierarchy.</li>
           </ul>
         </div>
+
+      {/* Dynamic Code Snippet Box */}
+      <div className="p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-mono text-sm overflow-x-auto">
+        <pre className="text-xs sm:text-sm">
+          <code>
+            {`import {NavDrawer} from "@/shared/components/drawer/nav-drawer";
+import {UserDrawer} from "@/shared/components/drawer/user-drawer";
+
+const MyComponent = () => {
+  return (
+    <div className="flex gap-4">
+
+      {/* Navigation Drawer */}
+      <NavDrawer activePath={activePath} links={NAVBAR_LINKS} logo={NAVBAR_DATA.logo}>
+        <Navbar.Menu />
+      </NavDrawer>
+
+      {/* User Drawer */}
+      <UserDrawer logo={NAVBAR_DATA.logo}>
+        <Navbar.User />
+      </UserDrawer>
+    </div>
+  );
+};`}
+          </code>
+        </pre>
       </div>
 
       {/* Navigation Drawer */}

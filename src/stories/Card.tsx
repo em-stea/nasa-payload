@@ -48,14 +48,14 @@ export const CardsPage = () => {
   return (
     <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-sans space-y-12 transition-colors duration-200">
       {/* Header Section */}
-      <div>
+ 
         <h1 className="text-3xl font-bold mb-2">Card</h1>
         <p className="text-gray-500 dark:text-[#8D90A0] text-sm mb-6">
           Cards group related content, actions, and media into flexible visual containers.
         </p>
 
       {/* Best Practices Section */}
-      <div>
+      <div className="mb-8">
         <h2 className="text-lg font-bold mb-3">Best practices</h2>
         <ul className="list-disc list-inside space-y-1.5 text-sm text-gray-600 dark:text-[#8D90A0]">
           <li>Use the <code className="font-semibold">media</code> variant for image-heavy content or featured showcases.</li>
@@ -63,7 +63,6 @@ export const CardsPage = () => {
           <li>Keep titles concise and limited to 1–2 lines to avoid breaking vertical alignment in grids.</li>
           <li>Compose optional subcomponents like <code className="font-semibold">&lt;Card.Badge&gt;</code> or <code className="font-semibold">&lt;Card.Footer&gt;</code> only when necessary.</li>
         </ul>
-      </div>
       </div>
 
 

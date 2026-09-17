@@ -37,8 +37,8 @@ export const Pagination = ({page, totalPages, buildHref, prefetch}: PaginationPr
   const nextPage = page + 1;
 
   return (
-    <div className="flex items-center justify-between gap-2 py-2">
-      <Text className="text-basic-500" variant="body.2">
+    <div className="flex flex-col items-center justify-between gap-5 py-2 md:flex-row">
+      <Text className="text-basic-500 uppercase" variant="body.3">
         Page {formatPage(page)} / {formatPage(totalPages)}
       </Text>
 
@@ -87,7 +87,7 @@ export const Pagination = ({page, totalPages, buildHref, prefetch}: PaginationPr
         {hasMore ? (
           <span
             aria-hidden="true"
-            className="flex size-10 items-center justify-center gap-1 border border-muted-foreground bg-muted pt-1"
+            className="flex size-10 items-center justify-center gap-1 rounded-lg border border-muted-foreground bg-muted pt-1"
           >
             <span className="size-0.5 rounded-full bg-muted-foreground" />
             <span className="size-0.5 rounded-full bg-muted-foreground" />

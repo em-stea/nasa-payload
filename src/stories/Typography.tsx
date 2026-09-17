@@ -41,7 +41,7 @@ const SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog";
 export const Typography = () => {
   return (
     <div className="min-h-screen bg-white p-8 font-space-grotesk text-gray-900 transition-colors duration-200 dark:bg-[#0C0E16] dark:text-[#E1E2ED]">
-      <h1 className="mb-2 font-space-grotesk text-3xl font-bold">Typography - Testing Chromatic</h1>
+      <h1 className="mb-2 font-space-grotesk text-3xl font-bold">Typography</h1>
       <p className="mb-6 font-jetbrains-mono text-sm text-gray-500 dark:text-[#8D90A0]">
         Our Design System uses Space Grotesk as the primary font for headings and structural tokens,
         and JetBrains Mono for telemetry, controls, and body text.

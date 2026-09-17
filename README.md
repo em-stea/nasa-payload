@@ -1,6 +1,9 @@
 # DSCOVR - NASA API
 
-<img width="1512" height="826" alt="Screenshot 2026-09-15 at 16 55 40" src="https://github.com/user-attachments/assets/6585c51e-8584-4692-8431-b2ce6ba9f1f7" />
+<img width="1512" height="829" alt="Screenshot 2026-09-16 at 14 58 14" src="https://github.com/user-attachments/assets/e39f808b-59b2-47a8-8bdf-3ef6f81b110e" />
+
+<br/>
+<br/>
 
 Web app for exploring NASA public data, plus a moderation backoffice.
 Single Next.js codebase: the public site lives in `(frontend)` and Payload CMS

@@ -40,7 +40,7 @@ export const drawerHeaderVariants = cva([
   "pb-8",
 ]);
 
-export const drawerIdentityVariants = cva(["flex", "shrink-0", "items-center", "gap-2"]);
+export const drawerIdentityVariants = cva(["flex", "shrink-0", "items-center", "gap-4"]);
 
 export const drawerAvatarVariants = cva([
   "flex",
@@ -55,13 +55,19 @@ export const drawerAvatarVariants = cva([
 
 export const drawerAvatarIconVariants = cva(["size-4"]);
 
-export const drawerAvatarImageVariants = cva(["size-full", "rounded-full", "object-cover"]);
+export const drawerAvatarImageVariants = cva([
+  "size-full",
+  "rounded-full",
+  "object-cover",
+  "border",
+  "border-secondary-background",
+]);
 
 export const drawerUserMetaVariants = cva(["flex", "min-w-0", "flex-col", "gap-0.5"]);
 
 export const drawerUserNameVariants = cva([
   "truncate",
-  "text-basic-00",
+  "text-secondary-foreground",
   headingVariants({variant: "title.4"}),
 ]);
 
@@ -117,7 +123,7 @@ export const drawerBodyVariants = cva([
   "w-full",
   "flex-1",
   "flex-col",
-  "gap-6",
+  "gap-8",
 ]);
 
 export const drawerSectionVariants = cva(["flex", "w-full", "shrink-0", "flex-col", "gap-2"]);
@@ -140,11 +146,11 @@ export const drawerNavLinkVariants = cva(
     "gap-3",
     "rounded-lg",
     "p-3",
-    "text-basic-300",
+    "text-secondary-foreground",
     "transition-colors",
     "duration-200",
-    "hover:bg-basic-00-05",
-    "hover:text-blue-200",
+    "hover:bg-light-background",
+    "hover:text-primary",
     "focus-visible:ring-2",
     "focus-visible:ring-blue-200",
     "focus-visible:outline-none",
@@ -162,7 +168,7 @@ export const drawerNavLinkVariants = cva(
   },
 );
 
-export const drawerNavLinkIconVariants = cva(["size-6", "shrink-0"]);
+export const drawerNavLinkIconVariants = cva(["size-4.5", "shrink-0"]);
 
 /* ---------------------------------- Acciones -------------------------------- */
 
@@ -308,10 +314,10 @@ export const drawerLogoutVariants = cva([
   "rounded-lg",
   "border",
   "border-red-200-30",
-  "bg-red-700-20",
+  "bg-logout-button-background",
   "px-px",
   "py-3.25",
-  "text-red-200",
+  "text-destructive-text",
   "transition-colors",
   "duration-200",
   "hover:cursor-pointer",

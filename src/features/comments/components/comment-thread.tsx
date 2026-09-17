@@ -16,7 +16,7 @@ export function CommentThread({comments, article, canReply}: CommentThreadProps)
     return (
       <div className="w-full border border-dashed border-border bg-card p-6">
         <Text className="text-basic-500 uppercase" variant="meta.3">
-          &gt; No transmissions yet. Sé el primero en comentar.
+          Be the first to comment.
         </Text>
       </div>
     );

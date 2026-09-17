@@ -16,11 +16,6 @@ export const metadata: Metadata = {
     "The latest updates from deep space missions, planetary defense, and scientific breakthroughs across the cosmos.",
 };
 
-/**
- * Pide a Next que valide que navegar a esta ruta pinta UI al instante. Si algo
- * bloquea —una lectura sin cachear, un `<Suspense>` que falta— lo avisa en el
- * overlay de desarrollo en vez de dejarlo pasar a producción.
- */
 export const instant = true;
 
 type NewsSearchParams = {
@@ -38,11 +33,6 @@ function readPage(value: string | string[] | undefined) {
   return Number.isFinite(page) && page > 0 ? page : 1;
 }
 
-/**
- * El hero es estático y viaja en el shell de la ruta. Lo que depende de
- * `searchParams` cuelga de su propio `<Suspense>`, cada uno con un fallback de
- * las mismas medidas que su contenido, así nada se mueve cuando resuelve.
- */
 export default function NewsPage({searchParams}: {searchParams: Promise<NewsSearchParams>}) {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">

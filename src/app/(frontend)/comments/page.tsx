@@ -33,19 +33,10 @@ function readPage(value: string | string[] | undefined) {
   return Number.isFinite(page) && page > 0 ? page : 1;
 }
 
-/** `/comments`, `/comments?page=2`. Omite el default para no duplicar la cache. */
 function buildCommentsHref(page: number) {
   return page > 1 ? `/comments?page=${page}` : "/comments";
 }
 
-/**
- * Lo que el lector escribió, en todos los artículos.
- *
- * El encabezado viaja en el shell estático de la ruta y la lista, que depende
- * de la sesión y de la página pedida, entra por streaming dentro de su propio
- * boundary: cambiar de página muestra el skeleton al toque en vez de quedarse
- * con la lista vieja pegada en pantalla.
- */
 export default function MyCommentsPage({
   searchParams,
 }: {
@@ -60,12 +51,12 @@ export default function MyCommentsPage({
             <span className="text-basic-500">TRANSMISSION_LOG</span>
           </Text>
 
-          <Heading as="h1" className="leading-13.2 text-12 tracking-n0_96" variant="title.2">
+          <Heading as="h1" className="leading-13.2 text-12 tracking-n0.96" variant="title.1-bold">
             My Comments
           </Heading>
 
           <Text className="max-w-2xl text-basic-500" variant="body.1">
-            Todo lo que comentaste en las noticias, ordenado del más nuevo al más viejo.
+            Everything you commented on news posts, ordered from newest to oldest.
           </Text>
         </header>
 

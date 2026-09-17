@@ -139,11 +139,11 @@ export function UserDrawer({children, open, onOpenChange}: UserDrawerProps) {
         <Drawer.Content className={drawerContentVariants()} data-slot="user-drawer">
           <Drawer.Description className="sr-only">
             {isAuthenticated
-              ? "Perfil, tema y preferencias de la cuenta."
-              : "Iniciá sesión para acceder a tu cuenta."}
+              ? "Profile, theme, and account preferences."
+              : "Log in to access your account."}
           </Drawer.Description>
 
-          <div className={drawerHeaderVariants()} data-slot="user-drawer-header">
+          <div className={cn(drawerHeaderVariants())} data-slot="user-drawer-header">
             <div className={drawerIdentityVariants()}>
               {isAuthenticated ? (
                 <>

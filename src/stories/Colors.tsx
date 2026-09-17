@@ -88,7 +88,7 @@ export const Colors = () => {
   return (
     <div className="min-h-screen bg-white p-8 font-sans text-gray-900 transition-colors duration-200 dark:bg-[#0C0E16] dark:text-[#E1E2ED]">
       <h1 className="mb-2 text-3xl font-bold">Color System</h1>
-      <p className="mb-8 text-gray-500 dark:text-[#8D90A0]">Foundations → Utility Tokens</p>
+      <p className="mb-8 text-sm text-gray-500 dark:text-[#8D90A0]">Foundations → Utility Tokens</p>
 
       {colorData.map((group) => (
         <div className="mb-20" key={group.category}>

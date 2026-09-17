@@ -57,6 +57,7 @@
     "@storybook/addon-onboarding": "^10.6.0",
     "@storybook/addon-themes": "^10.6.0",
     "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/nextjs": "^10.6.0",
     "@storybook/nextjs-vite": "^10.6.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4.3.3",

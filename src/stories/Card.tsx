@@ -142,16 +142,16 @@ export const CardsPage = () => {
             <Card data={mediaCardData} variant="media" padding="none">
               <Card.Header variant="media">
                 <Card.Image />
-                <Card.Title variant="media" />
                 {showMediaBadge && (
-                  <Card.Badge
+                    <Card.Badge
                     dot={showMediaDot}
                     variant={mediaVariant}
                     className="absolute top-3 left-3"
-                  />
+                    />
                 )}
               </Card.Header>
               <Card.Body variant="media">
+                <Card.Title variant="media">{mediaCardData.title}</Card.Title>
                 <Card.Description />
               </Card.Body>
               <Card.Footer variant="stats" className="px-4">

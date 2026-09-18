@@ -292,5 +292,3 @@ pnpm build-storybook
 <br>
 
 > 📚 **Storybook Documentation:** [View Storybook Catalog](https://6aac7118846206076cda57e3-msozgruwvj.chromatic.com/)
-
--

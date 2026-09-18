@@ -46,7 +46,7 @@ export const CardsPage = () => {
   };
 
   return (
-    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-sans space-y-12 transition-colors duration-200">
+    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-space-grotesk space-y-12 transition-colors duration-200">
       <div>
         <h1 className="text-3xl font-bold mb-2">Card System Showcase</h1>
         <p className="text-gray-500 dark:text-[#8D90A0] text-sm">
@@ -58,7 +58,7 @@ export const CardsPage = () => {
       </div>
 
       {/* Plain Card Code Snippet */}
-      <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-mono text-sm flex justify-between items-center overflow-x-auto">
+      <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-jetbrains-mono text-sm flex justify-between items-center overflow-x-auto">
       <pre className="text-xs sm:text-sm">
     <code>
 {`<Card data={plainCardData} variant="plain" padding="md">

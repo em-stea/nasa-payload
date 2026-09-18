@@ -41,11 +41,11 @@ export default function AsteroidsPage({
           hasChip={[
             {
               active: false,
-              label: "Live Feed",
+              label: "Status: Optimal",
             },
             {
               active: true,
-              label: "Status: Optimal",
+              label: "Live Feed",
             },
           ]}
           description="Real-time telemetry and orbital analysis of Near-Earth Objects (NEOs) utilizing global radar arrays and NASA JPL data feeds. System active. Monitoring potential impact trajectories and orbital intersections."

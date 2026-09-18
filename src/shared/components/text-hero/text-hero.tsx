@@ -1,26 +1,44 @@
 import {textVariants} from "@/shared/styles/components/text";
 import {cn} from "@/shared/utils/className-builder";
 
+import {Badge} from "../badge/badge";
 import {Heading} from "../heading/heading";
 import {Text} from "../text/text";
 
 interface TextHeroProps {
-  eyebrow: string;
-  overline: string;
+  eyebrow?: string;
+  overline?: string;
   title: string;
   description: string;
   hasChip?: {
     active?: boolean;
     label: string;
   }[];
+  badge?: {
+    icon: React.ReactNode;
+    label: string;
+    isLive: boolean;
+  };
 }
 
-export const TextHero = ({eyebrow, overline, title, description, hasChip = []}: TextHeroProps) => {
+export const TextHero = ({
+  eyebrow,
+  overline,
+  title,
+  description,
+  hasChip = [],
+  badge,
+}: TextHeroProps) => {
   return (
     <header className="flex w-full flex-col gap-2.5 border-b border-border pt-20 pb-6">
+      {badge && (
+        <Badge tone={badge.isLive ? "light-red" : "neutral"} variant="full-filled">
+          {badge.icon} {badge.label}
+        </Badge>
+      )}
       <Text className="flex flex-wrap items-baseline gap-2" variant="body.4">
-        <span className="text-foreground">{eyebrow}</span>
-        <span className="text-basic-500">{overline}</span>
+        {eyebrow && <span className="text-foreground">{eyebrow}</span>}
+        {overline && <span className="text-basic-500">{overline}</span>}
       </Text>
 
       <Heading as="h1" variant="title.1-bold">

@@ -7,22 +7,10 @@ import {getAsteroidFeed} from "@/features/asteroids/services/get-asteroid-feed";
 import {buildAsteroidsHref} from "@/features/asteroids/utils/build-asteroids-href";
 import {Pagination} from "@/shared/components/pagination/pagination";
 
-/**
- * Las tres secciones que dependen de la página pedida.
- *
- * Van juntas en un solo componente —y detrás de un solo `<Suspense>`— porque
- * las tres leen la misma página del catálogo: el radar y el comparador son dos
- * lecturas distintas de los mismos nueve objetos que pinta el grid, así que
- * separarlas sería pedir el mismo dato tres veces y, peor, dejar que resuelvan
- * en momentos distintos.
- */
 export async function AsteroidResults({page}: {page: number}) {
   const feed = await getAsteroidFeed({page});
 
-  // Sin resultados en una página que existe significa URL inventada.
-  if (feed.asteroids.length === 0) {
-    notFound();
-  }
+  if (feed.asteroids.length === 0) notFound();
 
   return (
     <>
@@ -44,11 +32,6 @@ export async function AsteroidResults({page}: {page: number}) {
   );
 }
 
-/**
- * Fallback con las mismas medidas que el contenido: el panel del radar, el del
- * comparador, el grid y la fila de paginación, para que nada salte al
- * resolverse.
- */
 export function AsteroidResultsSkeleton() {
   return (
     <div aria-hidden="true" className="flex w-full animate-pulse flex-col gap-12">

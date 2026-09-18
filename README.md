@@ -5,8 +5,6 @@
 <br/>
 <br/>
 
-Deployment on Vercel
-
 **🚀 Live Demo:** [https://nasa-payload-tau.vercel.app/](https://nasa-payload-tau.vercel.app/)
 
 <br/>
@@ -14,6 +12,23 @@ Deployment on Vercel
 Web app for exploring NASA public data, plus a moderation backoffice.
 Single Next.js codebase: the public site lives in `(frontend)` and Payload CMS
 in `(payload)` (`/admin`, REST, GraphQL).
+
+## Deployments
+
+| Platform      | Scope                                       | URL                                                                                  |
+| ------------- | ------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Vercel**    | Next.js Frontend & Payload CMS              | [https://nasa-payload-tau.vercel.app/](https://nasa-payload-tau.vercel.app/)         |
+| **Chromatic** | Storybook Design System & Component Catalog | [View Storybook Catalog](https://6aac7118846206076cda57e3-msozgruwvj.chromatic.com/) |
+
+### Deployment Details
+
+- **Frontend & Backoffice (Vercel):**
+  - Hosted on Vercel utilizing Server-Side Rendering (SSR) and React Server Components.
+  - Requires a remote MongoDB instance (e.g., MongoDB Atlas) passed via `DATABASE_URL`.
+  - Configure Auth.js callbacks (`/api/auth/callback/google` & `/github`) pointing to the production domain.
+- **Storybook UI Kit (Chromatic):**
+  - Published to Chromatic to review isolated components, design tokens, and visual regressions.
+  - Deployed automatically or via `pnpm chromatic`.
 
 ## Stack
 

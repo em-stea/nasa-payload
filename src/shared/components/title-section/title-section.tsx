@@ -16,7 +16,6 @@ import {
 } from "@/shared/styles/components/title-section";
 import {cn} from "@/shared/utils/className-builder";
 
-/** Acción por defecto del encabezado: un link con flecha ("VIEW ALL ARCHIVES →"). */
 export type TitleSectionAction = {
   label: string;
   href: ComponentProps<typeof Link>["href"];
@@ -26,16 +25,9 @@ type TitleSectionProps = Omit<ComponentProps<"div">, "title"> & {
   title: ReactNode;
   description?: ReactNode;
   action?: TitleSectionAction;
-  /** Nivel del encabezado; el estilo siempre es `title.2`. */
   as?: ComponentProps<typeof Heading>["as"];
 };
 
-/**
- * Encabezado de sección.
- *
- * `action` renderiza el link con flecha del diseño. Para otra cosa (un botón
- * primario, un filtro) se pasa por `children`, que ocupa el mismo lugar.
- */
 export function TitleSection({
   title,
   description,

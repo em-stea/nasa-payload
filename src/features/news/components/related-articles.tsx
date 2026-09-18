@@ -10,27 +10,12 @@ import {ArrowRight} from "@/shared/components/icons/directional/arrow-right";
 import {Text} from "@/shared/components/text/text";
 import {cn} from "@/shared/utils/className-builder";
 
-/**
- * En el diseño el tag de estas cards es un contorno del color de la categoría,
- * no la pastilla opaca que va sobre las fotos del listado.
- *
- * Sin el fondo oscuro de la pastilla, el color del texto tiene que cambiar con
- * el tema: `foreground` y `destructive` ya lo hacen. `orange` no tiene par
- * claro en la paleta y queda en su pastel.
- */
 const OUTLINE_BY_TONE: Partial<Record<BadgeTone, string>> = {
   blue: "border-foreground text-foreground",
   red: "border-destructive text-destructive",
   orange: "border-orange-200 text-orange-200",
 };
 
-/**
- * Fila de noticias de la misma categoría.
- *
- * No reusa `Card` a propósito: estas van sin imagen —el tag, el titular, la
- * bajada y el link— y forzar la card de media a esconder su header terminaría
- * en una card llena de excepciones.
- */
 export function RelatedArticles({articles}: {articles: NewsArticle[]}) {
   if (articles.length === 0) return null;
 

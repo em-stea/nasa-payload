@@ -108,8 +108,6 @@ export const badgeVariants = cva(commonClassnames, {
       class: "border-basic-00-10 bg-tag-default text-basic-300",
     },
 
-    /* `default` y `dark` ya traen su fondo: el tono sólo mueve el color del
-       texto —y con él el del punto, que va en `bg-current`—. */
     {variant: ["default", "dark"], tone: "blue", class: "text-blue-200"},
     {variant: ["default", "dark"], tone: "red", class: "text-red-300"},
     {variant: ["default", "dark"], tone: "orange", class: "text-orange-200"},

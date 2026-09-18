@@ -5,6 +5,7 @@ const commonClassnames = ["font-space-grotesk"];
 export const headingVariants = cva(commonClassnames, {
   variants: {
     variant: {
+      "title.0": "text-24 leading-20 font-bold lg:text-36 lg:leading-30",
       "title.1": "text-8 leading-10 font-semibold lg:text-16 lg:leading-20",
       "title.1-bold": "text-10 leading-12 font-bold lg:text-12 lg:leading-14",
       "title.2": "text-8 leading-10 font-bold lg:text-8 lg:leading-10",

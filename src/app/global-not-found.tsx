@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 
-import {NotFoundScreen} from "@/features/not-found/components/not-found-screen";
+import {NotFoundContent} from "@/shared/components/404/not-found-content";
 import {JetBrainsMono, SpaceGrotesk} from "@/shared/styles/foundations/fonts";
 
 import "@styles/globals.css";
@@ -29,7 +29,7 @@ export default function GlobalNotFound() {
   return (
     <html className={fonts} data-theme="dark" lang="es">
       <body>
-        <NotFoundScreen />
+        <NotFoundContent />
       </body>
     </html>
   );

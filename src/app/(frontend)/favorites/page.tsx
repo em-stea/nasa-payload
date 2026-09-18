@@ -19,13 +19,6 @@ export const instant = true;
 
 const GRID_CLASSNAME = "grid w-full auto-rows-96 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
-/**
- * Lo que el lector guardó.
- *
- * El encabezado viaja en el shell estático de la ruta y la lista, que depende
- * de la sesión, entra por streaming: sin eso la página entera tendría que
- * esperar a la cookie antes de pintar nada.
- */
 export default function FavoritesPage() {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
@@ -36,12 +29,12 @@ export default function FavoritesPage() {
             <span className="text-basic-500">PERSONAL_ARCHIVE</span>
           </Text>
 
-          <Heading as="h1" className="leading-13.2 text-12 tracking-n0_96" variant="title.2">
+          <Heading as="h1" className="leading-13.2 text-12 tracking-n0.96" variant="title.1-bold">
             Favorites
           </Heading>
 
           <Text className="max-w-2xl text-basic-500" variant="body.1">
-            Las transmisiones que marcaste para volver a leer.
+            The transmissions you saved to read later.
           </Text>
         </header>
 

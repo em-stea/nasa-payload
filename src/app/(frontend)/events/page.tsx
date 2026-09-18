@@ -16,11 +16,6 @@ export const metadata: Metadata = {
     "Wildfires, storms, floods, volcanoes and ice events currently tracked by NASA EONET, plotted worldwide.",
 };
 
-/**
- * Pide a Next que valide que navegar a esta ruta pinta UI al instante. Si algo
- * bloquea —una lectura sin cachear, un `<Suspense>` que falta— lo avisa en el
- * overlay de desarrollo en vez de dejarlo pasar a producción.
- */
 export const instant = true;
 
 type EventsSearchParams = {

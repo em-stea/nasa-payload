@@ -2,7 +2,6 @@
 
 <img width="1512" height="822" alt="Screenshot 2026-09-16 at 21 04 45" src="https://github.com/user-attachments/assets/ceb04d93-1086-43fb-82b8-0a0e6223336e" />
 
-
 <br/>
 <br/>
 
@@ -12,18 +11,18 @@ in `(payload)` (`/admin`, REST, GraphQL).
 
 ## Stack
 
-| Layer | Technology |
-| ----- | ---------- |
-| Framework | **Next.js 16** (App Router, React 19, Cache Components) |
-| CMS / API | **Payload 3.88** + MongoDB (`@payloadcms/db-mongodb`) |
-| Front auth | **Auth.js / NextAuth v5** (Google + GitHub, JWT session) |
-| UI | **Tailwind CSS v4** + **shadcn/ui** (`new-york` style, `neutral` base) |
-| Primitives | Radix UI, CVA, `tailwind-merge`, Lucide |
-| 3D / visuals | **Three.js**, **globe.gl**, Embla Carousel |
-| Validation | Zod |
-| Admin editor | Lexical (`@payloadcms/richtext-lexical`) |
-| Package manager | pnpm |
-| Local DB | MongoDB 7 via Docker Compose |
+| Layer           | Technology                                                             |
+| --------------- | ---------------------------------------------------------------------- |
+| Framework       | **Next.js 16** (App Router, React 19, Cache Components)                |
+| CMS / API       | **Payload 3.88** + MongoDB (`@payloadcms/db-mongodb`)                  |
+| Front auth      | **Auth.js / NextAuth v5** (Google + GitHub, JWT session)               |
+| UI              | **Tailwind CSS v4** + **shadcn/ui** (`new-york` style, `neutral` base) |
+| Primitives      | Radix UI, CVA, `tailwind-merge`, Lucide                                |
+| 3D / visuals    | **Three.js**, **globe.gl**, Embla Carousel                             |
+| Validation      | Zod                                                                    |
+| Admin editor    | Lexical (`@payloadcms/richtext-lexical`)                               |
+| Package manager | pnpm                                                                   |
+| Local DB        | MongoDB 7 via Docker Compose                                           |
 
 ### Key libraries
 
@@ -67,39 +66,39 @@ in `(payload)` (`/admin`, REST, GraphQL).
 
 ## Front routes
 
-| Route | Description |
-| ----- | ----------- |
-| `/` | Home |
-| `/news`, `/news/[id]` | News archive and article detail |
-| `/asteroids`, `/asteroids/[id]` | NEO catalog and detail |
-| `/events`, `/events/[id]` | EONET events and detail |
-| `/latest-frontiers` | Image Library search |
-| `/apod` | Astronomy Picture of the Day |
-| `/live` | NASA live stream (YouTube) |
-| `/comments` | Signed-in user's comments |
-| `/favorites` | User favorites |
-| `/notifications` | Notifications (e.g. replies) |
-| `/design` | Design system sandbox |
-| `/admin` | Payload CMS |
-| `/api/auth/*` | Auth.js (NextAuth) |
-| `/api/*` | Payload REST |
-| `/api/graphql` | Payload GraphQL |
+| Route                           | Description                     |
+| ------------------------------- | ------------------------------- |
+| `/`                             | Home                            |
+| `/news`, `/news/[id]`           | News archive and article detail |
+| `/asteroids`, `/asteroids/[id]` | NEO catalog and detail          |
+| `/events`, `/events/[id]`       | EONET events and detail         |
+| `/latest-frontiers`             | Image Library search            |
+| `/apod`                         | Astronomy Picture of the Day    |
+| `/live`                         | NASA live stream (YouTube)      |
+| `/comments`                     | Signed-in user's comments       |
+| `/favorites`                    | User favorites                  |
+| `/notifications`                | Notifications (e.g. replies)    |
+| `/design`                       | Design system sandbox           |
+| `/admin`                        | Payload CMS                     |
+| `/api/auth/*`                   | Auth.js (NextAuth)              |
+| `/api/*`                        | Payload REST                    |
+| `/api/graphql`                  | Payload GraphQL                 |
 
 ## External APIs
 
 Base URLs are centralized in `src/shared/constants/nasa-endpoints.ts`.
 
-| Source | Base / URL | Used for |
-| ------ | ---------- | -------- |
-| **EPIC** | `https://epic.gsfc.nasa.gov/api` | Earth imagery (`/enhanced`) — home 3D explorer |
-| **APOD (WP)** | `https://science.nasa.gov/wp-json/wp/v2` | Picture of the Day (`/apod-basic`) |
-| **News (WP)** | `https://www.nasa.gov/wp-json/wp/v2` | Feed and detail (`/posts`, `/posts/:id`) |
-| **EONET** | `https://eonet.gsfc.nasa.gov/api/v3` | Natural events (`/events`, `/events/:id`) |
-| **NeoWs** | `https://api.nasa.gov/neo/rest/v1` | Asteroids (`/neo/browse`, `/neo/:id`, `/feed`) |
-| **Image Library** | `https://images-api.nasa.gov` | Latest Frontiers and project media (`/search`) |
-| **TechPort** | `https://api.nasa.gov/techport/api` | Featured home missions (`/projects`, `/projects/:id`) |
-| **The Space Devs** | `https://ll.thespacedevs.com/2.2.0` | Next launch (`/launch/upcoming`) |
-| **YouTube** | `https://www.youtube.com/@NASA/live` | Live status / embed |
+| Source             | Base / URL                               | Used for                                              |
+| ------------------ | ---------------------------------------- | ----------------------------------------------------- |
+| **EPIC**           | `https://epic.gsfc.nasa.gov/api`         | Earth imagery (`/enhanced`) — home 3D explorer        |
+| **APOD (WP)**      | `https://science.nasa.gov/wp-json/wp/v2` | Picture of the Day (`/apod-basic`)                    |
+| **News (WP)**      | `https://www.nasa.gov/wp-json/wp/v2`     | Feed and detail (`/posts`, `/posts/:id`)              |
+| **EONET**          | `https://eonet.gsfc.nasa.gov/api/v3`     | Natural events (`/events`, `/events/:id`)             |
+| **NeoWs**          | `https://api.nasa.gov/neo/rest/v1`       | Asteroids (`/neo/browse`, `/neo/:id`, `/feed`)        |
+| **Image Library**  | `https://images-api.nasa.gov`            | Latest Frontiers and project media (`/search`)        |
+| **TechPort**       | `https://api.nasa.gov/techport/api`      | Featured home missions (`/projects`, `/projects/:id`) |
+| **The Space Devs** | `https://ll.thespacedevs.com/2.2.0`      | Next launch (`/launch/upcoming`)                      |
+| **YouTube**        | `https://www.youtube.com/@NASA/live`     | Live status / embed                                   |
 
 > NeoWs and TechPort need `NASA_API_KEY` / `NEXT_PUBLIC_NASA_API_KEY`
 > ([api.nasa.gov](https://api.nasa.gov)). Without a key the server falls back to
@@ -109,14 +108,14 @@ Base URLs are centralized in `src/shared/constants/nasa-endpoints.ts`.
 
 Standard Payload pattern on `/api/<collection>`.
 
-| Collection | Example | Notes |
-| ---------- | ------- | ----- |
-| `comments` | `GET /api/comments?where[articleId][equals]=<id>&limit=200&depth=0&sort=createdAt` | Anonymous users only see `approved` |
-| `comments` | `POST /api/comments` | Public create; `status` always starts as `pending` |
-| `site-users` | `/api/site-users` | OAuth readers (authenticated access) |
-| `favorites` | `/api/favorites` | Reader saves |
-| `notifications` | `/api/notifications` | Alerts (e.g. reply) |
-| `users` | `/api/users` | Admin staff |
+| Collection      | Example                                                                            | Notes                                              |
+| --------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `comments`      | `GET /api/comments?where[articleId][equals]=<id>&limit=200&depth=0&sort=createdAt` | Anonymous users only see `approved`                |
+| `comments`      | `POST /api/comments`                                                               | Public create; `status` always starts as `pending` |
+| `site-users`    | `/api/site-users`                                                                  | OAuth readers (authenticated access)               |
+| `favorites`     | `/api/favorites`                                                                   | Reader saves                                       |
+| `notifications` | `/api/notifications`                                                               | Alerts (e.g. reply)                                |
+| `users`         | `/api/users`                                                                       | Admin staff                                        |
 
 The front also uses Payload's **Local API** (server actions / RSC) and bypasses
 HTTP access control when running in the same process.
@@ -156,15 +155,15 @@ The group is named `(payload)` because Payload looks for the import map at
 
 ### `comments`
 
-| Field | Type | Notes |
-| ----- | ---- | ----- |
-| `articleId` | text | Article id. Required and indexed. |
-| `articleUrl` / `articleTitle` | text | Optional, for the admin UI. |
-| `authorName` / `authorEmail` | text / email | Email only readable when authenticated. |
-| `author` | relationship → `site-users` | OAuth reader (empty if created manually). |
-| `content` | textarea | Max 5000 characters. |
-| `parent` / `replies` | relationship / join | Reply tree. |
-| `status` | select | `pending` (default), `approved`, `rejected`, `spam`. |
+| Field                         | Type                        | Notes                                                |
+| ----------------------------- | --------------------------- | ---------------------------------------------------- |
+| `articleId`                   | text                        | Article id. Required and indexed.                    |
+| `articleUrl` / `articleTitle` | text                        | Optional, for the admin UI.                          |
+| `authorName` / `authorEmail`  | text / email                | Email only readable when authenticated.              |
+| `author`                      | relationship → `site-users` | OAuth reader (empty if created manually).            |
+| `content`                     | textarea                    | Max 5000 characters.                                 |
+| `parent` / `replies`          | relationship / join         | Reply tree.                                          |
+| `status`                      | select                      | `pending` (default), `approved`, `rejected`, `spam`. |
 
 Rules: no `parent` cycles, replies inherit `articleId`, cascading delete of
 replies and related notifications.
@@ -189,11 +188,11 @@ Backoffice staff. Native Payload auth, no roles.
 
 ## Access (comments)
 
-| Operation | Anonymous | Authenticated (admin / Local API) |
-| --------- | --------- | --------------------------------- |
-| create | yes → always `pending` | yes |
-| read | `approved` only, no email | everything |
-| update / delete | no | yes |
+| Operation       | Anonymous                 | Authenticated (admin / Local API) |
+| --------------- | ------------------------- | --------------------------------- |
+| create          | yes → always `pending`    | yes                               |
+| read            | `approved` only, no email | everything                        |
+| update / delete | no                        | yes                               |
 
 `status` cannot be set from the blog: if sent in the POST, it is ignored.
 
@@ -214,44 +213,61 @@ pnpm install
 pnpm dev
 ```
 
-- Front: http://localhost:3000  
+- Front: http://localhost:3000
 - Admin: http://localhost:3000/admin (create the first user there)
 
 ### Environment variables
 
-| Variable | Purpose |
-| -------- | ------- |
-| `DATABASE_URL` | Mongo connection |
-| `PAYLOAD_SECRET` | CMS session token signing (`openssl rand -hex 32`) |
-| `CORS_ORIGINS` | External origins allowed to call the REST API |
-| `CSRF_ORIGINS` | Origins that may use the session cookie (must include admin) |
-| `AUTH_SECRET` | Auth.js JWT signing |
-| `AUTH_TRUST_HOST` | `true` outside Vercel |
-| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth |
-| `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET` | GitHub OAuth |
-| `NASA_API_KEY` | `api.nasa.gov` key (server) |
-| `NEXT_PUBLIC_NASA_API_KEY` | Same key for front calls validated with Zod |
-| `NEXT_PUBLIC_ENVIRONMENT` | Front environment (`development`, etc.) |
+| Variable                                | Purpose                                                      |
+| --------------------------------------- | ------------------------------------------------------------ |
+| `DATABASE_URL`                          | Mongo connection                                             |
+| `PAYLOAD_SECRET`                        | CMS session token signing (`openssl rand -hex 32`)           |
+| `CORS_ORIGINS`                          | External origins allowed to call the REST API                |
+| `CSRF_ORIGINS`                          | Origins that may use the session cookie (must include admin) |
+| `AUTH_SECRET`                           | Auth.js JWT signing                                          |
+| `AUTH_TRUST_HOST`                       | `true` outside Vercel                                        |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth                                                 |
+| `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET` | GitHub OAuth                                                 |
+| `NASA_API_KEY`                          | `api.nasa.gov` key (server)                                  |
+| `NEXT_PUBLIC_NASA_API_KEY`              | Same key for front calls validated with Zod                  |
+| `NEXT_PUBLIC_ENVIRONMENT`               | Front environment (`development`, etc.)                      |
 
 ## Scripts
 
-| Command | What it does |
-| ------- | ------------ |
-| `pnpm dev` | Dev server |
-| `pnpm devsafe` | Wipe `.next` and start again |
-| `pnpm build` / `pnpm start` | Production build and serve |
-| `pnpm generate:types` | Regenerate `src/payload-types.ts` |
-| `pnpm generate:importmap` | Regenerate the admin import map |
-| `pnpm lint` / `pnpm lint:fix` | ESLint |
-| `pnpm format` / `pnpm format:check` | Prettier |
-| `pnpm payload` | Payload CLI |
+| Command                             | What it does                             |
+| ----------------------------------- | ---------------------------------------- |
+| `pnpm dev`                          | Dev server                               |
+| `pnpm devsafe`                      | Wipe `.next` and start again             |
+| `pnpm build` / `pnpm start`         | Production build and serve               |
+| `pnpm generate:types`               | Regenerate `src/payload-types.ts`        |
+| `pnpm generate:importmap`           | Regenerate the admin import map          |
+| `pnpm lint` / `pnpm lint:fix`       | ESLint                                   |
+| `pnpm format` / `pnpm format:check` | Prettier                                 |
+| `pnpm payload`                      | Payload CLI                              |
+| `pnpm chromatic`                    | Build and publish Storybook to Chromatic |
 
 ## UI / design system
 
-Tokens and components live in `src/shared/styles` and `src/shared/components`
+Tokens and components live in `src/shared/design` and `src/shared/components`
 (button, card, badge, drawer, carousel, etc.). shadcn is already initialized
 (`components.json`); to add primitives:
 
 ```bash
 npx shadcn@latest add dialog table dropdown-menu
 ```
+
+### Storybook
+
+Component primitives, design tokens, and UI building blocks are documented and isolated using **Storybook**.
+
+- **Interactive Workshop:** Explore components, color systems, and token definitions in isolation.
+- **Local Development:** Run `pnpm storybook` to start the local Storybook server at `http://localhost:6006`.
+
+```bash
+pnpm storybook
+pnpm build-storybook
+```
+
+<br>
+
+> 📚 **Storybook Documentation:** [View Storybook Catalog](https://6aac7118846206076cda57e3-msozgruwvj.chromatic.com/)

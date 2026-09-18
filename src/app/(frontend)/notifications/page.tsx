@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import type {Notification} from "@/payload-types";
 import type {Metadata} from "next";
 
@@ -22,13 +23,6 @@ export const metadata: Metadata = {
 
 export const instant = true;
 
-/**
- * Avisos del lector.
- *
- * Hoy todos son del mismo tipo —alguien respondió un comentario tuyo—, así que
- * la lista se pinta directo sin ramificar por `type`. Cuando aparezca el
- * segundo tipo, la fila es el lugar donde se bifurca.
- */
 export default function NotificationsPage() {
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
@@ -39,12 +33,12 @@ export default function NotificationsPage() {
             <span className="text-basic-500">INCOMING_TRANSMISSIONS</span>
           </Text>
 
-          <Heading as="h1" className="leading-13.2 text-12 tracking-n0_96" variant="title.2">
+          <Heading as="h1" className="leading-13.2 text-12 tracking-n0.96" variant="title.1-bold">
             Notifications
           </Heading>
 
           <Text className="max-w-2xl text-basic-500" variant="body.1">
-            Cuando alguien responde uno de tus comentarios, te avisamos acá.
+            When someone replies to one of your comments, we'll notify you here.
           </Text>
         </header>
 

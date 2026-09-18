@@ -19,10 +19,10 @@ export const buttonVariants = cva(commonClassnames, {
       "text-link":
         "flex items-center gap-2 tracking-1.6 text-foreground hover:text-highlight disabled:text-gray-400",
       secondary:
-        "flex size-10 items-center justify-center border border-muted-foreground bg-muted p-0 focus-within:border-blue-200 hover:border-blue-200 focus:border-blue-200",
+        "flex size-10 items-center justify-center border border-muted-foreground bg-muted p-0 focus-within:border-blue-200 hover:border-blue-200 focus:border-blue-200 disabled:pointer-events-none disabled:opacity-40",
       ghost: "flex size-10 items-center justify-center bg-transparent p-0 hover:border-blue-200",
       "ghost-outline":
-        "group flex items-center justify-center rounded-full border border-gray-800 text-gray-800 hover:border-blue-600 hover:text-blue-600 active:border-blue-600 active:text-blue-600 dark:border-basic-00 dark:text-basic-00 dark:hover:border-blue-200 dark:hover:text-blue-200 dark:active:border-blue-200 dark:active:text-blue-200 p-1 transition-colors disabled:pointer-events-none disabled:opacity-40",
+        "group flex items-center justify-center rounded-full border border-gray-800 p-1 text-gray-800 transition-colors hover:border-blue-600 hover:text-blue-600 active:border-blue-600 active:text-blue-600 disabled:pointer-events-none disabled:opacity-40 dark:border-basic-00 dark:text-basic-00 dark:hover:border-blue-200 dark:hover:text-blue-200 dark:active:border-blue-200 dark:active:text-blue-200",
     },
     size: {
       sm: "px-0.9 py-0.9",

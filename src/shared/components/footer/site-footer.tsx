@@ -26,7 +26,6 @@ const FOOTER_DATA: FooterData = {
 };
 
 const FOOTER_LINKS: FooterLinkItem[] = [
-  {href: "/documentation", label: "Documentation"},
   {href: "https://www.nasa.gov", label: "NASA.gov", external: true},
   {href: "/privacy-policy", label: "Privacy Policy"},
   {href: "/terms-of-service", label: "Terms of Service"},

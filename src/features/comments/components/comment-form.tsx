@@ -13,24 +13,14 @@ export type CommentFormProps = {
   articleId: string;
   articleTitle: string;
   articleUrl: string;
-  /** Presente sólo cuando el formulario es una respuesta a otro comentario. */
   parentId?: string;
   label?: string;
   placeholder?: string;
   submitLabel?: string;
-  /** Se llama al publicar; lo usa la respuesta para cerrarse sola. */
   onSubmitted?: () => void;
   autoFocus?: boolean;
 };
 
-/**
- * La "terminal de respuesta" del diseño.
- *
- * El textarea se vacía cambiando su `key` con el `formKey` que devuelve la
- * acción, en vez de manejarlo como input controlado: así el texto que el lector
- * ya escribió sobrevive a un error del server y sólo se pierde cuando el
- * comentario efectivamente se publicó.
- */
 export function CommentForm({
   articleId,
   articleTitle,
@@ -70,7 +60,7 @@ export function CommentForm({
         className={cn(
           textVariants({variant: "meta.3"}),
           "min-h-30 w-full resize-y border border-border bg-background p-4 text-primary-foreground",
-          "placeholder:text-secondary focus:border-foreground focus:outline-none",
+          "placeholder:text-placeholder-text focus:border-foreground focus:outline-none",
           state.status === "error" && "border-destructive",
         )}
         aria-invalid={state.status === "error" || undefined}
@@ -83,9 +73,6 @@ export function CommentForm({
         rows={4}
       />
 
-      {/* El aviso vive siempre en el DOM —aunque esté vacío— para que el
-          lector de pantalla anuncie el cambio, y `me-auto` lo deja a la
-          izquierda sin mover el botón del borde derecho que pide el diseño. */}
       <div className="flex items-center justify-end gap-4 pt-2.5">
         <Text
           aria-live="polite"

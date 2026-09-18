@@ -1,8 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { useState } from "react";
+import type {Meta, StoryObj} from "@storybook/nextjs-vite";
 
-import { Card, type CardData } from "@/shared/components/card/card";
-import { type BadgeTone, type BadgeVariant } from "@/shared/styles/components/badge";
+import {useState} from "react";
+
+import {Card, type CardData} from "@/shared/components/card/card";
+import {type BadgeTone, type BadgeVariant} from "@/shared/styles/components/badge";
 
 export const CardsPage = () => {
   // Controles MEDIA
@@ -21,13 +22,15 @@ export const CardsPage = () => {
   const mediaCardData: CardData = {
     tag: showMediaBadge ? "HIGH ALERT" : undefined,
     tone: mediaTone,
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
     imageAlt: "Media abstract preview",
     title: "Media Card Title",
-    description: "Card component demonstrating media variant layout with overlays and hover states.",
+    description:
+      "Card component demonstrating media variant layout with overlays and hover states.",
     stats: [
-      { label: "Active Users", value: "24.8K", highlight: true },
-      { label: "Growth", value: "+12%" },
+      {label: "Active Users", value: "24.8K", highlight: true},
+      {label: "Growth", value: "+12%"},
     ],
   };
 
@@ -40,211 +43,271 @@ export const CardsPage = () => {
     date: "Sept 16, 2026",
     dateTime: "2026-09-16",
     stats: [
-      { label: "Total Views", value: "102.4K", highlight: false },
-      { label: "Conversion", value: "3.4%" },
+      {label: "Total Views", value: "102.4K", highlight: false},
+      {label: "Conversion", value: "3.4%"},
     ],
   };
 
   return (
-    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-space-grotesk space-y-12 transition-colors duration-200">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Card System Showcase</h1>
-        <p className="text-gray-500 dark:text-[#8D90A0] text-sm">
-          Interactive showcase demonstrating Media and Plain Card variants.
-        </p>
-        <p className="text-xs text-gray-400 dark:text-[#6C6F80] mt-1 italic">
-            Note: Subcomponents like <code className="not-italic font-semibold">&lt;Card.Badge&gt;</code> and <code className="not-italic font-semibold">&lt;Card.Footer&gt;</code> are optional.
-        </p>
+    <div className="min-h-screen space-y-12 bg-white p-8 font-sans text-gray-900 transition-colors duration-200 dark:bg-[#0C0E16] dark:text-[#E1E2ED]">
+      {/* Header Section */}
+
+      <h1 className="mb-2 text-3xl font-bold">Card</h1>
+      <p className="mb-6 text-sm text-gray-500 dark:text-[#8D90A0]">
+        Cards group related content, actions, and media into flexible visual containers.
+      </p>
+
+      {/* Best Practices Section */}
+      <div className="mb-8">
+        <h2 className="mb-3 text-lg font-bold">Best practices</h2>
+        <ul className="list-inside list-disc space-y-1.5 text-sm text-gray-600 dark:text-[#8D90A0]">
+          <li>
+            Use the <code className="font-semibold">media</code> variant for image-heavy content or
+            featured showcases.
+          </li>
+          <li>
+            Use the <code className="font-semibold">plain</code> variant for data-dense dashboards,
+            lists, or text-focused items.
+          </li>
+          <li>
+            Keep titles concise and limited to 1–2 lines to avoid breaking vertical alignment in
+            grids.
+          </li>
+          <li>
+            Compose optional subcomponents like{" "}
+            <code className="font-semibold">&lt;Card.Badge&gt;</code> or{" "}
+            <code className="font-semibold">&lt;Card.Footer&gt;</code> only when necessary.
+          </li>
+        </ul>
       </div>
 
-      {/* Plain Card Code Snippet */}
-      <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-jetbrains-mono text-sm flex justify-between items-center overflow-x-auto">
-      <pre className="text-xs sm:text-sm">
-    <code>
-{`<Card data={plainCardData} variant="plain" padding="md">
-  <Card.Header variant="bar" className="items-center justify-between">
-    <Card.Title variant="plain" />
-    ${showPlainBadge ? `<Card.Badge dot={${showPlainDot}} variant="${plainVariant}" tone="${plainTone}" />` : ""}
-  </Card.Header>
-  <Card.Body variant="plain">
-    <Card.Description />
-  </Card.Body>
-  <Card.Footer variant="meta" className="p-0 pt-3">
-    <Card.Date />
-  </Card.Footer>
-</Card>`}
-    </code>
-  </pre>
+      {/* Dynamic Code Snippet Box */}
+      <div className="overflow-x-auto rounded-lg border border-gray-800 bg-gray-900 p-4 font-mono text-sm text-gray-100">
+        <pre className="text-xs sm:text-sm">
+          <code>
+            {`import { Card } from '@/shared/components/card';
+
+const MyComponent = () => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+      {/* Media Card Variant */}
+      <Card data={mediaCardData} variant="media" padding="none">
+        <Card.Header variant="media">
+          <Card.Image />
+          ${showMediaBadge ? `<Card.Badge dot={${showMediaDot}} variant="${mediaVariant}" tone="${mediaTone}" className="absolute top-3 left-3" />` : "/* No badge */"}
+        </Card.Header>
+        <Card.Body variant="media">
+          <Card.Title variant="media">{mediaCardData.title}</Card.Title>
+          <Card.Description />
+        </Card.Body>
+        <Card.Footer variant="stats" className="px-4">
+          <Card.Stat index={0} layout="stacked" />
+          <Card.Stat index={1} layout="stacked" />
+        </Card.Footer>
+      </Card>
+
+      {/* Plain Card Variant */}
+      <Card data={plainCardData} variant="plain" padding="md">
+        <Card.Header variant="bar" className="items-center justify-between">
+          <Card.Title variant="plain" />
+          ${showPlainBadge ? `<Card.Badge dot={${showPlainDot}} variant="${plainVariant}" tone="${plainTone}" />` : "/* No badge */"}
+        </Card.Header>
+        <Card.Body variant="plain">
+          <Card.Description />
+        </Card.Body>
+        <Card.Footer variant="meta" className="p-0 pt-3">
+          <Card.Date />
+        </Card.Footer>
+      </Card>
     </div>
+  );
+};`}
+          </code>
+        </pre>
+      </div>
 
-      {/* ================= SECCIÓN 1: MEDIA ================= */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white border-b border-gray-200 dark:border-[#202436] pb-2">
-          Media Variant
-        </h2>
+      {/* Interactive Controls */}
+      <div>
+        <h2 className="mb-2 text-2xl font-bold">Interactive Controls</h2>
+        <p className="mb-6 text-sm text-gray-500 dark:text-[#8D90A0]">
+          Customize the props to update the dynamic code snippet above.
+        </p>
 
-        {/* Row de controles Media */}
-        <div className="flex flex-wrap items-center gap-6 p-4 rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50/50 dark:bg-[#12141F]">
-          <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold uppercase text-gray-500 dark:text-white">
-            <input
-              type="checkbox"
-              checked={showMediaBadge}
-              onChange={(e) => setShowMediaBadge(e.target.checked)}
-              className="rounded border-gray-300 dark:border-[#262626] text-indigo-600 focus:ring-indigo-500 h-4 w-4"
-            />
-            Show Badge (Top-Left)
-          </label>
-
-          <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold uppercase text-gray-500 dark:text-white">
-            <input
-              type="checkbox"
-              checked={showMediaDot}
-              disabled={!showMediaBadge}
-              onChange={(e) => setShowMediaDot(e.target.checked)}
-              className="rounded border-gray-300 dark:border-[#262626] text-indigo-600 focus:ring-indigo-500 h-4 w-4 disabled:opacity-40"
-            />
-            Show Dot
-          </label>
-
-          <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold uppercase text-gray-500 dark:text-white">Variant:</label>
-            <select
-              value={mediaVariant}
-              disabled={!showMediaBadge}
-              onChange={(e) => setMediaVariant(e.target.value as BadgeVariant)}
-              className="bg-white dark:bg-[#181826] border border-gray-300 dark:border-[#262626] rounded px-3 py-1 text-xs focus:outline-none disabled:opacity-40"
-            >
-              <option value="default">default</option>
-              <option value="fulfilled">fulfilled</option>
-              <option value="dark">dark</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold uppercase text-gray-500 dark:text-white">Tone:</label>
-            <select
-              value={mediaTone}
-              disabled={!showMediaBadge}
-              onChange={(e) => setMediaTone(e.target.value as BadgeTone)}
-              className="bg-white dark:bg-[#181826] border border-gray-300 dark:border-[#262626] rounded px-3 py-1 text-xs focus:outline-none disabled:opacity-40"
-            >
-              <option value="blue">blue</option>
-              <option value="neutral">neutral</option>
-              <option value="red">red</option>
-              <option value="orange">orange</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Canvas Media */}
-        <div className="border border-gray-200 dark:border-[#202436] rounded-2xl p-8 flex justify-center items-center bg-gray-50/30 dark:bg-[#12141F]">
-          <div className="w-80">
-            <Card data={mediaCardData} variant="media" padding="none">
-              <Card.Header variant="media">
-                <Card.Image />
-                {showMediaBadge && (
-                    <Card.Badge
-                    dot={showMediaDot}
-                    variant={mediaVariant}
-                    className="absolute top-3 left-3"
-                    />
-                )}
-              </Card.Header>
-              <Card.Body variant="media">
-                <Card.Title variant="media">{mediaCardData.title}</Card.Title>
-                <Card.Description />
-              </Card.Body>
-              <Card.Footer variant="stats" className="px-4">
-                <Card.Stat index={0} layout="stacked" />
-                <Card.Stat index={1} layout="stacked" />
-              </Card.Footer>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= SECCIÓN 2: PLAIN ================= */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white border-b border-gray-200 dark:border-[#202436] pb-2">
-          Plain Variant
-        </h2>
-
-        {/* Row de controles Plain */}
-        <div className="flex flex-wrap items-center gap-6 p-4 rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50/50 dark:bg-[#12141F]">
-          <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold uppercase text-gray-500 dark:text-white">
-            <input
-              type="checkbox"
-              checked={showPlainBadge}
-              onChange={(e) => setShowPlainBadge(e.target.checked)}
-              className="rounded border-gray-300 dark:border-[#262626] text-indigo-600 focus:ring-indigo-500 h-4 w-4"
-            />
-            Show Badge (Top-Right)
-          </label>
-
-          <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold uppercase text-gray-500 dark:text-white">
-            <input
-              type="checkbox"
-              checked={showPlainDot}
-              disabled={!showPlainBadge}
-              onChange={(e) => setShowPlainDot(e.target.checked)}
-              className="rounded border-gray-300 dark:border-[#262626] text-indigo-600 focus:ring-indigo-500 h-4 w-4 disabled:opacity-40"
-            />
-            Show Dot
-          </label>
-
-          <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold uppercase text-gray-500 dark:text-white">Variant:</label>
-            <select
-              value={plainVariant}
-              disabled={!showPlainBadge}
-              onChange={(e) => setPlainVariant(e.target.value as BadgeVariant)}
-              className="bg-white dark:bg-[#181826] border border-gray-300 dark:border-[#262626] rounded px-3 py-1 text-xs focus:outline-none disabled:opacity-40"
-            >
-              <option value="default">default</option>
-              <option value="fulfilled">fulfilled</option>
-              <option value="dark">dark</option>
-            </select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold uppercase text-gray-500 dark:text-white">Tone:</label>
-            <select
-              value={plainTone}
-              disabled={!showPlainBadge}
-              onChange={(e) => setPlainTone(e.target.value as BadgeTone)}
-              className="bg-white dark:bg-[#181826] border border-gray-300 dark:border-[#262626] rounded px-3 py-1 text-xs focus:outline-none disabled:opacity-40"
-            >
-              <option value="neutral">neutral</option>
-              <option value="blue">blue</option>
-              <option value="red">red</option>
-              <option value="orange">orange</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Canvas Plain */}
-        <div className="border border-gray-200 dark:border-[#202436] rounded-2xl p-8 flex justify-center items-center bg-gray-50/30 dark:bg-[#12141F]">
-          <div className="w-80">
-            <Card data={plainCardData} variant="plain" padding="md">
-              <Card.Header variant="bar" className="items-center justify-between">
-                <Card.Title variant="plain" />
-                {showPlainBadge && (
-                  <Card.Badge
-                    dot={showPlainDot}
-                    variant={plainVariant}
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 dark:border-[#262626] dark:bg-[#12141F]">
+          <table className="w-full table-fixed text-left text-sm">
+            <thead className="border-b border-gray-200 bg-gray-100/50 text-xs font-semibold text-gray-400 uppercase dark:border-[#262626] dark:bg-[#181826]">
+              <tr>
+                <th className="w-1/5 px-4 py-3 tracking-1 dark:text-white">Card Variant</th>
+                <th className="w-1/5 px-4 py-3 tracking-1 dark:text-white">Badge</th>
+                <th className="w-1/5 px-4 py-3 tracking-1 dark:text-white">Dot</th>
+                <th className="w-1/5 px-4 py-3 tracking-1 dark:text-white">Badge Variant</th>
+                <th className="w-1/5 px-4 py-3 tracking-1 dark:text-white">Badge Tone</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-[#262626]">
+              <tr>
+                <td className="px-4 py-3 font-semibold">Media</td>
+                <td className="px-4 py-3">
+                  <input
+                    checked={showMediaBadge}
+                    className="size-4 cursor-pointer accent-blue-600"
+                    type="checkbox"
+                    onChange={(e) => setShowMediaBadge(e.target.checked)}
                   />
-                )}
-              </Card.Header>
-              <Card.Body variant="plain">
-                <Card.Description />
-              </Card.Body>
-              <Card.Footer variant="meta" className="p-0 pt-3">
-                <Card.Date />
-              </Card.Footer>
-            </Card>
+                </td>
+                <td className="px-4 py-3">
+                  <input
+                    checked={showMediaDot}
+                    className="size-4 cursor-pointer accent-blue-600 disabled:opacity-40"
+                    disabled={!showMediaBadge}
+                    type="checkbox"
+                    onChange={(e) => setShowMediaDot(e.target.checked)}
+                  />
+                </td>
+                <td className="px-4 py-3">
+                  <select
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-xs focus:outline-none disabled:opacity-40 dark:border-[#262626] dark:bg-[#181826]"
+                    disabled={!showMediaBadge}
+                    value={mediaVariant}
+                    onChange={(e) => setMediaVariant(e.target.value as BadgeVariant)}
+                  >
+                    <option value="default">default</option>
+                    <option value="fulfilled">fulfilled</option>
+                    <option value="dark">dark</option>
+                  </select>
+                </td>
+                <td className="px-4 py-3">
+                  <select
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-xs focus:outline-none disabled:opacity-40 dark:border-[#262626] dark:bg-[#181826]"
+                    disabled={!showMediaBadge}
+                    value={mediaTone}
+                    onChange={(e) => setMediaTone(e.target.value as BadgeTone)}
+                  >
+                    <option value="blue">blue</option>
+                    <option value="neutral">neutral</option>
+                    <option value="red">red</option>
+                    <option value="orange">orange</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td className="px-4 py-3 font-semibold">Plain</td>
+                <td className="px-4 py-3">
+                  <input
+                    checked={showPlainBadge}
+                    className="size-4 cursor-pointer accent-blue-600"
+                    type="checkbox"
+                    onChange={(e) => setShowPlainBadge(e.target.checked)}
+                  />
+                </td>
+                <td className="px-4 py-3">
+                  <input
+                    checked={showPlainDot}
+                    className="size-4 cursor-pointer accent-blue-600 disabled:opacity-40"
+                    disabled={!showPlainBadge}
+                    type="checkbox"
+                    onChange={(e) => setShowPlainDot(e.target.checked)}
+                  />
+                </td>
+                <td className="px-4 py-3">
+                  <select
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-xs focus:outline-none disabled:opacity-40 dark:border-[#262626] dark:bg-[#181826]"
+                    disabled={!showPlainBadge}
+                    value={plainVariant}
+                    onChange={(e) => setPlainVariant(e.target.value as BadgeVariant)}
+                  >
+                    <option value="default">default</option>
+                    <option value="fulfilled">fulfilled</option>
+                    <option value="dark">dark</option>
+                  </select>
+                </td>
+                <td className="px-4 py-3">
+                  <select
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-xs focus:outline-none disabled:opacity-40 dark:border-[#262626] dark:bg-[#181826]"
+                    disabled={!showPlainBadge}
+                    value={plainTone}
+                    onChange={(e) => setPlainTone(e.target.value as BadgeTone)}
+                  >
+                    <option value="neutral">neutral</option>
+                    <option value="blue">blue</option>
+                    <option value="red">red</option>
+                    <option value="orange">orange</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Variants Showcase Section */}
+      <div className="space-y-8">
+        <h2 className="border-b border-gray-200 pb-2 text-2xl font-bold dark:border-[#202436]">
+          Variants
+        </h2>
+
+        {/* Media Canvas */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold tracking-wider text-gray-500 uppercase dark:text-white">
+            Media Layout
+          </h3>
+          <div className="flex items-center justify-center rounded-2xl border border-gray-200 bg-gray-50/30 p-8 dark:border-[#202436] dark:bg-[#12141F]">
+            <div className="w-80">
+              <Card data={mediaCardData} padding="none" variant="media">
+                <Card.Header variant="media">
+                  <Card.Image />
+                  {showMediaBadge && (
+                    <Card.Badge
+                      className="absolute top-3 left-3 font-mono text-xs"
+                      dot={showMediaDot}
+                      variant={mediaVariant}
+                    />
+                  )}
+                </Card.Header>
+                <Card.Body variant="media">
+                  <Card.Title variant="media">{mediaCardData.title}</Card.Title>
+                  <Card.Description />
+                </Card.Body>
+                <Card.Footer className="px-4" variant="stats">
+                  <Card.Stat index={0} layout="stacked" />
+                  <Card.Stat index={1} layout="stacked" />
+                </Card.Footer>
+              </Card>
+            </div>
           </div>
         </div>
-      </section>
+
+        {/* Plain Canvas */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold tracking-wider text-gray-500 uppercase dark:text-white">
+            Plain Layout
+          </h3>
+          <div className="flex items-center justify-center rounded-2xl border border-gray-200 bg-gray-50/30 p-8 dark:border-[#202436] dark:bg-[#12141F]">
+            <div className="w-80">
+              <Card data={plainCardData} padding="md" variant="plain">
+                <Card.Header className="items-center justify-between" variant="bar">
+                  <Card.Title variant="plain" />
+                  {showPlainBadge && (
+                    <Card.Badge
+                      className="font-mono text-xs"
+                      dot={showPlainDot}
+                      variant={plainVariant}
+                    />
+                  )}
+                </Card.Header>
+                <Card.Body variant="plain">
+                  <Card.Description />
+                </Card.Body>
+                <Card.Footer className="p-0 pt-3" variant="meta">
+                  <Card.Date />
+                </Card.Footer>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -260,4 +323,5 @@ const meta: Meta<typeof CardsPage> = {
 export default meta;
 
 type Story = StoryObj<typeof CardsPage>;
+
 export const Default: Story = {};

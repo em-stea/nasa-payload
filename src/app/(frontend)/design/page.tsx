@@ -16,7 +16,6 @@ import {Navbar} from "@/shared/components/navbar/navbar";
 import {Pagination} from "@/shared/components/pagination/pagination";
 import {Spinner} from "@/shared/components/spinner/spinner";
 import {Text} from "@/shared/components/text/text";
-import {TitleSection} from "@/shared/components/title-section/title-section";
 
 type HeadingVariant = NonNullable<ComponentProps<typeof Heading>["variant"]>;
 type HeadingLevel = NonNullable<ComponentProps<typeof Heading>["as"]>;
@@ -210,6 +209,12 @@ const COLOR_GROUPS = [
         className: "bg-red-700-20",
         token: "--red-700-20",
         hex: "#93000A 20%",
+      },
+      {
+        label: "bg-red-700-70",
+        className: "bg-red-700-70",
+        token: "--red-700-70",
+        hex: "#93000A 70%",
       },
       {label: "bg-red-900", className: "bg-red-900", token: "--red-900", hex: "#690005"},
     ],

@@ -20,7 +20,7 @@ const NAVBAR_DATA: NavbarData = {
 const NAVBAR_LINKS: NavbarLinkItem[] = [
   {href: "/news", label: "News"},
   {href: "/asteroids", label: "Asteroids"},
-  {href: "/events", label: "Events"},
+  {href: "/events", label: "Critical Events"},
   {href: "/live", label: "Live", showDot: true},
 ];
 

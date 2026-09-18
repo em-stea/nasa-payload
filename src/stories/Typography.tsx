@@ -19,7 +19,7 @@ const typeStyles = [
 
 export const Typography = () => {
   return (
-    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-sans transition-colors duration-200">
+    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-space-grotesk transition-colors duration-200">
       <h1 className="text-3xl font-bold mb-6">Typography</h1>
       <p className="text-gray-500 dark:text-[#8D90A0] mb-6 text-sm">
         Our Design System uses Space Grotesk as the primary font and JetBrains Mono for code blocks and secondary tokens.
@@ -28,12 +28,12 @@ export const Typography = () => {
       {/* Tarjetas de Fuentes Locales */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div className="md:col-span-2 p-6 rounded-xl bg-gray-50 dark:bg-white text-gray-900 border border-gray-200 dark:border-transparent flex justify-around items-center">
-          <div className="text-center font-sans">
+          <div className="text-center font-space-grotesk">
             <span className="text-4xl font-bold block mb-2">Aa</span>
             <span className="text-xs text-gray-500 block">Primary Font</span>
             <span className="text-xs font-semibold">Space Grotesk</span>
           </div>
-          <div className="text-center font-mono">
+          <div className="text-center font-jetbrains-mono">
             <span className="text-4xl font-bold block mb-2">Aa</span>
             <span className="text-xs text-gray-500 block">Secondary / Mono</span>
             <span className="text-xs font-semibold">JetBrains Mono</span>

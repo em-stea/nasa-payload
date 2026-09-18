@@ -84,9 +84,9 @@ export const Icons = () => {
   };
 
   return (
-    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-sans transition-colors duration-200">
+    <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-space-grotesk transition-colors duration-200">
       {/* Code Snippet Box */}
-      <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-mono text-sm flex justify-between items-center overflow-x-auto">
+      <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-jetbrains-mono text-sm flex justify-between items-center overflow-x-auto">
         <pre className="text-xs sm:text-sm">
           <code>
             {`import { ICON_NAME } from '@/shared/components/icons';
@@ -122,7 +122,7 @@ const MyComponent = () => {
             <tr>
               <td className="py-3 px-4 font-semibold">color</td>
               <td className="py-3 px-4">
-                <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">string</span>
+                <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">string</span>
               </td>
               <td className="py-3 px-4 text-gray-400 dark:text-white">currentColor</td>
               <td className="py-3 px-4">
@@ -152,7 +152,7 @@ const MyComponent = () => {
             <tr>
               <td className="py-3 px-4 font-semibold">size</td>
               <td className="py-3 px-4">
-                <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">number</span>
+                <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">number</span>
               </td>
               <td className="py-3 px-4 text-gray-400 dark:text-white">24</td>
               <td className="py-3 px-4">

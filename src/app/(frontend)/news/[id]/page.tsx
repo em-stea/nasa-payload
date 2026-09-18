@@ -26,16 +26,6 @@ import {getRelatedNews} from "@/features/news/services/get-related-news";
 import {buildArticleHref} from "@/features/news/utils/parse-post";
 import {Container} from "@/shared/components/container/container";
 
-/**
- * Detalle de una noticia.
- *
- * Todo lo que se ve depende de `params`, así que el shell estático de la ruta
- * es el esqueleto y el contenido entra por streaming. Adentro cuelgan dos
- * boundaries más, cada uno por un motivo distinto: el botón de favorito y el
- * hilo de comentarios leen sesión y base de datos, y no tienen por qué demorar
- * al artículo, que sale de cache.
- */
-
 export const instant = true;
 
 type NewsArticleParams = {id: string};
@@ -163,7 +153,6 @@ async function RelatedArticlesRow({article}: {article: NewsArticleDetail}) {
   return <RelatedArticles articles={await getRelatedNews(article)} />;
 }
 
-/** Mismas medidas que el contenido, para que nada salte al resolverse. */
 function ArticleSkeleton() {
   return (
     <div aria-hidden="true" className="flex w-full animate-pulse flex-col gap-8">

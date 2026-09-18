@@ -2,13 +2,13 @@ import type {Metadata} from "next";
 
 import {Suspense} from "react";
 
-import {AsteroidHero} from "@/features/asteroids/components/asteroid-hero";
 import {
   AsteroidResults,
   AsteroidResultsSkeleton,
 } from "@/features/asteroids/components/asteroid-results";
 import {AsteroidResultsBoundary} from "@/features/asteroids/components/asteroid-results-boundary";
 import {Container} from "@/shared/components/container/container";
+import {TextHero} from "@/shared/components/text-hero/text-hero";
 
 export const metadata: Metadata = {
   title: "Asteroid Tracker",
@@ -16,11 +16,6 @@ export const metadata: Metadata = {
     "Real-time telemetry and orbital analysis of Near-Earth Objects using NASA JPL data feeds.",
 };
 
-/**
- * Pide a Next que valide que navegar a esta ruta pinta UI al instante. Si algo
- * bloquea —una lectura sin cachear, un `<Suspense>` que falta— lo avisa en el
- * overlay de desarrollo en vez de dejarlo pasar a producción.
- */
 export const instant = true;
 
 type AsteroidsSearchParams = {
@@ -34,11 +29,6 @@ function readPage(value: string | string[] | undefined) {
   return Number.isFinite(page) && page > 0 ? page : 1;
 }
 
-/**
- * El hero es estático y viaja en el shell de la ruta. Todo lo que depende de
- * `searchParams` —radar, comparador y grid— cuelga de un `<Suspense>` con un
- * fallback de las mismas medidas, así nada se mueve cuando resuelve.
- */
 export default function AsteroidsPage({
   searchParams,
 }: {
@@ -47,7 +37,22 @@ export default function AsteroidsPage({
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
       <Container className="flex flex-col items-start gap-12">
-        <AsteroidHero />
+        <TextHero
+          hasChip={[
+            {
+              active: false,
+              label: "Live Feed",
+            },
+            {
+              active: true,
+              label: "Status: Optimal",
+            },
+          ]}
+          description="Real-time telemetry and orbital analysis of Near-Earth Objects (NEOs) utilizing global radar arrays and NASA JPL data feeds. System active. Monitoring potential impact trajectories and orbital intersections."
+          eyebrow="SYS_MODULE_01"
+          overline="Near-Earth Object Monitoring"
+          title="Asteroid Tracker"
+        />
 
         <Suspense fallback={<AsteroidResultsSkeleton />}>
           <AsteroidResultsBoundary fallback={<AsteroidResultsSkeleton />}>

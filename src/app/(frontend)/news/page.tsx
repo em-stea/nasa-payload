@@ -5,10 +5,10 @@ import {Suspense} from "react";
 import {NewsFilterBar} from "@/features/news/components/news-filter-bar";
 import {NewsFilterBarLive} from "@/features/news/components/news-filter-bar-live";
 import {NewsGrid, NewsGridSkeleton} from "@/features/news/components/news-grid";
-import {NewsHero} from "@/features/news/components/news-hero";
 import {NewsResultsBoundary} from "@/features/news/components/news-results-boundary";
 import {isNewsCategorySlug} from "@/features/news/constants/categories";
 import {Container} from "@/shared/components/container/container";
+import {TextHero} from "@/shared/components/text-hero/text-hero";
 
 export const metadata: Metadata = {
   title: "NASA News",
@@ -37,7 +37,12 @@ export default function NewsPage({searchParams}: {searchParams: Promise<NewsSear
   return (
     <main className="flex min-h-dvh w-full flex-col items-center bg-background pt-24 pb-32 text-primary-foreground">
       <Container className="flex flex-col items-start gap-8">
-        <NewsHero />
+        <TextHero
+          description="The latest updates from deep space missions, planetary defense, and scientific breakthroughs across the cosmos."
+          eyebrow="SYS.MSG"
+          overline="ARCHIVE_ACCESS_GRANTED"
+          title="NASA News"
+        />
 
         <div className="w-full border-b border-border">
           <Suspense fallback={<NewsFilterBar />}>

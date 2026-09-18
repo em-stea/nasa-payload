@@ -120,7 +120,7 @@ export const ButtonsPage = () => {
     const sizesList: ButtonSize[] = [ "md",  "fullWidth"];
   
     return (
-      <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-sans transition-colors duration-200">
+      <div className="min-h-screen p-8 bg-white dark:bg-[#0C0E16] text-gray-900 dark:text-[#E1E2ED] font-space-grotesk transition-colors duration-200">
         {/* Header Section */}
         <h1 className="text-3xl font-bold mb-2">Button</h1>
         <p className="text-gray-500 dark:text-[#8D90A0] mb-6 text-sm">
@@ -139,7 +139,7 @@ export const ButtonsPage = () => {
         </div>
   
         {/* Code Snippet Box */}
-        <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-mono text-sm flex justify-between items-center overflow-x-auto">
+        <div className="mb-8 p-4 rounded-lg bg-gray-900 text-gray-100 border border-gray-800 font-jetbrains-mono text-sm flex justify-between items-center overflow-x-auto">
           <pre className="text-xs sm:text-sm">
             <code>
               {`import { Button } from '@/shared/components/button';
@@ -177,7 +177,7 @@ export const ButtonsPage = () => {
               <tr>
                 <td className="py-3 px-4 font-semibold">variant</td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
+                  <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
                     "primary" | "secondary" | "text-link" | "ghost" | "ghost-outline"
                   </span>
                 </td>
@@ -187,7 +187,7 @@ export const ButtonsPage = () => {
               <tr>
                 <td className="py-3 px-4 font-semibold">size</td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
+                  <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
                    "md" | "fullWidth"
                   </span>
                 </td>
@@ -197,7 +197,7 @@ export const ButtonsPage = () => {
               <tr>
                 <td className="py-3 px-4 font-semibold">loading</td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
+                  <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
                     boolean
                   </span>
                 </td>
@@ -207,7 +207,7 @@ export const ButtonsPage = () => {
               <tr>
                 <td className="py-3 px-4 font-semibold">active</td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
+                  <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
                     boolean
                   </span>
                 </td>
@@ -217,7 +217,7 @@ export const ButtonsPage = () => {
               <tr>
                 <td className="py-3 px-4 font-semibold">disabled</td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
+                  <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
                     boolean
                   </span>
                 </td>
@@ -227,7 +227,7 @@ export const ButtonsPage = () => {
               <tr>
                 <td className="py-3 px-4 font-semibold">text</td>
                 <td className="py-3 px-4">
-                  <span className="font-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
+                  <span className="font-jetbrains-mono text-xs px-2 py-0.5 rounded bg-gray-200 dark:bg-[#262626] text-white">
                     string
                   </span>
                 </td>

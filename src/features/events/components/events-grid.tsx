@@ -30,12 +30,8 @@ const PAGINATION_CLASSNAME = "w-full border-t border-border pt-6";
  */
 function SectionTitle() {
   return (
-    <Heading
-      as="h1"
-      className="w-full text-8 leading-10 text-primary-foreground uppercase"
-      variant="title.2"
-    >
-      Latest_worldwide_catastrophes
+    <Heading as="h1" variant="title.1-bold">
+      Latest Worldwide Catastrophes
     </Heading>
   );
 }

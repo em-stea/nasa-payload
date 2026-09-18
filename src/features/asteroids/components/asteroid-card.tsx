@@ -22,14 +22,6 @@ type AsteroidCardProps = {
   asteroid: Asteroid;
 };
 
-/**
- * Card del DISCOVERY LOG.
- *
- * Es client por el mismo motivo que `NewsArticleCard`: las partes compuestas
- * de `Card` se cuelgan con Object.assign y esas propiedades estáticas no
- * cruzan el borde RSC.
- */
-
 type StatRowProps = {
   label: string;
   value: string;
@@ -78,7 +70,6 @@ export function AsteroidCard({asteroid}: AsteroidCardProps) {
             </Badge>
           </div>
 
-          {/* La barra roja del diseño: sólo la lleva la card en alerta. */}
           <dl
             className={cn(
               textVariants({variant: "body.3"}),

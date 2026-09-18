@@ -65,8 +65,6 @@ const PREFERENCE_LINKS: PreferenceLink[] = [
   {href: "/favorites", label: "Favorites", icon: Heart},
   {href: "/comments", label: "My Comments", icon: Comments},
   {href: "/notifications", label: "Notifications", icon: Bell, showUnread: true},
-  {href: "/settings", label: "Settings", icon: Settings},
-  {href: "/account", label: "Account", icon: Account},
 ];
 
 function DarkModeSwitch() {

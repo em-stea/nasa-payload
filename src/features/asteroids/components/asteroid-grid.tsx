@@ -5,13 +5,6 @@ import {TelemetrySection} from "@/features/asteroids/components/telemetry-sectio
 import {ASTEROIDS_PER_PAGE} from "@/features/asteroids/services/get-asteroid-feed";
 import {formatInteger} from "@/features/asteroids/utils/format-asteroid";
 
-/**
- * Filas de alto fijo, como el grid del diseño.
- *
- * No es cosmético: es lo que hace que el skeleton ocupe exactamente el mismo
- * espacio que el contenido y la navegación no empuje nada al resolverse. El
- * contenido entra porque el titular está clampeado a dos líneas.
- */
 const GRID_CLASSNAME = "grid w-full auto-rows-96 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
 export function AsteroidGrid({asteroids, total}: {asteroids: Asteroid[]; total: number}) {
@@ -31,7 +24,6 @@ export function AsteroidGrid({asteroids, total}: {asteroids: Asteroid[]; total: 
   );
 }
 
-/** Mismo layout y mismas alturas que el grid, sin contenido. */
 export function AsteroidGridSkeleton() {
   return (
     <div aria-hidden="true" className={GRID_CLASSNAME}>

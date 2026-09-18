@@ -5,11 +5,10 @@
 <br/>
 <br/>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftu-usuario%2Ftu-repo)
+Deployment on Vercel
 
 **🚀 Live Demo:** [https://nasa-payload-tau.vercel.app/](https://nasa-payload-tau.vercel.app/)
 
-<br/>
 <br/>
 
 Web app for exploring NASA public data, plus a moderation backoffice.
